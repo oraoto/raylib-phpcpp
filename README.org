@@ -1,0 +1,107 @@
+* raylib-phpcpp
+
+PHP bindings for [[https://github.com/raysan5/raylib/][raylib]], a simple and easy-to-use library to learn videogames programming.
+
+It's developed using [[https://github.com/CopernicaMarketingSoftware/PHP-CPP/][PHP-CPP]], so it's called raylib-phpcpp rather then raylib-php.
+
+** Example
+
+#+BEGIN_SRC php
+<?php
+
+use RayLib\RL;
+
+RL::InitWindow(800, 450, "raylib [core] example - basic window");
+
+RL::SetTargetFPS(60);
+
+while (!RL::WindowShouldClose()) {
+    RL::BeginDrawing();
+    RL::ClearBackground(RL::RAYWHITE());
+    RL::DrawText("Congrats! You created your first window!", 190, 200, 20, RL::LIGHTGRAY());
+    RL::DrawFPS(10, 10);
+    RL::EndDrawing();
+}
+RL::CloseWindow();
+#+END_SRC
+
+
+** Completeness
+
+The binding is auto-generated from `raylib.h`, most functions and features are supported. Not supported functions:
+
++ core
+  + GetWindowHandle
+  + GetMonitorName
+  + GetClipboardText
+  + SetTraceLogCallback
+  + FileExists
+  + IsFileExtension
+  + GetExtension
+  + GetFileName
+  + GetFileNameWithoutExt
+  + GetDirectoryPath
+  + GetWorkingDirectory
+  + GetDirectoryFiles
+  + ClearDirectoryFiles
+  + GetDroppedFiles
+  + ClearDroppedFiles
+  + GetGamepadName
++ textures
+  + LoadImagePro
+  + GetImageData
+  + GetImageDataNormalized
+  + UpdateTexture
+  + ImageExtractPalette
++ text
+  + LoadFontEx
+  + LoadFontData
+  + TextIsEqual
+  + TextLength
+  + TextFormat
+  + TextSubtext
+  + TextReplace
+  + TextInsert
+  + TextJoin
+  + TextSplit
+  + TextAppend
+  + TextFindIndex
+  + TextToUpper
+  + TextToLower
+  + TextToPascal
+  + TextToInteger
++ rlgl
+  + LoadText
+  + LoadShaderCode
+  + SetShaderValue
+  + SetShaderValueV
++ audio
+  + LoadWaveEx
+  + UpdateSound
+  + GetWaveData
+  + LoadMusicStream
+  + UnloadMusicStream
+  + PlayMusicStream
+  + UpdateMusicStream
+  + StopMusicStream
+  + PauseMusicStream
+  + ResumeMusicStream
+  + IsMusicPlaying
+  + SetMusicVolume
+  + SetMusicPitch
+  + SetMusicLoopCount
+  + GetMusicTimeLength
+  + GetMusicTimePlayed
+  + UpdateAudioStream
+
+For most file and text functions, you can use counterparts in PHP.
+
+Currently, the code generator is too dumb to handle ~void *~ and array. In the future, most functions will be supported.
+
+** Building From Source
+
+Requirements:
+
++ PHP 7.3
++ PHP-CPP 2.1.4
++ raylib latest master
