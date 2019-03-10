@@ -12,48 +12,258 @@ class Vector2 : public Php::Base {
 public:
   ::Vector2 data;
   Vector2(::Vector2 x) { data = x; }
+  Php::Value getx() {
+    double result = data.x;
+    return result;
+  }
+  Php::Value gety() {
+    double result = data.y;
+    return result;
+  }
+  void setx(const Php::Value &v) { data.x = (double)v; }
+  void sety(const Php::Value &v) { data.y = (double)v; }
 };
 
 class Vector3 : public Php::Base {
 public:
   ::Vector3 data;
   Vector3(::Vector3 x) { data = x; }
+  Php::Value getx() {
+    double result = data.x;
+    return result;
+  }
+  Php::Value gety() {
+    double result = data.y;
+    return result;
+  }
+  Php::Value getz() {
+    double result = data.z;
+    return result;
+  }
+  void setx(const Php::Value &v) { data.x = (double)v; }
+  void sety(const Php::Value &v) { data.y = (double)v; }
+  void setz(const Php::Value &v) { data.z = (double)v; }
 };
 
 class Vector4 : public Php::Base {
 public:
   ::Vector4 data;
   Vector4(::Vector4 x) { data = x; }
+  Php::Value getx() {
+    double result = data.x;
+    return result;
+  }
+  Php::Value gety() {
+    double result = data.y;
+    return result;
+  }
+  Php::Value getz() {
+    double result = data.z;
+    return result;
+  }
+  Php::Value getw() {
+    double result = data.w;
+    return result;
+  }
+  void setx(const Php::Value &v) { data.x = (double)v; }
+  void sety(const Php::Value &v) { data.y = (double)v; }
+  void setz(const Php::Value &v) { data.z = (double)v; }
+  void setw(const Php::Value &v) { data.w = (double)v; }
 };
 
 class Matrix : public Php::Base {
 public:
   ::Matrix data;
   Matrix(::Matrix x) { data = x; }
+  Php::Value getm0() {
+    double result = data.m0;
+    return result;
+  }
+  Php::Value getm4() {
+    double result = data.m4;
+    return result;
+  }
+  Php::Value getm8() {
+    double result = data.m8;
+    return result;
+  }
+  Php::Value getm12() {
+    double result = data.m12;
+    return result;
+  }
+  Php::Value getm1() {
+    double result = data.m1;
+    return result;
+  }
+  Php::Value getm5() {
+    double result = data.m5;
+    return result;
+  }
+  Php::Value getm9() {
+    double result = data.m9;
+    return result;
+  }
+  Php::Value getm13() {
+    double result = data.m13;
+    return result;
+  }
+  Php::Value getm2() {
+    double result = data.m2;
+    return result;
+  }
+  Php::Value getm6() {
+    double result = data.m6;
+    return result;
+  }
+  Php::Value getm10() {
+    double result = data.m10;
+    return result;
+  }
+  Php::Value getm14() {
+    double result = data.m14;
+    return result;
+  }
+  Php::Value getm3() {
+    double result = data.m3;
+    return result;
+  }
+  Php::Value getm7() {
+    double result = data.m7;
+    return result;
+  }
+  Php::Value getm11() {
+    double result = data.m11;
+    return result;
+  }
+  Php::Value getm15() {
+    double result = data.m15;
+    return result;
+  }
+  void setm0(const Php::Value &v) { data.m0 = (double)v; }
+  void setm4(const Php::Value &v) { data.m4 = (double)v; }
+  void setm8(const Php::Value &v) { data.m8 = (double)v; }
+  void setm12(const Php::Value &v) { data.m12 = (double)v; }
+  void setm1(const Php::Value &v) { data.m1 = (double)v; }
+  void setm5(const Php::Value &v) { data.m5 = (double)v; }
+  void setm9(const Php::Value &v) { data.m9 = (double)v; }
+  void setm13(const Php::Value &v) { data.m13 = (double)v; }
+  void setm2(const Php::Value &v) { data.m2 = (double)v; }
+  void setm6(const Php::Value &v) { data.m6 = (double)v; }
+  void setm10(const Php::Value &v) { data.m10 = (double)v; }
+  void setm14(const Php::Value &v) { data.m14 = (double)v; }
+  void setm3(const Php::Value &v) { data.m3 = (double)v; }
+  void setm7(const Php::Value &v) { data.m7 = (double)v; }
+  void setm11(const Php::Value &v) { data.m11 = (double)v; }
+  void setm15(const Php::Value &v) { data.m15 = (double)v; }
 };
 
 class Color : public Php::Base {
 public:
   ::Color data;
   Color(::Color x) { data = x; }
+  Php::Value getr() {
+    int result = data.r;
+    return result;
+  }
+  Php::Value getg() {
+    int result = data.g;
+    return result;
+  }
+  Php::Value getb() {
+    int result = data.b;
+    return result;
+  }
+  Php::Value geta() {
+    int result = data.a;
+    return result;
+  }
+  void setr(const Php::Value &v) { data.r = (int)v; }
+  void setg(const Php::Value &v) { data.g = (int)v; }
+  void setb(const Php::Value &v) { data.b = (int)v; }
+  void seta(const Php::Value &v) { data.a = (int)v; }
 };
 
 class Rectangle : public Php::Base {
 public:
   ::Rectangle data;
   Rectangle(::Rectangle x) { data = x; }
+  Php::Value getx() {
+    double result = data.x;
+    return result;
+  }
+  Php::Value gety() {
+    double result = data.y;
+    return result;
+  }
+  Php::Value getwidth() {
+    double result = data.width;
+    return result;
+  }
+  Php::Value getheight() {
+    double result = data.height;
+    return result;
+  }
+  void setx(const Php::Value &v) { data.x = (double)v; }
+  void sety(const Php::Value &v) { data.y = (double)v; }
+  void setwidth(const Php::Value &v) { data.width = (double)v; }
+  void setheight(const Php::Value &v) { data.height = (double)v; }
 };
 
 class Image : public Php::Base {
 public:
   ::Image data;
   Image(::Image x) { data = x; }
+  Php::Value getwidth() {
+    int result = data.width;
+    return result;
+  }
+  Php::Value getheight() {
+    int result = data.height;
+    return result;
+  }
+  Php::Value getmipmaps() {
+    int result = data.mipmaps;
+    return result;
+  }
+  Php::Value getformat() {
+    int result = data.format;
+    return result;
+  }
+  void setwidth(const Php::Value &v) { data.width = (int)v; }
+  void setheight(const Php::Value &v) { data.height = (int)v; }
+  void setmipmaps(const Php::Value &v) { data.mipmaps = (int)v; }
+  void setformat(const Php::Value &v) { data.format = (int)v; }
 };
 
 class Texture2D : public Php::Base {
 public:
   ::Texture2D data;
   Texture2D(::Texture2D x) { data = x; }
+  Php::Value getid() {
+    long result = data.id;
+    return result;
+  }
+  Php::Value getwidth() {
+    int result = data.width;
+    return result;
+  }
+  Php::Value getheight() {
+    int result = data.height;
+    return result;
+  }
+  Php::Value getmipmaps() {
+    int result = data.mipmaps;
+    return result;
+  }
+  Php::Value getformat() {
+    int result = data.format;
+    return result;
+  }
+  void setid(const Php::Value &v) { data.id = (long)v; }
+  void setwidth(const Php::Value &v) { data.width = (int)v; }
+  void setheight(const Php::Value &v) { data.height = (int)v; }
+  void setmipmaps(const Php::Value &v) { data.mipmaps = (int)v; }
+  void setformat(const Php::Value &v) { data.format = (int)v; }
 };
 
 class RenderTexture2D : public Php::Base {
@@ -66,72 +276,310 @@ class NPatchInfo : public Php::Base {
 public:
   ::NPatchInfo data;
   NPatchInfo(::NPatchInfo x) { data = x; }
+  Php::Value getsourceRec() {
+    Php::Value result =
+        Php::Object("RayLib\\ Rectangle", new Rectangle(data.sourceRec));
+    return result;
+  }
+  Php::Value getleft() {
+    int result = data.left;
+    return result;
+  }
+  Php::Value gettop() {
+    int result = data.top;
+    return result;
+  }
+  Php::Value getright() {
+    int result = data.right;
+    return result;
+  }
+  Php::Value getbottom() {
+    int result = data.bottom;
+    return result;
+  }
+  Php::Value gettype() {
+    int result = data.type;
+    return result;
+  }
+  void setsourceRec(const Php::Value &v) {
+    data.sourceRec = ((Rectangle *)(v.implementation()))->data;
+  }
+  void setleft(const Php::Value &v) { data.left = (int)v; }
+  void settop(const Php::Value &v) { data.top = (int)v; }
+  void setright(const Php::Value &v) { data.right = (int)v; }
+  void setbottom(const Php::Value &v) { data.bottom = (int)v; }
+  void settype(const Php::Value &v) { data.type = (int)v; }
 };
 
 class CharInfo : public Php::Base {
 public:
   ::CharInfo data;
   CharInfo(::CharInfo x) { data = x; }
+  Php::Value getvalue() {
+    int result = data.value;
+    return result;
+  }
+  Php::Value getrec() {
+    Php::Value result =
+        Php::Object("RayLib\\ Rectangle", new Rectangle(data.rec));
+    return result;
+  }
+  Php::Value getoffsetX() {
+    int result = data.offsetX;
+    return result;
+  }
+  Php::Value getoffsetY() {
+    int result = data.offsetY;
+    return result;
+  }
+  Php::Value getadvanceX() {
+    int result = data.advanceX;
+    return result;
+  }
+  void setvalue(const Php::Value &v) { data.value = (int)v; }
+  void setrec(const Php::Value &v) {
+    data.rec = ((Rectangle *)(v.implementation()))->data;
+  }
+  void setoffsetX(const Php::Value &v) { data.offsetX = (int)v; }
+  void setoffsetY(const Php::Value &v) { data.offsetY = (int)v; }
+  void setadvanceX(const Php::Value &v) { data.advanceX = (int)v; }
 };
 
 class Font : public Php::Base {
 public:
   ::Font data;
   Font(::Font x) { data = x; }
+  Php::Value gettexture() {
+    Php::Value result =
+        Php::Object("RayLib\\ Texture2D", new Texture2D(data.texture));
+    return result;
+  }
+  Php::Value getbaseSize() {
+    int result = data.baseSize;
+    return result;
+  }
+  Php::Value getcharsCount() {
+    int result = data.charsCount;
+    return result;
+  }
+  void settexture(const Php::Value &v) {
+    data.texture = ((Texture2D *)(v.implementation()))->data;
+  }
+  void setbaseSize(const Php::Value &v) { data.baseSize = (int)v; }
+  void setcharsCount(const Php::Value &v) { data.charsCount = (int)v; }
 };
 
 class Camera3D : public Php::Base {
 public:
   ::Camera3D data;
   Camera3D(::Camera3D x) { data = x; }
+  Php::Value getposition() {
+    Php::Value result =
+        Php::Object("RayLib\\ Vector3", new Vector3(data.position));
+    return result;
+  }
+  Php::Value gettarget() {
+    Php::Value result =
+        Php::Object("RayLib\\ Vector3", new Vector3(data.target));
+    return result;
+  }
+  Php::Value getup() {
+    Php::Value result = Php::Object("RayLib\\ Vector3", new Vector3(data.up));
+    return result;
+  }
+  Php::Value getfovy() {
+    double result = data.fovy;
+    return result;
+  }
+  Php::Value gettype() {
+    int result = data.type;
+    return result;
+  }
+  void setposition(const Php::Value &v) {
+    data.position = ((Vector3 *)(v.implementation()))->data;
+  }
+  void settarget(const Php::Value &v) {
+    data.target = ((Vector3 *)(v.implementation()))->data;
+  }
+  void setup(const Php::Value &v) {
+    data.up = ((Vector3 *)(v.implementation()))->data;
+  }
+  void setfovy(const Php::Value &v) { data.fovy = (double)v; }
+  void settype(const Php::Value &v) { data.type = (int)v; }
 };
 
 class Camera2D : public Php::Base {
 public:
   ::Camera2D data;
   Camera2D(::Camera2D x) { data = x; }
+  Php::Value getoffset() {
+    Php::Value result =
+        Php::Object("RayLib\\ Vector2", new Vector2(data.offset));
+    return result;
+  }
+  Php::Value gettarget() {
+    Php::Value result =
+        Php::Object("RayLib\\ Vector2", new Vector2(data.target));
+    return result;
+  }
+  Php::Value getrotation() {
+    double result = data.rotation;
+    return result;
+  }
+  Php::Value getzoom() {
+    double result = data.zoom;
+    return result;
+  }
+  void setoffset(const Php::Value &v) {
+    data.offset = ((Vector2 *)(v.implementation()))->data;
+  }
+  void settarget(const Php::Value &v) {
+    data.target = ((Vector2 *)(v.implementation()))->data;
+  }
+  void setrotation(const Php::Value &v) { data.rotation = (double)v; }
+  void setzoom(const Php::Value &v) { data.zoom = (double)v; }
 };
 
 class BoundingBox : public Php::Base {
 public:
   ::BoundingBox data;
   BoundingBox(::BoundingBox x) { data = x; }
+  Php::Value getmin() {
+    Php::Value result = Php::Object("RayLib\\ Vector3", new Vector3(data.min));
+    return result;
+  }
+  Php::Value getmax() {
+    Php::Value result = Php::Object("RayLib\\ Vector3", new Vector3(data.max));
+    return result;
+  }
+  void setmin(const Php::Value &v) {
+    data.min = ((Vector3 *)(v.implementation()))->data;
+  }
+  void setmax(const Php::Value &v) {
+    data.max = ((Vector3 *)(v.implementation()))->data;
+  }
 };
 
 class Mesh : public Php::Base {
 public:
   ::Mesh data;
   Mesh(::Mesh x) { data = x; }
+  Php::Value getvertexCount() {
+    int result = data.vertexCount;
+    return result;
+  }
+  Php::Value gettriangleCount() {
+    int result = data.triangleCount;
+    return result;
+  }
+  Php::Value getvaoId() {
+    long result = data.vaoId;
+    return result;
+  }
+  void setvertexCount(const Php::Value &v) { data.vertexCount = (int)v; }
+  void settriangleCount(const Php::Value &v) { data.triangleCount = (int)v; }
+  void setvaoId(const Php::Value &v) { data.vaoId = (long)v; }
 };
 
 class Shader : public Php::Base {
 public:
   ::Shader data;
   Shader(::Shader x) { data = x; }
+  Php::Value getid() {
+    long result = data.id;
+    return result;
+  }
+  void setid(const Php::Value &v) { data.id = (long)v; }
 };
 
 class MaterialMap : public Php::Base {
 public:
   ::MaterialMap data;
   MaterialMap(::MaterialMap x) { data = x; }
+  Php::Value gettexture() {
+    Php::Value result =
+        Php::Object("RayLib\\ Texture2D", new Texture2D(data.texture));
+    return result;
+  }
+  Php::Value getcolor() {
+    Php::Value result = Php::Object("RayLib\\ Color", new Color(data.color));
+    return result;
+  }
+  Php::Value getvalue() {
+    double result = data.value;
+    return result;
+  }
+  void settexture(const Php::Value &v) {
+    data.texture = ((Texture2D *)(v.implementation()))->data;
+  }
+  void setcolor(const Php::Value &v) {
+    data.color = ((Color *)(v.implementation()))->data;
+  }
+  void setvalue(const Php::Value &v) { data.value = (double)v; }
 };
 
 class Material : public Php::Base {
 public:
   ::Material data;
   Material(::Material x) { data = x; }
+  Php::Value getshader() {
+    Php::Value result = Php::Object("RayLib\\ Shader", new Shader(data.shader));
+    return result;
+  }
+  void setshader(const Php::Value &v) {
+    data.shader = ((Shader *)(v.implementation()))->data;
+  }
 };
 
 class Model : public Php::Base {
 public:
   ::Model data;
   Model(::Model x) { data = x; }
+  Php::Value getmesh() {
+    Php::Value result = Php::Object("RayLib\\ Mesh", new Mesh(data.mesh));
+    return result;
+  }
+  Php::Value gettransform() {
+    Php::Value result =
+        Php::Object("RayLib\\ Matrix", new Matrix(data.transform));
+    return result;
+  }
+  Php::Value getmaterial() {
+    Php::Value result =
+        Php::Object("RayLib\\ Material", new Material(data.material));
+    return result;
+  }
+  void setmesh(const Php::Value &v) {
+    data.mesh = ((Mesh *)(v.implementation()))->data;
+  }
+  void settransform(const Php::Value &v) {
+    data.transform = ((Matrix *)(v.implementation()))->data;
+  }
+  void setmaterial(const Php::Value &v) {
+    data.material = ((Material *)(v.implementation()))->data;
+  }
 };
 
 class Ray : public Php::Base {
 public:
   ::Ray data;
   Ray(::Ray x) { data = x; }
+  Php::Value getposition() {
+    Php::Value result =
+        Php::Object("RayLib\\ Vector3", new Vector3(data.position));
+    return result;
+  }
+  Php::Value getdirection() {
+    Php::Value result =
+        Php::Object("RayLib\\ Vector3", new Vector3(data.direction));
+    return result;
+  }
+  void setposition(const Php::Value &v) {
+    data.position = ((Vector3 *)(v.implementation()))->data;
+  }
+  void setdirection(const Php::Value &v) {
+    data.direction = ((Vector3 *)(v.implementation()))->data;
+  }
 };
 
 class RayHitInfo : public Php::Base {
@@ -144,24 +592,130 @@ class Wave : public Php::Base {
 public:
   ::Wave data;
   Wave(::Wave x) { data = x; }
+  Php::Value getsampleCount() {
+    long result = data.sampleCount;
+    return result;
+  }
+  Php::Value getsampleRate() {
+    long result = data.sampleRate;
+    return result;
+  }
+  Php::Value getsampleSize() {
+    long result = data.sampleSize;
+    return result;
+  }
+  Php::Value getchannels() {
+    long result = data.channels;
+    return result;
+  }
+  void setsampleCount(const Php::Value &v) { data.sampleCount = (long)v; }
+  void setsampleRate(const Php::Value &v) { data.sampleRate = (long)v; }
+  void setsampleSize(const Php::Value &v) { data.sampleSize = (long)v; }
+  void setchannels(const Php::Value &v) { data.channels = (long)v; }
 };
 
 class Sound : public Php::Base {
 public:
   ::Sound data;
   Sound(::Sound x) { data = x; }
+  Php::Value getsource() {
+    long result = data.source;
+    return result;
+  }
+  Php::Value getbuffer() {
+    long result = data.buffer;
+    return result;
+  }
+  Php::Value getformat() {
+    int result = data.format;
+    return result;
+  }
+  void setsource(const Php::Value &v) { data.source = (long)v; }
+  void setbuffer(const Php::Value &v) { data.buffer = (long)v; }
+  void setformat(const Php::Value &v) { data.format = (int)v; }
 };
 
 class AudioStream : public Php::Base {
 public:
   ::AudioStream data;
   AudioStream(::AudioStream x) { data = x; }
+  Php::Value getsampleRate() {
+    long result = data.sampleRate;
+    return result;
+  }
+  Php::Value getsampleSize() {
+    long result = data.sampleSize;
+    return result;
+  }
+  Php::Value getchannels() {
+    long result = data.channels;
+    return result;
+  }
+  Php::Value getformat() {
+    int result = data.format;
+    return result;
+  }
+  Php::Value getsource() {
+    long result = data.source;
+    return result;
+  }
+  void setsampleRate(const Php::Value &v) { data.sampleRate = (long)v; }
+  void setsampleSize(const Php::Value &v) { data.sampleSize = (long)v; }
+  void setchannels(const Php::Value &v) { data.channels = (long)v; }
+  void setformat(const Php::Value &v) { data.format = (int)v; }
+  void setsource(const Php::Value &v) { data.source = (long)v; }
 };
 
 class VrDeviceInfo : public Php::Base {
 public:
   ::VrDeviceInfo data;
   VrDeviceInfo(::VrDeviceInfo x) { data = x; }
+  Php::Value gethResolution() {
+    int result = data.hResolution;
+    return result;
+  }
+  Php::Value getvResolution() {
+    int result = data.vResolution;
+    return result;
+  }
+  Php::Value gethScreenSize() {
+    double result = data.hScreenSize;
+    return result;
+  }
+  Php::Value getvScreenSize() {
+    double result = data.vScreenSize;
+    return result;
+  }
+  Php::Value getvScreenCenter() {
+    double result = data.vScreenCenter;
+    return result;
+  }
+  Php::Value geteyeToScreenDistance() {
+    double result = data.eyeToScreenDistance;
+    return result;
+  }
+  Php::Value getlensSeparationDistance() {
+    double result = data.lensSeparationDistance;
+    return result;
+  }
+  Php::Value getinterpupillaryDistance() {
+    double result = data.interpupillaryDistance;
+    return result;
+  }
+  void sethResolution(const Php::Value &v) { data.hResolution = (int)v; }
+  void setvResolution(const Php::Value &v) { data.vResolution = (int)v; }
+  void sethScreenSize(const Php::Value &v) { data.hScreenSize = (double)v; }
+  void setvScreenSize(const Php::Value &v) { data.vScreenSize = (double)v; }
+  void setvScreenCenter(const Php::Value &v) { data.vScreenCenter = (double)v; }
+  void seteyeToScreenDistance(const Php::Value &v) {
+    data.eyeToScreenDistance = (double)v;
+  }
+  void setlensSeparationDistance(const Php::Value &v) {
+    data.lensSeparationDistance = (double)v;
+  }
+  void setinterpupillaryDistance(const Php::Value &v) {
+    data.interpupillaryDistance = (double)v;
+  }
 };
 
 class VrStereoConfig : public Php::Base {
@@ -2519,81 +3073,207 @@ PHPCPP_EXPORT void *get_module() {
 
   Php::Class<Vector2> rlVector2("Vector2");
   rlNamespace.add(rlVector2);
+  rlVector2.property("x", &Vector2::getx, &Vector2::setx);
+  rlVector2.property("y", &Vector2::gety, &Vector2::sety);
 
   Php::Class<Vector3> rlVector3("Vector3");
   rlNamespace.add(rlVector3);
+  rlVector3.property("x", &Vector3::getx, &Vector3::setx);
+  rlVector3.property("y", &Vector3::gety, &Vector3::sety);
+  rlVector3.property("z", &Vector3::getz, &Vector3::setz);
 
   Php::Class<Vector4> rlVector4("Vector4");
   rlNamespace.add(rlVector4);
+  rlVector4.property("x", &Vector4::getx, &Vector4::setx);
+  rlVector4.property("y", &Vector4::gety, &Vector4::sety);
+  rlVector4.property("z", &Vector4::getz, &Vector4::setz);
+  rlVector4.property("w", &Vector4::getw, &Vector4::setw);
 
   Php::Class<Matrix> rlMatrix("Matrix");
   rlNamespace.add(rlMatrix);
+  rlMatrix.property("m0", &Matrix::getm0, &Matrix::setm0);
+  rlMatrix.property("m4", &Matrix::getm4, &Matrix::setm4);
+  rlMatrix.property("m8", &Matrix::getm8, &Matrix::setm8);
+  rlMatrix.property("m12", &Matrix::getm12, &Matrix::setm12);
+  rlMatrix.property("m1", &Matrix::getm1, &Matrix::setm1);
+  rlMatrix.property("m5", &Matrix::getm5, &Matrix::setm5);
+  rlMatrix.property("m9", &Matrix::getm9, &Matrix::setm9);
+  rlMatrix.property("m13", &Matrix::getm13, &Matrix::setm13);
+  rlMatrix.property("m2", &Matrix::getm2, &Matrix::setm2);
+  rlMatrix.property("m6", &Matrix::getm6, &Matrix::setm6);
+  rlMatrix.property("m10", &Matrix::getm10, &Matrix::setm10);
+  rlMatrix.property("m14", &Matrix::getm14, &Matrix::setm14);
+  rlMatrix.property("m3", &Matrix::getm3, &Matrix::setm3);
+  rlMatrix.property("m7", &Matrix::getm7, &Matrix::setm7);
+  rlMatrix.property("m11", &Matrix::getm11, &Matrix::setm11);
+  rlMatrix.property("m15", &Matrix::getm15, &Matrix::setm15);
 
   Php::Class<Color> rlColor("Color");
   rlNamespace.add(rlColor);
+  rlColor.property("r", &Color::getr, &Color::setr);
+  rlColor.property("g", &Color::getg, &Color::setg);
+  rlColor.property("b", &Color::getb, &Color::setb);
+  rlColor.property("a", &Color::geta, &Color::seta);
 
   Php::Class<Rectangle> rlRectangle("Rectangle");
   rlNamespace.add(rlRectangle);
+  rlRectangle.property("x", &Rectangle::getx, &Rectangle::setx);
+  rlRectangle.property("y", &Rectangle::gety, &Rectangle::sety);
+  rlRectangle.property("width", &Rectangle::getwidth, &Rectangle::setwidth);
+  rlRectangle.property("height", &Rectangle::getheight, &Rectangle::setheight);
 
   Php::Class<Image> rlImage("Image");
   rlNamespace.add(rlImage);
+  rlImage.property("width", &Image::getwidth, &Image::setwidth);
+  rlImage.property("height", &Image::getheight, &Image::setheight);
+  rlImage.property("mipmaps", &Image::getmipmaps, &Image::setmipmaps);
+  rlImage.property("format", &Image::getformat, &Image::setformat);
 
   Php::Class<Texture2D> rlTexture2D("Texture2D");
   rlNamespace.add(rlTexture2D);
+  rlTexture2D.property("id", &Texture2D::getid, &Texture2D::setid);
+  rlTexture2D.property("width", &Texture2D::getwidth, &Texture2D::setwidth);
+  rlTexture2D.property("height", &Texture2D::getheight, &Texture2D::setheight);
+  rlTexture2D.property("mipmaps", &Texture2D::getmipmaps,
+                       &Texture2D::setmipmaps);
+  rlTexture2D.property("format", &Texture2D::getformat, &Texture2D::setformat);
 
   Php::Class<RenderTexture2D> rlRenderTexture2D("RenderTexture2D");
   rlNamespace.add(rlRenderTexture2D);
 
   Php::Class<NPatchInfo> rlNPatchInfo("NPatchInfo");
   rlNamespace.add(rlNPatchInfo);
+  rlNPatchInfo.property("sourceRec", &NPatchInfo::getsourceRec,
+                        &NPatchInfo::setsourceRec);
+  rlNPatchInfo.property("left", &NPatchInfo::getleft, &NPatchInfo::setleft);
+  rlNPatchInfo.property("top", &NPatchInfo::gettop, &NPatchInfo::settop);
+  rlNPatchInfo.property("right", &NPatchInfo::getright, &NPatchInfo::setright);
+  rlNPatchInfo.property("bottom", &NPatchInfo::getbottom,
+                        &NPatchInfo::setbottom);
+  rlNPatchInfo.property("type", &NPatchInfo::gettype, &NPatchInfo::settype);
 
   Php::Class<CharInfo> rlCharInfo("CharInfo");
   rlNamespace.add(rlCharInfo);
+  rlCharInfo.property("value", &CharInfo::getvalue, &CharInfo::setvalue);
+  rlCharInfo.property("rec", &CharInfo::getrec, &CharInfo::setrec);
+  rlCharInfo.property("offsetX", &CharInfo::getoffsetX, &CharInfo::setoffsetX);
+  rlCharInfo.property("offsetY", &CharInfo::getoffsetY, &CharInfo::setoffsetY);
+  rlCharInfo.property("advanceX", &CharInfo::getadvanceX,
+                      &CharInfo::setadvanceX);
 
   Php::Class<Font> rlFont("Font");
   rlNamespace.add(rlFont);
+  rlFont.property("texture", &Font::gettexture, &Font::settexture);
+  rlFont.property("baseSize", &Font::getbaseSize, &Font::setbaseSize);
+  rlFont.property("charsCount", &Font::getcharsCount, &Font::setcharsCount);
 
   Php::Class<Camera3D> rlCamera3D("Camera3D");
   rlNamespace.add(rlCamera3D);
+  rlCamera3D.property("position", &Camera3D::getposition,
+                      &Camera3D::setposition);
+  rlCamera3D.property("target", &Camera3D::gettarget, &Camera3D::settarget);
+  rlCamera3D.property("up", &Camera3D::getup, &Camera3D::setup);
+  rlCamera3D.property("fovy", &Camera3D::getfovy, &Camera3D::setfovy);
+  rlCamera3D.property("type", &Camera3D::gettype, &Camera3D::settype);
 
   Php::Class<Camera2D> rlCamera2D("Camera2D");
   rlNamespace.add(rlCamera2D);
+  rlCamera2D.property("offset", &Camera2D::getoffset, &Camera2D::setoffset);
+  rlCamera2D.property("target", &Camera2D::gettarget, &Camera2D::settarget);
+  rlCamera2D.property("rotation", &Camera2D::getrotation,
+                      &Camera2D::setrotation);
+  rlCamera2D.property("zoom", &Camera2D::getzoom, &Camera2D::setzoom);
 
   Php::Class<BoundingBox> rlBoundingBox("BoundingBox");
   rlNamespace.add(rlBoundingBox);
+  rlBoundingBox.property("min", &BoundingBox::getmin, &BoundingBox::setmin);
+  rlBoundingBox.property("max", &BoundingBox::getmax, &BoundingBox::setmax);
 
   Php::Class<Mesh> rlMesh("Mesh");
   rlNamespace.add(rlMesh);
+  rlMesh.property("vertexCount", &Mesh::getvertexCount, &Mesh::setvertexCount);
+  rlMesh.property("triangleCount", &Mesh::gettriangleCount,
+                  &Mesh::settriangleCount);
+  rlMesh.property("vaoId", &Mesh::getvaoId, &Mesh::setvaoId);
 
   Php::Class<Shader> rlShader("Shader");
   rlNamespace.add(rlShader);
+  rlShader.property("id", &Shader::getid, &Shader::setid);
 
   Php::Class<MaterialMap> rlMaterialMap("MaterialMap");
   rlNamespace.add(rlMaterialMap);
+  rlMaterialMap.property("texture", &MaterialMap::gettexture,
+                         &MaterialMap::settexture);
+  rlMaterialMap.property("color", &MaterialMap::getcolor,
+                         &MaterialMap::setcolor);
+  rlMaterialMap.property("value", &MaterialMap::getvalue,
+                         &MaterialMap::setvalue);
 
   Php::Class<Material> rlMaterial("Material");
   rlNamespace.add(rlMaterial);
+  rlMaterial.property("shader", &Material::getshader, &Material::setshader);
 
   Php::Class<Model> rlModel("Model");
   rlNamespace.add(rlModel);
+  rlModel.property("mesh", &Model::getmesh, &Model::setmesh);
+  rlModel.property("transform", &Model::gettransform, &Model::settransform);
+  rlModel.property("material", &Model::getmaterial, &Model::setmaterial);
 
   Php::Class<Ray> rlRay("Ray");
   rlNamespace.add(rlRay);
+  rlRay.property("position", &Ray::getposition, &Ray::setposition);
+  rlRay.property("direction", &Ray::getdirection, &Ray::setdirection);
 
   Php::Class<RayHitInfo> rlRayHitInfo("RayHitInfo");
   rlNamespace.add(rlRayHitInfo);
 
   Php::Class<Wave> rlWave("Wave");
   rlNamespace.add(rlWave);
+  rlWave.property("sampleCount", &Wave::getsampleCount, &Wave::setsampleCount);
+  rlWave.property("sampleRate", &Wave::getsampleRate, &Wave::setsampleRate);
+  rlWave.property("sampleSize", &Wave::getsampleSize, &Wave::setsampleSize);
+  rlWave.property("channels", &Wave::getchannels, &Wave::setchannels);
 
   Php::Class<Sound> rlSound("Sound");
   rlNamespace.add(rlSound);
+  rlSound.property("source", &Sound::getsource, &Sound::setsource);
+  rlSound.property("buffer", &Sound::getbuffer, &Sound::setbuffer);
+  rlSound.property("format", &Sound::getformat, &Sound::setformat);
 
   Php::Class<AudioStream> rlAudioStream("AudioStream");
   rlNamespace.add(rlAudioStream);
+  rlAudioStream.property("sampleRate", &AudioStream::getsampleRate,
+                         &AudioStream::setsampleRate);
+  rlAudioStream.property("sampleSize", &AudioStream::getsampleSize,
+                         &AudioStream::setsampleSize);
+  rlAudioStream.property("channels", &AudioStream::getchannels,
+                         &AudioStream::setchannels);
+  rlAudioStream.property("format", &AudioStream::getformat,
+                         &AudioStream::setformat);
+  rlAudioStream.property("source", &AudioStream::getsource,
+                         &AudioStream::setsource);
 
   Php::Class<VrDeviceInfo> rlVrDeviceInfo("VrDeviceInfo");
   rlNamespace.add(rlVrDeviceInfo);
+  rlVrDeviceInfo.property("hResolution", &VrDeviceInfo::gethResolution,
+                          &VrDeviceInfo::sethResolution);
+  rlVrDeviceInfo.property("vResolution", &VrDeviceInfo::getvResolution,
+                          &VrDeviceInfo::setvResolution);
+  rlVrDeviceInfo.property("hScreenSize", &VrDeviceInfo::gethScreenSize,
+                          &VrDeviceInfo::sethScreenSize);
+  rlVrDeviceInfo.property("vScreenSize", &VrDeviceInfo::getvScreenSize,
+                          &VrDeviceInfo::setvScreenSize);
+  rlVrDeviceInfo.property("vScreenCenter", &VrDeviceInfo::getvScreenCenter,
+                          &VrDeviceInfo::setvScreenCenter);
+  rlVrDeviceInfo.property("eyeToScreenDistance",
+                          &VrDeviceInfo::geteyeToScreenDistance,
+                          &VrDeviceInfo::seteyeToScreenDistance);
+  rlVrDeviceInfo.property("lensSeparationDistance",
+                          &VrDeviceInfo::getlensSeparationDistance,
+                          &VrDeviceInfo::setlensSeparationDistance);
+  rlVrDeviceInfo.property("interpupillaryDistance",
+                          &VrDeviceInfo::getinterpupillaryDistance,
+                          &VrDeviceInfo::setinterpupillaryDistance);
 
   Php::Class<VrStereoConfig> rlVrStereoConfig("VrStereoConfig");
   rlNamespace.add(rlVrStereoConfig);
