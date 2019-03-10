@@ -278,7 +278,7 @@ public:
   NPatchInfo(::NPatchInfo x) { data = x; }
   Php::Value getsourceRec() {
     Php::Value result =
-        Php::Object("RayLib\\ Rectangle", new Rectangle(data.sourceRec));
+        Php::Object("RayLib\\Rectangle", new Rectangle(data.sourceRec));
     return result;
   }
   Php::Value getleft() {
@@ -321,7 +321,7 @@ public:
   }
   Php::Value getrec() {
     Php::Value result =
-        Php::Object("RayLib\\ Rectangle", new Rectangle(data.rec));
+        Php::Object("RayLib\\Rectangle", new Rectangle(data.rec));
     return result;
   }
   Php::Value getoffsetX() {
@@ -351,7 +351,7 @@ public:
   Font(::Font x) { data = x; }
   Php::Value gettexture() {
     Php::Value result =
-        Php::Object("RayLib\\ Texture2D", new Texture2D(data.texture));
+        Php::Object("RayLib\\Texture2D", new Texture2D(data.texture));
     return result;
   }
   Php::Value getbaseSize() {
@@ -375,16 +375,16 @@ public:
   Camera3D(::Camera3D x) { data = x; }
   Php::Value getposition() {
     Php::Value result =
-        Php::Object("RayLib\\ Vector3", new Vector3(data.position));
+        Php::Object("RayLib\\Vector3", new Vector3(data.position));
     return result;
   }
   Php::Value gettarget() {
     Php::Value result =
-        Php::Object("RayLib\\ Vector3", new Vector3(data.target));
+        Php::Object("RayLib\\Vector3", new Vector3(data.target));
     return result;
   }
   Php::Value getup() {
-    Php::Value result = Php::Object("RayLib\\ Vector3", new Vector3(data.up));
+    Php::Value result = Php::Object("RayLib\\Vector3", new Vector3(data.up));
     return result;
   }
   Php::Value getfovy() {
@@ -414,12 +414,12 @@ public:
   Camera2D(::Camera2D x) { data = x; }
   Php::Value getoffset() {
     Php::Value result =
-        Php::Object("RayLib\\ Vector2", new Vector2(data.offset));
+        Php::Object("RayLib\\Vector2", new Vector2(data.offset));
     return result;
   }
   Php::Value gettarget() {
     Php::Value result =
-        Php::Object("RayLib\\ Vector2", new Vector2(data.target));
+        Php::Object("RayLib\\Vector2", new Vector2(data.target));
     return result;
   }
   Php::Value getrotation() {
@@ -445,11 +445,11 @@ public:
   ::BoundingBox data;
   BoundingBox(::BoundingBox x) { data = x; }
   Php::Value getmin() {
-    Php::Value result = Php::Object("RayLib\\ Vector3", new Vector3(data.min));
+    Php::Value result = Php::Object("RayLib\\Vector3", new Vector3(data.min));
     return result;
   }
   Php::Value getmax() {
-    Php::Value result = Php::Object("RayLib\\ Vector3", new Vector3(data.max));
+    Php::Value result = Php::Object("RayLib\\Vector3", new Vector3(data.max));
     return result;
   }
   void setmin(const Php::Value &v) {
@@ -498,11 +498,11 @@ public:
   MaterialMap(::MaterialMap x) { data = x; }
   Php::Value gettexture() {
     Php::Value result =
-        Php::Object("RayLib\\ Texture2D", new Texture2D(data.texture));
+        Php::Object("RayLib\\Texture2D", new Texture2D(data.texture));
     return result;
   }
   Php::Value getcolor() {
-    Php::Value result = Php::Object("RayLib\\ Color", new Color(data.color));
+    Php::Value result = Php::Object("RayLib\\Color", new Color(data.color));
     return result;
   }
   Php::Value getvalue() {
@@ -523,7 +523,7 @@ public:
   ::Material data;
   Material(::Material x) { data = x; }
   Php::Value getshader() {
-    Php::Value result = Php::Object("RayLib\\ Shader", new Shader(data.shader));
+    Php::Value result = Php::Object("RayLib\\Shader", new Shader(data.shader));
     return result;
   }
   void setshader(const Php::Value &v) {
@@ -536,17 +536,17 @@ public:
   ::Model data;
   Model(::Model x) { data = x; }
   Php::Value getmesh() {
-    Php::Value result = Php::Object("RayLib\\ Mesh", new Mesh(data.mesh));
+    Php::Value result = Php::Object("RayLib\\Mesh", new Mesh(data.mesh));
     return result;
   }
   Php::Value gettransform() {
     Php::Value result =
-        Php::Object("RayLib\\ Matrix", new Matrix(data.transform));
+        Php::Object("RayLib\\Matrix", new Matrix(data.transform));
     return result;
   }
   Php::Value getmaterial() {
     Php::Value result =
-        Php::Object("RayLib\\ Material", new Material(data.material));
+        Php::Object("RayLib\\Material", new Material(data.material));
     return result;
   }
   void setmesh(const Php::Value &v) {
@@ -566,12 +566,12 @@ public:
   Ray(::Ray x) { data = x; }
   Php::Value getposition() {
     Php::Value result =
-        Php::Object("RayLib\\ Vector3", new Vector3(data.position));
+        Php::Object("RayLib\\Vector3", new Vector3(data.position));
     return result;
   }
   Php::Value getdirection() {
     Php::Value result =
-        Php::Object("RayLib\\ Vector3", new Vector3(data.direction));
+        Php::Object("RayLib\\Vector3", new Vector3(data.direction));
     return result;
   }
   void setposition(const Php::Value &v) {
