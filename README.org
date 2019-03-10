@@ -2,7 +2,7 @@
 
 PHP bindings for [[https://github.com/raysan5/raylib/][raylib]], a simple and easy-to-use library to learn videogames programming.
 
-It's developed using [[https://github.com/CopernicaMarketingSoftware/PHP-CPP/][PHP-CPP]], so it's called raylib-phpcpp rather then raylib-php.
+It's developed using [[https://github.com/CopernicaMarketingSoftware/PHP-CPP/][PHP-CPP]], so it's called raylib-phpcpp.
 
 ** Example
 
@@ -25,10 +25,58 @@ while (!RL::WindowShouldClose()) {
 RL::CloseWindow();
 #+END_SRC
 
+** Mapping C to PHP
 
+- All C functions are exposed as static function in ~RayLib\RL~, for example:
+
+  | C                             | PHP                               |
+  |-------------------------------+-----------------------------------|
+  | WindowShouldClose()           | RL::WindowShouldClose()           |
+  | InitWindow(800, 450, "title") | RL::InitWindow(800, 450, "title") |
+
+ Just add ~RL::~ before the C function and it should just works.
+
+- Color constant are exposed as static function in ~RayLib\RL~, for example:
+
+  | C         | PHP             |
+  |-----------+-----------------|
+  | LIGHTGRAY | RL::LIGHTGRAY() |
+  | GREEN     | RL::GREEN()     |
+
+- Constructor for simple structs (struct without array and pointer members) are exposed as static function in ~RayLib\RL~, for example to create a ~Camera2D~:
+
+  #+BEGIN_SRC php
+  <?php
+
+  $offset = RL::Vector2(1, 1);
+  $target = RL::Vector2(0, 0);
+  $camera = RL::Camera2D($offset, $target, 1.0, 1.0);
+  #+END_SRC
+- All C enums are exposed class constant in ~RayLib\RL~:
+
+  | C              | PHP                |
+  |----------------+--------------------|
+  | FLAG_SHOW_LOGO | RL::FLAG_SHOW_LOGO |
+  | KEY_COMMA      | RL::KEY_COMMA      |
+
+- Accessor for struct fields are implemented as ~__get~ and ~__set~, some update operation are more cumbersome:
+
+  #+BEGIN_SRC php
+  <?php
+
+  $v = RL::Vector2(1, 2);
+  // $v->x += 1; doesn't work
+  $v->x = $v->x + 1;
+
+  $camera = RL::Camera2D(RL::Vector2(1, 1), RL::Vector2(0, 0), 1.0, 1.0);
+  // $camera->target->x = 1; // doesn't work
+  $target = $camera->target;
+  $target->x = 1;
+  $camera->target = $target;
+  #+END_SRC
 ** Completeness
 
-The binding is auto-generated from `raylib.h`, most functions and features are supported. Not supported functions:
+The binding is auto-generated from ~raylib.h~, most functions and features are supported. Not supported functions:
 
 + core
   + GetWindowHandle
@@ -96,7 +144,7 @@ The binding is auto-generated from `raylib.h`, most functions and features are s
 
 For most file and text functions, you can use counterparts in PHP.
 
-Currently, the code generator is too dumb to handle ~void *~ and array. In the future, most functions will be supported.
+Currently, the code generator is too dumb to handle ~void *~ and array.
 
 ** Building From Source
 
@@ -105,3 +153,7 @@ Requirements:
 + PHP 7.3
 + PHP-CPP 2.1.4
 + raylib latest master
+
+** License
+
+raylib-phpcpp is licensed under an unmodified zlib/libpng license, which is an OSI-certified, BSD-like license that allows static linking with closed source software. Check [[./LICENSE][LICENSE]] for further details.
