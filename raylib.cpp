@@ -476,9 +476,21 @@ public:
     long result = data.vaoId;
     return result;
   }
+  Php::Value getvboId() {
+    Php::Value result;
+    for (int i = 0; i < 7; i++) {
+      result[i] = (long)data.vboId[i];
+    }
+    return result;
+  }
   void setvertexCount(const Php::Value &v) { data.vertexCount = (int)v; }
   void settriangleCount(const Php::Value &v) { data.triangleCount = (int)v; }
   void setvaoId(const Php::Value &v) { data.vaoId = (long)v; }
+  void setvboId(const Php::Value &v) {
+    for (int i = 0; i < 7; i++) {
+      data.vboId[i] = v[i].numericValue();
+    }
+  }
 };
 
 class Shader : public Php::Base {
@@ -489,7 +501,19 @@ public:
     long result = data.id;
     return result;
   }
+  Php::Value getlocs() {
+    Php::Value result;
+    for (int i = 0; i < 32; i++) {
+      result[i] = (long)data.locs[i];
+    }
+    return result;
+  }
   void setid(const Php::Value &v) { data.id = (long)v; }
+  void setlocs(const Php::Value &v) {
+    for (int i = 0; i < 32; i++) {
+      data.locs[i] = v[i].numericValue();
+    }
+  }
 };
 
 class MaterialMap : public Php::Base {
@@ -526,8 +550,21 @@ public:
     Php::Value result = Php::Object("RayLib\\Shader", new Shader(data.shader));
     return result;
   }
+  Php::Value getmaps() {
+    Php::Value result;
+    for (int i = 0; i < 12; i++) {
+      result[i] =
+          Php::Object("RayLib\\MaterialMap", new MaterialMap(data.maps[i]));
+    }
+    return result;
+  }
   void setshader(const Php::Value &v) {
     data.shader = ((Shader *)(v.implementation()))->data;
+  }
+  void setmaps(const Php::Value &v) {
+    for (int i = 0; i < 12; i++) {
+      data.maps[i] = ((MaterialMap *)(v[i].implementation()))->data;
+    }
   }
 };
 
@@ -659,11 +696,23 @@ public:
     long result = data.source;
     return result;
   }
+  Php::Value getbuffers() {
+    Php::Value result;
+    for (int i = 0; i < 2; i++) {
+      result[i] = (long)data.buffers[i];
+    }
+    return result;
+  }
   void setsampleRate(const Php::Value &v) { data.sampleRate = (long)v; }
   void setsampleSize(const Php::Value &v) { data.sampleSize = (long)v; }
   void setchannels(const Php::Value &v) { data.channels = (long)v; }
   void setformat(const Php::Value &v) { data.format = (int)v; }
   void setsource(const Php::Value &v) { data.source = (long)v; }
+  void setbuffers(const Php::Value &v) {
+    for (int i = 0; i < 2; i++) {
+      data.buffers[i] = v[i].numericValue();
+    }
+  }
 };
 
 class VrDeviceInfo : public Php::Base {
@@ -702,6 +751,20 @@ public:
     double result = data.interpupillaryDistance;
     return result;
   }
+  Php::Value getlensDistortionValues() {
+    Php::Value result;
+    for (int i = 0; i < 4; i++) {
+      result[i] = data.lensDistortionValues[i];
+    }
+    return result;
+  }
+  Php::Value getchromaAbCorrection() {
+    Php::Value result;
+    for (int i = 0; i < 4; i++) {
+      result[i] = data.chromaAbCorrection[i];
+    }
+    return result;
+  }
   void sethResolution(const Php::Value &v) { data.hResolution = (int)v; }
   void setvResolution(const Php::Value &v) { data.vResolution = (int)v; }
   void sethScreenSize(const Php::Value &v) { data.hScreenSize = (double)v; }
@@ -715,6 +778,16 @@ public:
   }
   void setinterpupillaryDistance(const Php::Value &v) {
     data.interpupillaryDistance = (double)v;
+  }
+  void setlensDistortionValues(const Php::Value &v) {
+    for (int i = 0; i < 4; i++) {
+      data.lensDistortionValues[i] = v[i].floatValue();
+    }
+  }
+  void setchromaAbCorrection(const Php::Value &v) {
+    for (int i = 0; i < 4; i++) {
+      data.chromaAbCorrection[i] = v[i].floatValue();
+    }
   }
 };
 
@@ -3195,10 +3268,12 @@ PHPCPP_EXPORT void *get_module() {
   rlMesh.property("triangleCount", &Mesh::gettriangleCount,
                   &Mesh::settriangleCount);
   rlMesh.property("vaoId", &Mesh::getvaoId, &Mesh::setvaoId);
+  rlMesh.property("vboId", &Mesh::getvboId, &Mesh::setvboId);
 
   Php::Class<Shader> rlShader("Shader");
   rlNamespace.add(rlShader);
   rlShader.property("id", &Shader::getid, &Shader::setid);
+  rlShader.property("locs", &Shader::getlocs, &Shader::setlocs);
 
   Php::Class<MaterialMap> rlMaterialMap("MaterialMap");
   rlNamespace.add(rlMaterialMap);
@@ -3212,6 +3287,7 @@ PHPCPP_EXPORT void *get_module() {
   Php::Class<Material> rlMaterial("Material");
   rlNamespace.add(rlMaterial);
   rlMaterial.property("shader", &Material::getshader, &Material::setshader);
+  rlMaterial.property("maps", &Material::getmaps, &Material::setmaps);
 
   Php::Class<Model> rlModel("Model");
   rlNamespace.add(rlModel);
@@ -3252,6 +3328,8 @@ PHPCPP_EXPORT void *get_module() {
                          &AudioStream::setformat);
   rlAudioStream.property("source", &AudioStream::getsource,
                          &AudioStream::setsource);
+  rlAudioStream.property("buffers", &AudioStream::getbuffers,
+                         &AudioStream::setbuffers);
 
   Php::Class<VrDeviceInfo> rlVrDeviceInfo("VrDeviceInfo");
   rlNamespace.add(rlVrDeviceInfo);
@@ -3274,6 +3352,12 @@ PHPCPP_EXPORT void *get_module() {
   rlVrDeviceInfo.property("interpupillaryDistance",
                           &VrDeviceInfo::getinterpupillaryDistance,
                           &VrDeviceInfo::setinterpupillaryDistance);
+  rlVrDeviceInfo.property("lensDistortionValues",
+                          &VrDeviceInfo::getlensDistortionValues,
+                          &VrDeviceInfo::setlensDistortionValues);
+  rlVrDeviceInfo.property("chromaAbCorrection",
+                          &VrDeviceInfo::getchromaAbCorrection,
+                          &VrDeviceInfo::setchromaAbCorrection);
 
   Php::Class<VrStereoConfig> rlVrStereoConfig("VrStereoConfig");
   rlNamespace.add(rlVrStereoConfig);
