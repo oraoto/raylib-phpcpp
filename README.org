@@ -127,19 +127,6 @@ The binding is auto-generated from ~raylib.h~, most functions and features are s
   + LoadWaveEx
   + UpdateSound
   + GetWaveData
-  + LoadMusicStream
-  + UnloadMusicStream
-  + PlayMusicStream
-  + UpdateMusicStream
-  + StopMusicStream
-  + PauseMusicStream
-  + ResumeMusicStream
-  + IsMusicPlaying
-  + SetMusicVolume
-  + SetMusicPitch
-  + SetMusicLoopCount
-  + GetMusicTimeLength
-  + GetMusicTimePlayed
   + UpdateAudioStream
 
 For most file and text functions, you can use counterparts in PHP.

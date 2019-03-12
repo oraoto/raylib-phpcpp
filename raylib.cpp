@@ -797,6 +797,18 @@ public:
   VrStereoConfig(::VrStereoConfig x) { data = x; }
 };
 
+class Music : public Php::Base {
+public:
+  ::Music data;
+  Music(::Music x) { data = x; }
+};
+
+class TraceLogCallback : public Php::Base {
+public:
+  ::TraceLogCallback data;
+  TraceLogCallback(::TraceLogCallback x) { data = x; }
+};
+
 class RL : public Php::Base {
 public:
   RL() {}
@@ -970,20 +982,20 @@ public:
   static Php::Value GetMouseRay(Php::Parameters &params) {
     ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
     ::Camera3D p1 = ((Camera3D *)(params[1].implementation()))->data;
-    struct Ray result = ::GetMouseRay(p0, p1);
+    Ray result = ::GetMouseRay(p0, p1);
     return Php::Object("RayLib\\Ray", new Ray(result));
   }
 
   static Php::Value GetWorldToScreen(Php::Parameters &params) {
     ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
     ::Camera3D p1 = ((Camera3D *)(params[1].implementation()))->data;
-    struct Vector2 result = ::GetWorldToScreen(p0, p1);
+    Vector2 result = ::GetWorldToScreen(p0, p1);
     return Php::Object("RayLib\\Vector2", new Vector2(result));
   }
 
   static Php::Value GetCameraMatrix(Php::Parameters &params) {
     ::Camera3D p0 = ((Camera3D *)(params[0].implementation()))->data;
-    struct Matrix result = ::GetCameraMatrix(p0);
+    Matrix result = ::GetCameraMatrix(p0);
     return Php::Object("RayLib\\Matrix", new Matrix(result));
   }
 
@@ -1015,32 +1027,32 @@ public:
 
   static Php::Value ColorNormalize(Php::Parameters &params) {
     ::Color p0 = ((Color *)(params[0].implementation()))->data;
-    struct Vector4 result = ::ColorNormalize(p0);
+    Vector4 result = ::ColorNormalize(p0);
     return Php::Object("RayLib\\Vector4", new Vector4(result));
   }
 
   static Php::Value ColorToHSV(Php::Parameters &params) {
     ::Color p0 = ((Color *)(params[0].implementation()))->data;
-    struct Vector3 result = ::ColorToHSV(p0);
+    Vector3 result = ::ColorToHSV(p0);
     return Php::Object("RayLib\\Vector3", new Vector3(result));
   }
 
   static Php::Value ColorFromHSV(Php::Parameters &params) {
     ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
-    struct Color result = ::ColorFromHSV(p0);
+    Color result = ::ColorFromHSV(p0);
     return Php::Object("RayLib\\Color", new Color(result));
   }
 
   static Php::Value GetColor(Php::Parameters &params) {
     int p0 = params[0];
-    struct Color result = ::GetColor(p0);
+    Color result = ::GetColor(p0);
     return Php::Object("RayLib\\Color", new Color(result));
   }
 
   static Php::Value Fade(Php::Parameters &params) {
     ::Color p0 = ((Color *)(params[0].implementation()))->data;
     double p1 = params[1];
-    struct Color result = ::Fade(p0, p1);
+    Color result = ::Fade(p0, p1);
     return Php::Object("RayLib\\Color", new Color(result));
   }
 
@@ -1239,7 +1251,7 @@ public:
   }
 
   static Php::Value GetMousePosition(Php::Parameters &params) {
-    struct Vector2 result = ::GetMousePosition();
+    Vector2 result = ::GetMousePosition();
     return Php::Object("RayLib\\Vector2", new Vector2(result));
   }
 
@@ -1278,7 +1290,7 @@ public:
 
   static Php::Value GetTouchPosition(Php::Parameters &params) {
     int p0 = params[0];
-    struct Vector2 result = ::GetTouchPosition(p0);
+    Vector2 result = ::GetTouchPosition(p0);
     return Php::Object("RayLib\\Vector2", new Vector2(result));
   }
 
@@ -1309,7 +1321,7 @@ public:
   }
 
   static Php::Value GetGestureDragVector(Php::Parameters &params) {
-    struct Vector2 result = ::GetGestureDragVector();
+    Vector2 result = ::GetGestureDragVector();
     return Php::Object("RayLib\\Vector2", new Vector2(result));
   }
 
@@ -1319,7 +1331,7 @@ public:
   }
 
   static Php::Value GetGesturePinchVector(Php::Parameters &params) {
-    struct Vector2 result = ::GetGesturePinchVector();
+    Vector2 result = ::GetGesturePinchVector();
     return Php::Object("RayLib\\Vector2", new Vector2(result));
   }
 
@@ -1597,7 +1609,7 @@ public:
   static Php::Value GetCollisionRec(Php::Parameters &params) {
     ::Rectangle p0 = ((Rectangle *)(params[0].implementation()))->data;
     ::Rectangle p1 = ((Rectangle *)(params[1].implementation()))->data;
-    struct Rectangle result = ::GetCollisionRec(p0, p1);
+    Rectangle result = ::GetCollisionRec(p0, p1);
     return Php::Object("RayLib\\Rectangle", new Rectangle(result));
   }
 
@@ -1627,7 +1639,7 @@ public:
 
   static Php::Value LoadImage(Php::Parameters &params) {
     string p0 = params[0];
-    struct Image result = ::LoadImage(p0.c_str());
+    Image result = ::LoadImage(p0.c_str());
     return Php::Object("RayLib\\Image", new Image(result));
   }
 
@@ -1635,7 +1647,7 @@ public:
     ::Color *p0 = &((Color *)(params[0].implementation()))->data;
     int p1 = params[1];
     int p2 = params[2];
-    struct Image result = ::LoadImageEx(p0, p1, p2);
+    Image result = ::LoadImageEx(p0, p1, p2);
     return Php::Object("RayLib\\Image", new Image(result));
   }
 
@@ -1645,7 +1657,7 @@ public:
     int p2 = params[2];
     int p3 = params[3];
     int p4 = params[4];
-    struct Image result = ::LoadImageRaw(p0.c_str(), p1, p2, p3, p4);
+    Image result = ::LoadImageRaw(p0.c_str(), p1, p2, p3, p4);
     return Php::Object("RayLib\\Image", new Image(result));
   }
 
@@ -1663,27 +1675,27 @@ public:
 
   static Php::Value LoadTexture(Php::Parameters &params) {
     string p0 = params[0];
-    struct Texture2D result = ::LoadTexture(p0.c_str());
+    Texture2D result = ::LoadTexture(p0.c_str());
     return Php::Object("RayLib\\Texture2D", new Texture2D(result));
   }
 
   static Php::Value LoadTextureFromImage(Php::Parameters &params) {
     ::Image p0 = ((Image *)(params[0].implementation()))->data;
-    struct Texture2D result = ::LoadTextureFromImage(p0);
+    Texture2D result = ::LoadTextureFromImage(p0);
     return Php::Object("RayLib\\Texture2D", new Texture2D(result));
   }
 
   static Php::Value LoadTextureCubemap(Php::Parameters &params) {
     ::Image p0 = ((Image *)(params[0].implementation()))->data;
     int p1 = params[1];
-    struct Texture2D result = ::LoadTextureCubemap(p0, p1);
-    return Php::Object("RayLib\\Texture2D", new Texture2D(result));
+    TextureCubemap result = ::LoadTextureCubemap(p0, p1);
+    return Php::Object("RayLib\\TextureCubemap", new TextureCubemap(result));
   }
 
   static Php::Value LoadRenderTexture(Php::Parameters &params) {
     int p0 = params[0];
     int p1 = params[1];
-    struct RenderTexture2D result = ::LoadRenderTexture(p0, p1);
+    RenderTexture2D result = ::LoadRenderTexture(p0, p1);
     return Php::Object("RayLib\\RenderTexture2D", new RenderTexture2D(result));
   }
 
@@ -1713,13 +1725,13 @@ public:
 
   static Php::Value GetTextureData(Php::Parameters &params) {
     ::Texture2D p0 = ((Texture2D *)(params[0].implementation()))->data;
-    struct Image result = ::GetTextureData(p0);
+    Image result = ::GetTextureData(p0);
     return Php::Object("RayLib\\Image", new Image(result));
   }
 
   static Php::Value ImageCopy(Php::Parameters &params) {
     ::Image p0 = ((Image *)(params[0].implementation()))->data;
-    struct Image result = ::ImageCopy(p0);
+    Image result = ::ImageCopy(p0);
     return Php::Object("RayLib\\Image", new Image(result));
   }
 
@@ -1807,7 +1819,7 @@ public:
     string p0 = params[0];
     int p1 = params[1];
     ::Color p2 = ((Color *)(params[2].implementation()))->data;
-    struct Image result = ::ImageText(p0.c_str(), p1, p2);
+    Image result = ::ImageText(p0.c_str(), p1, p2);
     return Php::Object("RayLib\\Image", new Image(result));
   }
 
@@ -1817,7 +1829,7 @@ public:
     double p2 = params[2];
     double p3 = params[3];
     ::Color p4 = ((Color *)(params[4].implementation()))->data;
-    struct Image result = ::ImageTextEx(p0, p1.c_str(), p2, p3, p4);
+    Image result = ::ImageTextEx(p0, p1.c_str(), p2, p3, p4);
     return Php::Object("RayLib\\Image", new Image(result));
   }
 
@@ -1923,7 +1935,7 @@ public:
     int p0 = params[0];
     int p1 = params[1];
     ::Color p2 = ((Color *)(params[2].implementation()))->data;
-    struct Image result = ::GenImageColor(p0, p1, p2);
+    Image result = ::GenImageColor(p0, p1, p2);
     return Php::Object("RayLib\\Image", new Image(result));
   }
 
@@ -1932,7 +1944,7 @@ public:
     int p1 = params[1];
     ::Color p2 = ((Color *)(params[2].implementation()))->data;
     ::Color p3 = ((Color *)(params[3].implementation()))->data;
-    struct Image result = ::GenImageGradientV(p0, p1, p2, p3);
+    Image result = ::GenImageGradientV(p0, p1, p2, p3);
     return Php::Object("RayLib\\Image", new Image(result));
   }
 
@@ -1941,7 +1953,7 @@ public:
     int p1 = params[1];
     ::Color p2 = ((Color *)(params[2].implementation()))->data;
     ::Color p3 = ((Color *)(params[3].implementation()))->data;
-    struct Image result = ::GenImageGradientH(p0, p1, p2, p3);
+    Image result = ::GenImageGradientH(p0, p1, p2, p3);
     return Php::Object("RayLib\\Image", new Image(result));
   }
 
@@ -1951,7 +1963,7 @@ public:
     double p2 = params[2];
     ::Color p3 = ((Color *)(params[3].implementation()))->data;
     ::Color p4 = ((Color *)(params[4].implementation()))->data;
-    struct Image result = ::GenImageGradientRadial(p0, p1, p2, p3, p4);
+    Image result = ::GenImageGradientRadial(p0, p1, p2, p3, p4);
     return Php::Object("RayLib\\Image", new Image(result));
   }
 
@@ -1962,7 +1974,7 @@ public:
     int p3 = params[3];
     ::Color p4 = ((Color *)(params[4].implementation()))->data;
     ::Color p5 = ((Color *)(params[5].implementation()))->data;
-    struct Image result = ::GenImageChecked(p0, p1, p2, p3, p4, p5);
+    Image result = ::GenImageChecked(p0, p1, p2, p3, p4, p5);
     return Php::Object("RayLib\\Image", new Image(result));
   }
 
@@ -1970,7 +1982,7 @@ public:
     int p0 = params[0];
     int p1 = params[1];
     double p2 = params[2];
-    struct Image result = ::GenImageWhiteNoise(p0, p1, p2);
+    Image result = ::GenImageWhiteNoise(p0, p1, p2);
     return Php::Object("RayLib\\Image", new Image(result));
   }
 
@@ -1980,7 +1992,7 @@ public:
     int p2 = params[2];
     int p3 = params[3];
     double p4 = params[4];
-    struct Image result = ::GenImagePerlinNoise(p0, p1, p2, p3, p4);
+    Image result = ::GenImagePerlinNoise(p0, p1, p2, p3, p4);
     return Php::Object("RayLib\\Image", new Image(result));
   }
 
@@ -1988,7 +2000,7 @@ public:
     int p0 = params[0];
     int p1 = params[1];
     int p2 = params[2];
-    struct Image result = ::GenImageCellular(p0, p1, p2);
+    Image result = ::GenImageCellular(p0, p1, p2);
     return Php::Object("RayLib\\Image", new Image(result));
   }
 
@@ -2071,13 +2083,13 @@ public:
   }
 
   static Php::Value GetFontDefault(Php::Parameters &params) {
-    struct Font result = ::GetFontDefault();
+    Font result = ::GetFontDefault();
     return Php::Object("RayLib\\Font", new Font(result));
   }
 
   static Php::Value LoadFont(Php::Parameters &params) {
     string p0 = params[0];
-    struct Font result = ::LoadFont(p0.c_str());
+    Font result = ::LoadFont(p0.c_str());
     return Php::Object("RayLib\\Font", new Font(result));
   }
 
@@ -2085,7 +2097,7 @@ public:
     ::Image p0 = ((Image *)(params[0].implementation()))->data;
     ::Color p1 = ((Color *)(params[1].implementation()))->data;
     int p2 = params[2];
-    struct Font result = ::LoadFontFromImage(p0, p1, p2);
+    Font result = ::LoadFontFromImage(p0, p1, p2);
     return Php::Object("RayLib\\Font", new Font(result));
   }
 
@@ -2095,7 +2107,7 @@ public:
     int p2 = params[2];
     int p3 = params[3];
     int p4 = params[4];
-    struct Image result = ::GenImageFontAtlas(p0, p1, p2, p3, p4);
+    Image result = ::GenImageFontAtlas(p0, p1, p2, p3, p4);
     return Php::Object("RayLib\\Image", new Image(result));
   }
 
@@ -2167,7 +2179,7 @@ public:
     string p1 = params[1];
     double p2 = params[2];
     double p3 = params[3];
-    struct Vector2 result = ::MeasureTextEx(p0, p1.c_str(), p2, p3);
+    Vector2 result = ::MeasureTextEx(p0, p1.c_str(), p2, p3);
     return Php::Object("RayLib\\Vector2", new Vector2(result));
   }
 
@@ -2300,13 +2312,13 @@ public:
 
   static Php::Value LoadModel(Php::Parameters &params) {
     string p0 = params[0];
-    struct Model result = ::LoadModel(p0.c_str());
+    Model result = ::LoadModel(p0.c_str());
     return Php::Object("RayLib\\Model", new Model(result));
   }
 
   static Php::Value LoadModelFromMesh(Php::Parameters &params) {
     ::Mesh p0 = ((Mesh *)(params[0].implementation()))->data;
-    struct Model result = ::LoadModelFromMesh(p0);
+    Model result = ::LoadModelFromMesh(p0);
     return Php::Object("RayLib\\Model", new Model(result));
   }
 
@@ -2317,7 +2329,7 @@ public:
 
   static Php::Value LoadMesh(Php::Parameters &params) {
     string p0 = params[0];
-    struct Mesh result = ::LoadMesh(p0.c_str());
+    Mesh result = ::LoadMesh(p0.c_str());
     return Php::Object("RayLib\\Mesh", new Mesh(result));
   }
 
@@ -2334,7 +2346,7 @@ public:
 
   static Php::Value MeshBoundingBox(Php::Parameters &params) {
     ::Mesh p0 = ((Mesh *)(params[0].implementation()))->data;
-    struct BoundingBox result = ::MeshBoundingBox(p0);
+    BoundingBox result = ::MeshBoundingBox(p0);
     return Php::Object("RayLib\\BoundingBox", new BoundingBox(result));
   }
 
@@ -2351,7 +2363,7 @@ public:
   static Php::Value GenMeshPoly(Php::Parameters &params) {
     int p0 = params[0];
     double p1 = params[1];
-    struct Mesh result = ::GenMeshPoly(p0, p1);
+    Mesh result = ::GenMeshPoly(p0, p1);
     return Php::Object("RayLib\\Mesh", new Mesh(result));
   }
 
@@ -2360,7 +2372,7 @@ public:
     double p1 = params[1];
     int p2 = params[2];
     int p3 = params[3];
-    struct Mesh result = ::GenMeshPlane(p0, p1, p2, p3);
+    Mesh result = ::GenMeshPlane(p0, p1, p2, p3);
     return Php::Object("RayLib\\Mesh", new Mesh(result));
   }
 
@@ -2368,7 +2380,7 @@ public:
     double p0 = params[0];
     double p1 = params[1];
     double p2 = params[2];
-    struct Mesh result = ::GenMeshCube(p0, p1, p2);
+    Mesh result = ::GenMeshCube(p0, p1, p2);
     return Php::Object("RayLib\\Mesh", new Mesh(result));
   }
 
@@ -2376,7 +2388,7 @@ public:
     double p0 = params[0];
     int p1 = params[1];
     int p2 = params[2];
-    struct Mesh result = ::GenMeshSphere(p0, p1, p2);
+    Mesh result = ::GenMeshSphere(p0, p1, p2);
     return Php::Object("RayLib\\Mesh", new Mesh(result));
   }
 
@@ -2384,7 +2396,7 @@ public:
     double p0 = params[0];
     int p1 = params[1];
     int p2 = params[2];
-    struct Mesh result = ::GenMeshHemiSphere(p0, p1, p2);
+    Mesh result = ::GenMeshHemiSphere(p0, p1, p2);
     return Php::Object("RayLib\\Mesh", new Mesh(result));
   }
 
@@ -2392,7 +2404,7 @@ public:
     double p0 = params[0];
     double p1 = params[1];
     int p2 = params[2];
-    struct Mesh result = ::GenMeshCylinder(p0, p1, p2);
+    Mesh result = ::GenMeshCylinder(p0, p1, p2);
     return Php::Object("RayLib\\Mesh", new Mesh(result));
   }
 
@@ -2401,7 +2413,7 @@ public:
     double p1 = params[1];
     int p2 = params[2];
     int p3 = params[3];
-    struct Mesh result = ::GenMeshTorus(p0, p1, p2, p3);
+    Mesh result = ::GenMeshTorus(p0, p1, p2, p3);
     return Php::Object("RayLib\\Mesh", new Mesh(result));
   }
 
@@ -2410,32 +2422,32 @@ public:
     double p1 = params[1];
     int p2 = params[2];
     int p3 = params[3];
-    struct Mesh result = ::GenMeshKnot(p0, p1, p2, p3);
+    Mesh result = ::GenMeshKnot(p0, p1, p2, p3);
     return Php::Object("RayLib\\Mesh", new Mesh(result));
   }
 
   static Php::Value GenMeshHeightmap(Php::Parameters &params) {
     ::Image p0 = ((Image *)(params[0].implementation()))->data;
     ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
-    struct Mesh result = ::GenMeshHeightmap(p0, p1);
+    Mesh result = ::GenMeshHeightmap(p0, p1);
     return Php::Object("RayLib\\Mesh", new Mesh(result));
   }
 
   static Php::Value GenMeshCubicmap(Php::Parameters &params) {
     ::Image p0 = ((Image *)(params[0].implementation()))->data;
     ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
-    struct Mesh result = ::GenMeshCubicmap(p0, p1);
+    Mesh result = ::GenMeshCubicmap(p0, p1);
     return Php::Object("RayLib\\Mesh", new Mesh(result));
   }
 
   static Php::Value LoadMaterial(Php::Parameters &params) {
     string p0 = params[0];
-    struct Material result = ::LoadMaterial(p0.c_str());
+    Material result = ::LoadMaterial(p0.c_str());
     return Php::Object("RayLib\\Material", new Material(result));
   }
 
   static Php::Value LoadMaterialDefault(Php::Parameters &params) {
-    struct Material result = ::LoadMaterialDefault();
+    Material result = ::LoadMaterialDefault();
     return Php::Object("RayLib\\Material", new Material(result));
   }
 
@@ -2556,7 +2568,7 @@ public:
   static Php::Value GetCollisionRayModel(Php::Parameters &params) {
     ::Ray p0 = ((Ray *)(params[0].implementation()))->data;
     ::Model *p1 = &((Model *)(params[1].implementation()))->data;
-    struct RayHitInfo result = ::GetCollisionRayModel(p0, p1);
+    RayHitInfo result = ::GetCollisionRayModel(p0, p1);
     return Php::Object("RayLib\\RayHitInfo", new RayHitInfo(result));
   }
 
@@ -2565,21 +2577,21 @@ public:
     ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
     ::Vector3 p2 = ((Vector3 *)(params[2].implementation()))->data;
     ::Vector3 p3 = ((Vector3 *)(params[3].implementation()))->data;
-    struct RayHitInfo result = ::GetCollisionRayTriangle(p0, p1, p2, p3);
+    RayHitInfo result = ::GetCollisionRayTriangle(p0, p1, p2, p3);
     return Php::Object("RayLib\\RayHitInfo", new RayHitInfo(result));
   }
 
   static Php::Value GetCollisionRayGround(Php::Parameters &params) {
     ::Ray p0 = ((Ray *)(params[0].implementation()))->data;
     double p1 = params[1];
-    struct RayHitInfo result = ::GetCollisionRayGround(p0, p1);
+    RayHitInfo result = ::GetCollisionRayGround(p0, p1);
     return Php::Object("RayLib\\RayHitInfo", new RayHitInfo(result));
   }
 
   static Php::Value LoadShader(Php::Parameters &params) {
     string p0 = params[0];
     string p1 = params[1];
-    struct Shader result = ::LoadShader(p0.c_str(), p1.c_str());
+    Shader result = ::LoadShader(p0.c_str(), p1.c_str());
     return Php::Object("RayLib\\Shader", new Shader(result));
   }
 
@@ -2589,12 +2601,12 @@ public:
   }
 
   static Php::Value GetShaderDefault(Php::Parameters &params) {
-    struct Shader result = ::GetShaderDefault();
+    Shader result = ::GetShaderDefault();
     return Php::Object("RayLib\\Shader", new Shader(result));
   }
 
   static Php::Value GetTextureDefault(Php::Parameters &params) {
-    struct Texture2D result = ::GetTextureDefault();
+    Texture2D result = ::GetTextureDefault();
     return Php::Object("RayLib\\Texture2D", new Texture2D(result));
   }
 
@@ -2623,7 +2635,7 @@ public:
   }
 
   static Php::Value GetMatrixModelview(Php::Parameters &params) {
-    struct Matrix result = ::GetMatrixModelview();
+    Matrix result = ::GetMatrixModelview();
     return Php::Object("RayLib\\Matrix", new Matrix(result));
   }
 
@@ -2631,7 +2643,7 @@ public:
     ::Shader p0 = ((Shader *)(params[0].implementation()))->data;
     ::Texture2D p1 = ((Texture2D *)(params[1].implementation()))->data;
     int p2 = params[2];
-    struct Texture2D result = ::GenTextureCubemap(p0, p1, p2);
+    Texture2D result = ::GenTextureCubemap(p0, p1, p2);
     return Php::Object("RayLib\\Texture2D", new Texture2D(result));
   }
 
@@ -2639,7 +2651,7 @@ public:
     ::Shader p0 = ((Shader *)(params[0].implementation()))->data;
     ::Texture2D p1 = ((Texture2D *)(params[1].implementation()))->data;
     int p2 = params[2];
-    struct Texture2D result = ::GenTextureIrradiance(p0, p1, p2);
+    Texture2D result = ::GenTextureIrradiance(p0, p1, p2);
     return Php::Object("RayLib\\Texture2D", new Texture2D(result));
   }
 
@@ -2647,14 +2659,14 @@ public:
     ::Shader p0 = ((Shader *)(params[0].implementation()))->data;
     ::Texture2D p1 = ((Texture2D *)(params[1].implementation()))->data;
     int p2 = params[2];
-    struct Texture2D result = ::GenTexturePrefilter(p0, p1, p2);
+    Texture2D result = ::GenTexturePrefilter(p0, p1, p2);
     return Php::Object("RayLib\\Texture2D", new Texture2D(result));
   }
 
   static Php::Value GenTextureBRDF(Php::Parameters &params) {
     ::Shader p0 = ((Shader *)(params[0].implementation()))->data;
     int p1 = params[1];
-    struct Texture2D result = ::GenTextureBRDF(p0, p1);
+    Texture2D result = ::GenTextureBRDF(p0, p1);
     return Php::Object("RayLib\\Texture2D", new Texture2D(result));
   }
 
@@ -2684,7 +2696,7 @@ public:
 
   static Php::Value GetVrDeviceInfo(Php::Parameters &params) {
     int p0 = params[0];
-    struct VrDeviceInfo result = ::GetVrDeviceInfo(p0);
+    VrDeviceInfo result = ::GetVrDeviceInfo(p0);
     return Php::Object("RayLib\\VrDeviceInfo", new VrDeviceInfo(result));
   }
 
@@ -2731,19 +2743,19 @@ public:
 
   static Php::Value LoadWave(Php::Parameters &params) {
     string p0 = params[0];
-    struct Wave result = ::LoadWave(p0.c_str());
+    Wave result = ::LoadWave(p0.c_str());
     return Php::Object("RayLib\\Wave", new Wave(result));
   }
 
   static Php::Value LoadSound(Php::Parameters &params) {
     string p0 = params[0];
-    struct Sound result = ::LoadSound(p0.c_str());
+    Sound result = ::LoadSound(p0.c_str());
     return Php::Object("RayLib\\Sound", new Sound(result));
   }
 
   static Php::Value LoadSoundFromWave(Php::Parameters &params) {
     ::Wave p0 = ((Wave *)(params[0].implementation()))->data;
-    struct Sound result = ::LoadSoundFromWave(p0);
+    Sound result = ::LoadSoundFromWave(p0);
     return Php::Object("RayLib\\Sound", new Sound(result));
   }
 
@@ -2817,7 +2829,7 @@ public:
 
   static Php::Value WaveCopy(Php::Parameters &params) {
     ::Wave p0 = ((Wave *)(params[0].implementation()))->data;
-    struct Wave result = ::WaveCopy(p0);
+    Wave result = ::WaveCopy(p0);
     return Php::Object("RayLib\\Wave", new Wave(result));
   }
 
@@ -2828,11 +2840,83 @@ public:
     ::WaveCrop(p0, p1, p2);
   }
 
+  static Php::Value LoadMusicStream(Php::Parameters &params) {
+    string p0 = params[0];
+    Music result = ::LoadMusicStream(p0.c_str());
+    return Php::Object("RayLib\\Music", new Music(result));
+  }
+
+  static void UnloadMusicStream(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    ::UnloadMusicStream(p0);
+  }
+
+  static void PlayMusicStream(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    ::PlayMusicStream(p0);
+  }
+
+  static void UpdateMusicStream(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    ::UpdateMusicStream(p0);
+  }
+
+  static void StopMusicStream(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    ::StopMusicStream(p0);
+  }
+
+  static void PauseMusicStream(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    ::PauseMusicStream(p0);
+  }
+
+  static void ResumeMusicStream(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    ::ResumeMusicStream(p0);
+  }
+
+  static Php::Value IsMusicPlaying(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    int result = ::IsMusicPlaying(p0);
+    return result;
+  }
+
+  static void SetMusicVolume(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    double p1 = params[1];
+    ::SetMusicVolume(p0, p1);
+  }
+
+  static void SetMusicPitch(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    double p1 = params[1];
+    ::SetMusicPitch(p0, p1);
+  }
+
+  static void SetMusicLoopCount(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    int p1 = params[1];
+    ::SetMusicLoopCount(p0, p1);
+  }
+
+  static Php::Value GetMusicTimeLength(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    double result = ::GetMusicTimeLength(p0);
+    return result;
+  }
+
+  static Php::Value GetMusicTimePlayed(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    double result = ::GetMusicTimePlayed(p0);
+    return result;
+  }
+
   static Php::Value InitAudioStream(Php::Parameters &params) {
     long p0 = params[0];
     long p1 = params[1];
     long p2 = params[2];
-    struct AudioStream result = ::InitAudioStream(p0, p1, p2);
+    AudioStream result = ::InitAudioStream(p0, p1, p2);
     return Php::Object("RayLib\\AudioStream", new AudioStream(result));
   }
 
@@ -3362,6 +3446,12 @@ PHPCPP_EXPORT void *get_module() {
   Php::Class<VrStereoConfig> rlVrStereoConfig("VrStereoConfig");
   rlNamespace.add(rlVrStereoConfig);
 
+  Php::Class<Music> rlMusic("Music");
+  rlNamespace.add(rlMusic);
+
+  Php::Class<TraceLogCallback> rlTraceLogCallback("TraceLogCallback");
+  rlNamespace.add(rlTraceLogCallback);
+
   rlClass.method<&RL::InitWindow>("InitWindow");
   rlClass.method<&RL::WindowShouldClose>("WindowShouldClose");
   rlClass.method<&RL::CloseWindow>("CloseWindow");
@@ -3679,6 +3769,19 @@ PHPCPP_EXPORT void *get_module() {
   rlClass.method<&RL::WaveFormat>("WaveFormat");
   rlClass.method<&RL::WaveCopy>("WaveCopy");
   rlClass.method<&RL::WaveCrop>("WaveCrop");
+  rlClass.method<&RL::LoadMusicStream>("LoadMusicStream");
+  rlClass.method<&RL::UnloadMusicStream>("UnloadMusicStream");
+  rlClass.method<&RL::PlayMusicStream>("PlayMusicStream");
+  rlClass.method<&RL::UpdateMusicStream>("UpdateMusicStream");
+  rlClass.method<&RL::StopMusicStream>("StopMusicStream");
+  rlClass.method<&RL::PauseMusicStream>("PauseMusicStream");
+  rlClass.method<&RL::ResumeMusicStream>("ResumeMusicStream");
+  rlClass.method<&RL::IsMusicPlaying>("IsMusicPlaying");
+  rlClass.method<&RL::SetMusicVolume>("SetMusicVolume");
+  rlClass.method<&RL::SetMusicPitch>("SetMusicPitch");
+  rlClass.method<&RL::SetMusicLoopCount>("SetMusicLoopCount");
+  rlClass.method<&RL::GetMusicTimeLength>("GetMusicTimeLength");
+  rlClass.method<&RL::GetMusicTimePlayed>("GetMusicTimePlayed");
   rlClass.method<&RL::InitAudioStream>("InitAudioStream");
   rlClass.method<&RL::CloseAudioStream>("CloseAudioStream");
   rlClass.method<&RL::IsAudioBufferProcessed>("IsAudioBufferProcessed");
