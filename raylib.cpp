@@ -7,7 +7,6 @@
 using namespace std;
 
 namespace rl {
-
 class Vector2 : public Php::Base {
 public:
   ::Vector2 data;
@@ -440,26 +439,6 @@ public:
   void setzoom(const Php::Value &v) { data.zoom = (double)v; }
 };
 
-class BoundingBox : public Php::Base {
-public:
-  ::BoundingBox data;
-  BoundingBox(::BoundingBox x) { data = x; }
-  Php::Value getmin() {
-    Php::Value result = Php::Object("RayLib\\Vector3", new Vector3(data.min));
-    return result;
-  }
-  Php::Value getmax() {
-    Php::Value result = Php::Object("RayLib\\Vector3", new Vector3(data.max));
-    return result;
-  }
-  void setmin(const Php::Value &v) {
-    data.min = ((Vector3 *)(v.implementation()))->data;
-  }
-  void setmax(const Php::Value &v) {
-    data.max = ((Vector3 *)(v.implementation()))->data;
-  }
-};
-
 class Mesh : public Php::Base {
 public:
   ::Mesh data;
@@ -568,33 +547,99 @@ public:
   }
 };
 
+class Transform : public Php::Base {
+public:
+  ::Transform data;
+  Transform(::Transform x) { data = x; }
+  Php::Value gettranslation() {
+    Php::Value result =
+        Php::Object("RayLib\\Vector3", new Vector3(data.translation));
+    return result;
+  }
+  Php::Value getrotation() {
+    Php::Value result =
+        Php::Object("RayLib\\Vector4", new Vector4(data.rotation));
+    return result;
+  }
+  Php::Value getscale() {
+    Php::Value result = Php::Object("RayLib\\Vector3", new Vector3(data.scale));
+    return result;
+  }
+  void settranslation(const Php::Value &v) {
+    data.translation = ((Vector3 *)(v.implementation()))->data;
+  }
+  void setrotation(const Php::Value &v) {
+    data.rotation = ((Vector4 *)(v.implementation()))->data;
+  }
+  void setscale(const Php::Value &v) {
+    data.scale = ((Vector3 *)(v.implementation()))->data;
+  }
+};
+
+class BoneInfo : public Php::Base {
+public:
+  ::BoneInfo data;
+  BoneInfo(::BoneInfo x) { data = x; }
+  Php::Value getname() {
+    Php::Value result;
+    for (int i = 0; i < 32; i++) {
+    }
+    return result;
+  }
+  Php::Value getparent() {
+    int result = data.parent;
+    return result;
+  }
+  void setname(const Php::Value &v) {
+    for (int i = 0; i < 32; i++) {
+    }
+  }
+  void setparent(const Php::Value &v) { data.parent = (int)v; }
+};
+
 class Model : public Php::Base {
 public:
   ::Model data;
   Model(::Model x) { data = x; }
-  Php::Value getmesh() {
-    Php::Value result = Php::Object("RayLib\\Mesh", new Mesh(data.mesh));
-    return result;
-  }
   Php::Value gettransform() {
     Php::Value result =
         Php::Object("RayLib\\Matrix", new Matrix(data.transform));
     return result;
   }
-  Php::Value getmaterial() {
-    Php::Value result =
-        Php::Object("RayLib\\Material", new Material(data.material));
+  Php::Value getmeshCount() {
+    int result = data.meshCount;
     return result;
   }
-  void setmesh(const Php::Value &v) {
-    data.mesh = ((Mesh *)(v.implementation()))->data;
+  Php::Value getmaterialCount() {
+    int result = data.materialCount;
+    return result;
+  }
+  Php::Value getboneCount() {
+    int result = data.boneCount;
+    return result;
   }
   void settransform(const Php::Value &v) {
     data.transform = ((Matrix *)(v.implementation()))->data;
   }
-  void setmaterial(const Php::Value &v) {
-    data.material = ((Material *)(v.implementation()))->data;
+  void setmeshCount(const Php::Value &v) { data.meshCount = (int)v; }
+  void setmaterialCount(const Php::Value &v) { data.materialCount = (int)v; }
+  void setboneCount(const Php::Value &v) { data.boneCount = (int)v; }
+};
+
+class ModelAnimation : public Php::Base {
+public:
+  ::ModelAnimation data;
+  ModelAnimation(::ModelAnimation x) { data = x; }
+  Php::Value getboneCount() {
+    int result = data.boneCount;
+    return result;
   }
+  Php::Value getframeCount() {
+    int result = data.frameCount;
+    return result;
+  }
+  void setboneCount(const Php::Value &v) { data.boneCount = (int)v; }
+  void setframeCount(const Php::Value &v) { data.frameCount = (int)v; }
 };
 
 class Ray : public Php::Base {
@@ -623,6 +668,26 @@ class RayHitInfo : public Php::Base {
 public:
   ::RayHitInfo data;
   RayHitInfo(::RayHitInfo x) { data = x; }
+};
+
+class BoundingBox : public Php::Base {
+public:
+  ::BoundingBox data;
+  BoundingBox(::BoundingBox x) { data = x; }
+  Php::Value getmin() {
+    Php::Value result = Php::Object("RayLib\\Vector3", new Vector3(data.min));
+    return result;
+  }
+  Php::Value getmax() {
+    Php::Value result = Php::Object("RayLib\\Vector3", new Vector3(data.max));
+    return result;
+  }
+  void setmin(const Php::Value &v) {
+    data.min = ((Vector3 *)(v.implementation()))->data;
+  }
+  void setmax(const Php::Value &v) {
+    data.max = ((Vector3 *)(v.implementation()))->data;
+  }
 };
 
 class Wave : public Php::Base {
@@ -789,12 +854,6 @@ public:
       data.chromaAbCorrection[i] = v[i].floatValue();
     }
   }
-};
-
-class VrStereoConfig : public Php::Base {
-public:
-  ::VrStereoConfig data;
-  VrStereoConfig(::VrStereoConfig x) { data = x; }
 };
 
 class Music : public Php::Base {
@@ -1434,8 +1493,19 @@ public:
     double p1 = params[1];
     int p2 = params[2];
     int p3 = params[3];
-    ::Color p4 = ((Color *)(params[4].implementation()))->data;
-    ::DrawCircleSector(p0, p1, p2, p3, p4);
+    int p4 = params[4];
+    ::Color p5 = ((Color *)(params[5].implementation()))->data;
+    ::DrawCircleSector(p0, p1, p2, p3, p4, p5);
+  }
+
+  static void DrawCircleSectorLines(Php::Parameters &params) {
+    ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
+    double p1 = params[1];
+    int p2 = params[2];
+    int p3 = params[3];
+    int p4 = params[4];
+    ::Color p5 = ((Color *)(params[5].implementation()))->data;
+    ::DrawCircleSectorLines(p0, p1, p2, p3, p4, p5);
   }
 
   static void DrawCircleGradient(Php::Parameters &params) {
@@ -1460,6 +1530,28 @@ public:
     double p2 = params[2];
     ::Color p3 = ((Color *)(params[3].implementation()))->data;
     ::DrawCircleLines(p0, p1, p2, p3);
+  }
+
+  static void DrawRing(Php::Parameters &params) {
+    ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
+    double p1 = params[1];
+    double p2 = params[2];
+    int p3 = params[3];
+    int p4 = params[4];
+    int p5 = params[5];
+    ::Color p6 = ((Color *)(params[6].implementation()))->data;
+    ::DrawRing(p0, p1, p2, p3, p4, p5, p6);
+  }
+
+  static void DrawRingLines(Php::Parameters &params) {
+    ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
+    double p1 = params[1];
+    double p2 = params[2];
+    int p3 = params[3];
+    int p4 = params[4];
+    int p5 = params[5];
+    ::Color p6 = ((Color *)(params[6].implementation()))->data;
+    ::DrawRingLines(p0, p1, p2, p3, p4, p5, p6);
   }
 
   static void DrawRectangle(Php::Parameters &params) {
@@ -1535,6 +1627,23 @@ public:
     int p1 = params[1];
     ::Color p2 = ((Color *)(params[2].implementation()))->data;
     ::DrawRectangleLinesEx(p0, p1, p2);
+  }
+
+  static void DrawRectangleRounded(Php::Parameters &params) {
+    ::Rectangle p0 = ((Rectangle *)(params[0].implementation()))->data;
+    double p1 = params[1];
+    int p2 = params[2];
+    ::Color p3 = ((Color *)(params[3].implementation()))->data;
+    ::DrawRectangleRounded(p0, p1, p2, p3);
+  }
+
+  static void DrawRectangleRoundedLines(Php::Parameters &params) {
+    ::Rectangle p0 = ((Rectangle *)(params[0].implementation()))->data;
+    double p1 = params[1];
+    int p2 = params[2];
+    int p3 = params[3];
+    ::Color p4 = ((Color *)(params[4].implementation()))->data;
+    ::DrawRectangleRoundedLines(p0, p1, p2, p3, p4);
   }
 
   static void DrawTriangle(Php::Parameters &params) {
@@ -1726,6 +1835,11 @@ public:
   static Php::Value GetTextureData(Php::Parameters &params) {
     ::Texture2D p0 = ((Texture2D *)(params[0].implementation()))->data;
     Image result = ::GetTextureData(p0);
+    return Php::Object("RayLib\\Image", new Image(result));
+  }
+
+  static Php::Value GetScreenData(Php::Parameters &params) {
+    Image result = ::GetScreenData();
     return Php::Object("RayLib\\Image", new Image(result));
   }
 
@@ -2231,6 +2345,13 @@ public:
     ::DrawCubeWires(p0, p1, p2, p3, p4);
   }
 
+  static void DrawCubeWiresV(Php::Parameters &params) {
+    ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+    ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
+    ::Color p2 = ((Color *)(params[2].implementation()))->data;
+    ::DrawCubeWiresV(p0, p1, p2);
+  }
+
   static void DrawCubeTexture(Php::Parameters &params) {
     ::Texture2D p0 = ((Texture2D *)(params[0].implementation()))->data;
     ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
@@ -2327,10 +2448,10 @@ public:
     ::UnloadModel(p0);
   }
 
-  static Php::Value LoadMesh(Php::Parameters &params) {
-    string p0 = params[0];
-    Mesh result = ::LoadMesh(p0.c_str());
-    return Php::Object("RayLib\\Mesh", new Mesh(result));
+  static void ExportMesh(Php::Parameters &params) {
+    ::Mesh p0 = ((Mesh *)(params[0].implementation()))->data;
+    string p1 = params[1];
+    ::ExportMesh(p0, p1.c_str());
   }
 
   static void UnloadMesh(Php::Parameters &params) {
@@ -2338,26 +2459,50 @@ public:
     ::UnloadMesh(p0);
   }
 
-  static void ExportMesh(Php::Parameters &params) {
-    ::Mesh p0 = ((Mesh *)(params[0].implementation()))->data;
-    string p1 = params[1];
-    ::ExportMesh(p0, p1.c_str());
+  static Php::Value LoadMaterialDefault(Php::Parameters &params) {
+    Material result = ::LoadMaterialDefault();
+    return Php::Object("RayLib\\Material", new Material(result));
   }
 
-  static Php::Value MeshBoundingBox(Php::Parameters &params) {
-    ::Mesh p0 = ((Mesh *)(params[0].implementation()))->data;
-    BoundingBox result = ::MeshBoundingBox(p0);
-    return Php::Object("RayLib\\BoundingBox", new BoundingBox(result));
+  static void UnloadMaterial(Php::Parameters &params) {
+    ::Material p0 = ((Material *)(params[0].implementation()))->data;
+    ::UnloadMaterial(p0);
   }
 
-  static void MeshTangents(Php::Parameters &params) {
-    ::Mesh *p0 = &((Mesh *)(params[0].implementation()))->data;
-    ::MeshTangents(p0);
+  static void SetMaterialTexture(Php::Parameters &params) {
+    ::Material *p0 = &((Material *)(params[0].implementation()))->data;
+    int p1 = params[1];
+    ::Texture2D p2 = ((Texture2D *)(params[2].implementation()))->data;
+    ::SetMaterialTexture(p0, p1, p2);
   }
 
-  static void MeshBinormals(Php::Parameters &params) {
-    ::Mesh *p0 = &((Mesh *)(params[0].implementation()))->data;
-    ::MeshBinormals(p0);
+  static void SetModelMeshMaterial(Php::Parameters &params) {
+    ::Model *p0 = &((Model *)(params[0].implementation()))->data;
+    int p1 = params[1];
+    int p2 = params[2];
+    ::SetModelMeshMaterial(p0, p1, p2);
+  }
+
+  static void UpdateModelAnimation(Php::Parameters &params) {
+    ::Model p0 = ((Model *)(params[0].implementation()))->data;
+    ::ModelAnimation p1 =
+        ((ModelAnimation *)(params[1].implementation()))->data;
+    int p2 = params[2];
+    ::UpdateModelAnimation(p0, p1, p2);
+  }
+
+  static void UnloadModelAnimation(Php::Parameters &params) {
+    ::ModelAnimation p0 =
+        ((ModelAnimation *)(params[0].implementation()))->data;
+    ::UnloadModelAnimation(p0);
+  }
+
+  static Php::Value IsModelAnimationValid(Php::Parameters &params) {
+    ::Model p0 = ((Model *)(params[0].implementation()))->data;
+    ::ModelAnimation p1 =
+        ((ModelAnimation *)(params[1].implementation()))->data;
+    int result = ::IsModelAnimationValid(p0, p1);
+    return result;
   }
 
   static Php::Value GenMeshPoly(Php::Parameters &params) {
@@ -2440,20 +2585,20 @@ public:
     return Php::Object("RayLib\\Mesh", new Mesh(result));
   }
 
-  static Php::Value LoadMaterial(Php::Parameters &params) {
-    string p0 = params[0];
-    Material result = ::LoadMaterial(p0.c_str());
-    return Php::Object("RayLib\\Material", new Material(result));
+  static Php::Value MeshBoundingBox(Php::Parameters &params) {
+    ::Mesh p0 = ((Mesh *)(params[0].implementation()))->data;
+    BoundingBox result = ::MeshBoundingBox(p0);
+    return Php::Object("RayLib\\BoundingBox", new BoundingBox(result));
   }
 
-  static Php::Value LoadMaterialDefault(Php::Parameters &params) {
-    Material result = ::LoadMaterialDefault();
-    return Php::Object("RayLib\\Material", new Material(result));
+  static void MeshTangents(Php::Parameters &params) {
+    ::Mesh *p0 = &((Mesh *)(params[0].implementation()))->data;
+    ::MeshTangents(p0);
   }
 
-  static void UnloadMaterial(Php::Parameters &params) {
-    ::Material p0 = ((Material *)(params[0].implementation()))->data;
-    ::UnloadMaterial(p0);
+  static void MeshBinormals(Php::Parameters &params) {
+    ::Mesh *p0 = &((Mesh *)(params[0].implementation()))->data;
+    ::MeshBinormals(p0);
   }
 
   static void DrawModel(Php::Parameters &params) {
@@ -2624,6 +2769,13 @@ public:
     ::SetShaderValueMatrix(p0, p1, p2);
   }
 
+  static void SetShaderValueTexture(Php::Parameters &params) {
+    ::Shader p0 = ((Shader *)(params[0].implementation()))->data;
+    int p1 = params[1];
+    ::Texture2D p2 = ((Texture2D *)(params[2].implementation()))->data;
+    ::SetShaderValueTexture(p0, p1, p2);
+  }
+
   static void SetMatrixProjection(Php::Parameters &params) {
     ::Matrix p0 = ((Matrix *)(params[0].implementation()))->data;
     ::SetMatrixProjection(p0);
@@ -2694,15 +2846,10 @@ public:
 
   static void EndScissorMode(Php::Parameters &params) { ::EndScissorMode(); }
 
-  static Php::Value GetVrDeviceInfo(Php::Parameters &params) {
-    int p0 = params[0];
-    VrDeviceInfo result = ::GetVrDeviceInfo(p0);
-    return Php::Object("RayLib\\VrDeviceInfo", new VrDeviceInfo(result));
-  }
+  static void InitVrSimulator(Php::Parameters &params) { ::InitVrSimulator(); }
 
-  static void InitVrSimulator(Php::Parameters &params) {
-    ::VrDeviceInfo p0 = ((VrDeviceInfo *)(params[0].implementation()))->data;
-    ::InitVrSimulator(p0);
+  static void CloseVrSimulator(Php::Parameters &params) {
+    ::CloseVrSimulator();
   }
 
   static void UpdateVrTracking(Php::Parameters &params) {
@@ -2710,8 +2857,10 @@ public:
     ::UpdateVrTracking(p0);
   }
 
-  static void CloseVrSimulator(Php::Parameters &params) {
-    ::CloseVrSimulator();
+  static void SetVrConfiguration(Php::Parameters &params) {
+    ::VrDeviceInfo p0 = ((VrDeviceInfo *)(params[0].implementation()))->data;
+    ::Shader p1 = ((Shader *)(params[1].implementation()))->data;
+    ::SetVrConfiguration(p0, p1);
   }
 
   static Php::Value IsVrSimulatorReady(Php::Parameters &params) {
@@ -3075,13 +3224,6 @@ public:
                        new Camera2D(::Camera2D{p0, p1, p2, p3}));
   }
 
-  static Php::Value createBoundingBox(Php::Parameters &params) {
-    ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
-    ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
-    return Php::Object("RayLib\\BoundingBox",
-                       new BoundingBox(::BoundingBox{p0, p1}));
-  }
-
   static Php::Value createMaterialMap(Php::Parameters &params) {
     ::Texture2D p0 = ((Texture2D *)(params[0].implementation()))->data;
     ::Color p1 = ((Color *)(params[1].implementation()))->data;
@@ -3090,11 +3232,12 @@ public:
                        new MaterialMap(::MaterialMap{p0, p1, p2}));
   }
 
-  static Php::Value createModel(Php::Parameters &params) {
-    ::Mesh p0 = ((Mesh *)(params[0].implementation()))->data;
-    ::Matrix p1 = ((Matrix *)(params[1].implementation()))->data;
-    ::Material p2 = ((Material *)(params[2].implementation()))->data;
-    return Php::Object("RayLib\\Model", new Model(::Model{p0, p1, p2}));
+  static Php::Value createTransform(Php::Parameters &params) {
+    ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+    ::Vector4 p1 = ((Vector4 *)(params[1].implementation()))->data;
+    ::Vector3 p2 = ((Vector3 *)(params[2].implementation()))->data;
+    return Php::Object("RayLib\\Transform",
+                       new Transform(::Transform{p0, p1, p2}));
   }
 
   static Php::Value createRay(Php::Parameters &params) {
@@ -3107,9 +3250,11 @@ public:
     return Php::Object("RayLib\\RayHitInfo", new RayHitInfo(::RayHitInfo{}));
   }
 
-  static Php::Value createVrStereoConfig(Php::Parameters &params) {
-    return Php::Object("RayLib\\VrStereoConfig",
-                       new VrStereoConfig(::VrStereoConfig{}));
+  static Php::Value createBoundingBox(Php::Parameters &params) {
+    ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+    ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
+    return Php::Object("RayLib\\BoundingBox",
+                       new BoundingBox(::BoundingBox{p0, p1}));
   }
 
   static Php::Value getColorLIGHTGRAY() {
@@ -3341,11 +3486,6 @@ PHPCPP_EXPORT void *get_module() {
                       &Camera2D::setrotation);
   rlCamera2D.property("zoom", &Camera2D::getzoom, &Camera2D::setzoom);
 
-  Php::Class<BoundingBox> rlBoundingBox("BoundingBox");
-  rlNamespace.add(rlBoundingBox);
-  rlBoundingBox.property("min", &BoundingBox::getmin, &BoundingBox::setmin);
-  rlBoundingBox.property("max", &BoundingBox::getmax, &BoundingBox::setmax);
-
   Php::Class<Mesh> rlMesh("Mesh");
   rlNamespace.add(rlMesh);
   rlMesh.property("vertexCount", &Mesh::getvertexCount, &Mesh::setvertexCount);
@@ -3373,11 +3513,33 @@ PHPCPP_EXPORT void *get_module() {
   rlMaterial.property("shader", &Material::getshader, &Material::setshader);
   rlMaterial.property("maps", &Material::getmaps, &Material::setmaps);
 
+  Php::Class<Transform> rlTransform("Transform");
+  rlNamespace.add(rlTransform);
+  rlTransform.property("translation", &Transform::gettranslation,
+                       &Transform::settranslation);
+  rlTransform.property("rotation", &Transform::getrotation,
+                       &Transform::setrotation);
+  rlTransform.property("scale", &Transform::getscale, &Transform::setscale);
+
+  Php::Class<BoneInfo> rlBoneInfo("BoneInfo");
+  rlNamespace.add(rlBoneInfo);
+  rlBoneInfo.property("name", &BoneInfo::getname, &BoneInfo::setname);
+  rlBoneInfo.property("parent", &BoneInfo::getparent, &BoneInfo::setparent);
+
   Php::Class<Model> rlModel("Model");
   rlNamespace.add(rlModel);
-  rlModel.property("mesh", &Model::getmesh, &Model::setmesh);
   rlModel.property("transform", &Model::gettransform, &Model::settransform);
-  rlModel.property("material", &Model::getmaterial, &Model::setmaterial);
+  rlModel.property("meshCount", &Model::getmeshCount, &Model::setmeshCount);
+  rlModel.property("materialCount", &Model::getmaterialCount,
+                   &Model::setmaterialCount);
+  rlModel.property("boneCount", &Model::getboneCount, &Model::setboneCount);
+
+  Php::Class<ModelAnimation> rlModelAnimation("ModelAnimation");
+  rlNamespace.add(rlModelAnimation);
+  rlModelAnimation.property("boneCount", &ModelAnimation::getboneCount,
+                            &ModelAnimation::setboneCount);
+  rlModelAnimation.property("frameCount", &ModelAnimation::getframeCount,
+                            &ModelAnimation::setframeCount);
 
   Php::Class<Ray> rlRay("Ray");
   rlNamespace.add(rlRay);
@@ -3386,6 +3548,11 @@ PHPCPP_EXPORT void *get_module() {
 
   Php::Class<RayHitInfo> rlRayHitInfo("RayHitInfo");
   rlNamespace.add(rlRayHitInfo);
+
+  Php::Class<BoundingBox> rlBoundingBox("BoundingBox");
+  rlNamespace.add(rlBoundingBox);
+  rlBoundingBox.property("min", &BoundingBox::getmin, &BoundingBox::setmin);
+  rlBoundingBox.property("max", &BoundingBox::getmax, &BoundingBox::setmax);
 
   Php::Class<Wave> rlWave("Wave");
   rlNamespace.add(rlWave);
@@ -3442,9 +3609,6 @@ PHPCPP_EXPORT void *get_module() {
   rlVrDeviceInfo.property("chromaAbCorrection",
                           &VrDeviceInfo::getchromaAbCorrection,
                           &VrDeviceInfo::setchromaAbCorrection);
-
-  Php::Class<VrStereoConfig> rlVrStereoConfig("VrStereoConfig");
-  rlNamespace.add(rlVrStereoConfig);
 
   Php::Class<Music> rlMusic("Music");
   rlNamespace.add(rlMusic);
@@ -3567,9 +3731,12 @@ PHPCPP_EXPORT void *get_module() {
   rlClass.method<&RL::DrawLineBezier>("DrawLineBezier");
   rlClass.method<&RL::DrawCircle>("DrawCircle");
   rlClass.method<&RL::DrawCircleSector>("DrawCircleSector");
+  rlClass.method<&RL::DrawCircleSectorLines>("DrawCircleSectorLines");
   rlClass.method<&RL::DrawCircleGradient>("DrawCircleGradient");
   rlClass.method<&RL::DrawCircleV>("DrawCircleV");
   rlClass.method<&RL::DrawCircleLines>("DrawCircleLines");
+  rlClass.method<&RL::DrawRing>("DrawRing");
+  rlClass.method<&RL::DrawRingLines>("DrawRingLines");
   rlClass.method<&RL::DrawRectangle>("DrawRectangle");
   rlClass.method<&RL::DrawRectangleV>("DrawRectangleV");
   rlClass.method<&RL::DrawRectangleRec>("DrawRectangleRec");
@@ -3579,6 +3746,8 @@ PHPCPP_EXPORT void *get_module() {
   rlClass.method<&RL::DrawRectangleGradientEx>("DrawRectangleGradientEx");
   rlClass.method<&RL::DrawRectangleLines>("DrawRectangleLines");
   rlClass.method<&RL::DrawRectangleLinesEx>("DrawRectangleLinesEx");
+  rlClass.method<&RL::DrawRectangleRounded>("DrawRectangleRounded");
+  rlClass.method<&RL::DrawRectangleRoundedLines>("DrawRectangleRoundedLines");
   rlClass.method<&RL::DrawTriangle>("DrawTriangle");
   rlClass.method<&RL::DrawTriangleLines>("DrawTriangleLines");
   rlClass.method<&RL::DrawPoly>("DrawPoly");
@@ -3607,6 +3776,7 @@ PHPCPP_EXPORT void *get_module() {
   rlClass.method<&RL::UnloadRenderTexture>("UnloadRenderTexture");
   rlClass.method<&RL::GetPixelDataSize>("GetPixelDataSize");
   rlClass.method<&RL::GetTextureData>("GetTextureData");
+  rlClass.method<&RL::GetScreenData>("GetScreenData");
   rlClass.method<&RL::ImageCopy>("ImageCopy");
   rlClass.method<&RL::ImageToPOT>("ImageToPOT");
   rlClass.method<&RL::ImageFormat>("ImageFormat");
@@ -3673,6 +3843,7 @@ PHPCPP_EXPORT void *get_module() {
   rlClass.method<&RL::DrawCube>("DrawCube");
   rlClass.method<&RL::DrawCubeV>("DrawCubeV");
   rlClass.method<&RL::DrawCubeWires>("DrawCubeWires");
+  rlClass.method<&RL::DrawCubeWiresV>("DrawCubeWiresV");
   rlClass.method<&RL::DrawCubeTexture>("DrawCubeTexture");
   rlClass.method<&RL::DrawSphere>("DrawSphere");
   rlClass.method<&RL::DrawSphereEx>("DrawSphereEx");
@@ -3686,12 +3857,15 @@ PHPCPP_EXPORT void *get_module() {
   rlClass.method<&RL::LoadModel>("LoadModel");
   rlClass.method<&RL::LoadModelFromMesh>("LoadModelFromMesh");
   rlClass.method<&RL::UnloadModel>("UnloadModel");
-  rlClass.method<&RL::LoadMesh>("LoadMesh");
-  rlClass.method<&RL::UnloadMesh>("UnloadMesh");
   rlClass.method<&RL::ExportMesh>("ExportMesh");
-  rlClass.method<&RL::MeshBoundingBox>("MeshBoundingBox");
-  rlClass.method<&RL::MeshTangents>("MeshTangents");
-  rlClass.method<&RL::MeshBinormals>("MeshBinormals");
+  rlClass.method<&RL::UnloadMesh>("UnloadMesh");
+  rlClass.method<&RL::LoadMaterialDefault>("LoadMaterialDefault");
+  rlClass.method<&RL::UnloadMaterial>("UnloadMaterial");
+  rlClass.method<&RL::SetMaterialTexture>("SetMaterialTexture");
+  rlClass.method<&RL::SetModelMeshMaterial>("SetModelMeshMaterial");
+  rlClass.method<&RL::UpdateModelAnimation>("UpdateModelAnimation");
+  rlClass.method<&RL::UnloadModelAnimation>("UnloadModelAnimation");
+  rlClass.method<&RL::IsModelAnimationValid>("IsModelAnimationValid");
   rlClass.method<&RL::GenMeshPoly>("GenMeshPoly");
   rlClass.method<&RL::GenMeshPlane>("GenMeshPlane");
   rlClass.method<&RL::GenMeshCube>("GenMeshCube");
@@ -3702,9 +3876,9 @@ PHPCPP_EXPORT void *get_module() {
   rlClass.method<&RL::GenMeshKnot>("GenMeshKnot");
   rlClass.method<&RL::GenMeshHeightmap>("GenMeshHeightmap");
   rlClass.method<&RL::GenMeshCubicmap>("GenMeshCubicmap");
-  rlClass.method<&RL::LoadMaterial>("LoadMaterial");
-  rlClass.method<&RL::LoadMaterialDefault>("LoadMaterialDefault");
-  rlClass.method<&RL::UnloadMaterial>("UnloadMaterial");
+  rlClass.method<&RL::MeshBoundingBox>("MeshBoundingBox");
+  rlClass.method<&RL::MeshTangents>("MeshTangents");
+  rlClass.method<&RL::MeshBinormals>("MeshBinormals");
   rlClass.method<&RL::DrawModel>("DrawModel");
   rlClass.method<&RL::DrawModelEx>("DrawModelEx");
   rlClass.method<&RL::DrawModelWires>("DrawModelWires");
@@ -3727,6 +3901,7 @@ PHPCPP_EXPORT void *get_module() {
   rlClass.method<&RL::GetTextureDefault>("GetTextureDefault");
   rlClass.method<&RL::GetShaderLocation>("GetShaderLocation");
   rlClass.method<&RL::SetShaderValueMatrix>("SetShaderValueMatrix");
+  rlClass.method<&RL::SetShaderValueTexture>("SetShaderValueTexture");
   rlClass.method<&RL::SetMatrixProjection>("SetMatrixProjection");
   rlClass.method<&RL::SetMatrixModelview>("SetMatrixModelview");
   rlClass.method<&RL::GetMatrixModelview>("GetMatrixModelview");
@@ -3740,10 +3915,10 @@ PHPCPP_EXPORT void *get_module() {
   rlClass.method<&RL::EndBlendMode>("EndBlendMode");
   rlClass.method<&RL::BeginScissorMode>("BeginScissorMode");
   rlClass.method<&RL::EndScissorMode>("EndScissorMode");
-  rlClass.method<&RL::GetVrDeviceInfo>("GetVrDeviceInfo");
   rlClass.method<&RL::InitVrSimulator>("InitVrSimulator");
-  rlClass.method<&RL::UpdateVrTracking>("UpdateVrTracking");
   rlClass.method<&RL::CloseVrSimulator>("CloseVrSimulator");
+  rlClass.method<&RL::UpdateVrTracking>("UpdateVrTracking");
+  rlClass.method<&RL::SetVrConfiguration>("SetVrConfiguration");
   rlClass.method<&RL::IsVrSimulatorReady>("IsVrSimulatorReady");
   rlClass.method<&RL::ToggleVrMode>("ToggleVrMode");
   rlClass.method<&RL::BeginVrDrawing>("BeginVrDrawing");
@@ -3803,12 +3978,11 @@ PHPCPP_EXPORT void *get_module() {
   rlClass.method<&RL::createNPatchInfo>("NPatchInfo");
   rlClass.method<&RL::createCamera3D>("Camera3D");
   rlClass.method<&RL::createCamera2D>("Camera2D");
-  rlClass.method<&RL::createBoundingBox>("BoundingBox");
   rlClass.method<&RL::createMaterialMap>("MaterialMap");
-  rlClass.method<&RL::createModel>("Model");
+  rlClass.method<&RL::createTransform>("Transform");
   rlClass.method<&RL::createRay>("Ray");
   rlClass.method<&RL::createRayHitInfo>("RayHitInfo");
-  rlClass.method<&RL::createVrStereoConfig>("VrStereoConfig");
+  rlClass.method<&RL::createBoundingBox>("BoundingBox");
   rlClass.property("FLAG_SHOW_LOGO", 1, Php::Const);
   rlClass.property("FLAG_FULLSCREEN_MODE", 2, Php::Const);
   rlClass.property("FLAG_WINDOW_RESIZABLE", 4, Php::Const);
@@ -4102,12 +4276,6 @@ PHPCPP_EXPORT void *get_module() {
   rlClass.property("CAMERA_THIRD_PERSON", 4, Php::Const);
   rlClass.property("CAMERA_PERSPECTIVE", 0, Php::Const);
   rlClass.property("CAMERA_ORTHOGRAPHIC", 1, Php::Const);
-  rlClass.property("HMD_DEFAULT_DEVICE", 0, Php::Const);
-  rlClass.property("HMD_OCULUS_RIFT_DK2", 1, Php::Const);
-  rlClass.property("HMD_OCULUS_RIFT_CV1", 2, Php::Const);
-  rlClass.property("HMD_OCULUS_GO", 3, Php::Const);
-  rlClass.property("HMD_VALVE_HTC_VIVE", 4, Php::Const);
-  rlClass.property("HMD_SONY_PSVR", 5, Php::Const);
   rlClass.property("NPT_9PATCH", 0, Php::Const);
   rlClass.property("NPT_3PATCH_VERTICAL", 1, Php::Const);
   rlClass.property("NPT_3PATCH_HORIZONTAL", 2, Php::Const);
@@ -4147,4 +4315,5 @@ PHPCPP_EXPORT void *get_module() {
   return extension.module();
 }
 }
+
 } // namespace rl

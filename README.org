@@ -118,6 +118,10 @@ The binding is auto-generated from ~raylib.h~, most functions and features are s
   + TextToLower
   + TextToPascal
   + TextToInteger
++ models
+  + LoadMeshes
+  + LoadMaterials
+  + LoadModelAnimations
 + rlgl
   + LoadText
   + LoadShaderCode
@@ -138,7 +142,7 @@ Currently, the code generator is too dumb to handle ~void *~ and array.
 Requirements:
 
 + PHP 7.3
-+ PHP-CPP 2.1.4
++ PHP-CPP 2.2
 + raylib latest master
 
 ** License
