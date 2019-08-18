@@ -270,6 +270,32 @@ class RenderTexture2D : public Php::Base {
 public:
   ::RenderTexture2D data;
   RenderTexture2D(::RenderTexture2D x) { data = x; }
+  Php::Value getid() {
+    long result = data.id;
+    return result;
+  }
+  Php::Value gettexture() {
+    Php::Value result =
+        Php::Object("RayLib\\Texture2D", new Texture2D(data.texture));
+    return result;
+  }
+  Php::Value getdepth() {
+    Php::Value result =
+        Php::Object("RayLib\\Texture2D", new Texture2D(data.depth));
+    return result;
+  }
+  Php::Value getdepthTexture() {
+    bool result = data.depthTexture;
+    return result;
+  }
+  void setid(const Php::Value &v) { data.id = (long)v; }
+  void settexture(const Php::Value &v) {
+    data.texture = ((Texture2D *)(v.implementation()))->data;
+  }
+  void setdepth(const Php::Value &v) {
+    data.depth = ((Texture2D *)(v.implementation()))->data;
+  }
+  void setdepthTexture(const Php::Value &v) { data.depthTexture = (bool)v; }
 };
 
 class NPatchInfo : public Php::Base {
@@ -631,6 +657,32 @@ class RayHitInfo : public Php::Base {
 public:
   ::RayHitInfo data;
   RayHitInfo(::RayHitInfo x) { data = x; }
+  Php::Value gethit() {
+    bool result = data.hit;
+    return result;
+  }
+  Php::Value getdistance() {
+    double result = data.distance;
+    return result;
+  }
+  Php::Value getposition() {
+    Php::Value result =
+        Php::Object("RayLib\\Vector3", new Vector3(data.position));
+    return result;
+  }
+  Php::Value getnormal() {
+    Php::Value result =
+        Php::Object("RayLib\\Vector3", new Vector3(data.normal));
+    return result;
+  }
+  void sethit(const Php::Value &v) { data.hit = (bool)v; }
+  void setdistance(const Php::Value &v) { data.distance = (double)v; }
+  void setposition(const Php::Value &v) {
+    data.position = ((Vector3 *)(v.implementation()))->data;
+  }
+  void setnormal(const Php::Value &v) {
+    data.normal = ((Vector3 *)(v.implementation()))->data;
+  }
 };
 
 class BoundingBox : public Php::Base {
@@ -677,6 +729,80 @@ public:
   void setsampleRate(const Php::Value &v) { data.sampleRate = (long)v; }
   void setsampleSize(const Php::Value &v) { data.sampleSize = (long)v; }
   void setchannels(const Php::Value &v) { data.channels = (long)v; }
+};
+
+class AudioStream : public Php::Base {
+public:
+  ::AudioStream data;
+  AudioStream(::AudioStream x) { data = x; }
+  Php::Value getsampleRate() {
+    long result = data.sampleRate;
+    return result;
+  }
+  Php::Value getsampleSize() {
+    long result = data.sampleSize;
+    return result;
+  }
+  Php::Value getchannels() {
+    long result = data.channels;
+    return result;
+  }
+  void setsampleRate(const Php::Value &v) { data.sampleRate = (long)v; }
+  void setsampleSize(const Php::Value &v) { data.sampleSize = (long)v; }
+  void setchannels(const Php::Value &v) { data.channels = (long)v; }
+};
+
+class Sound : public Php::Base {
+public:
+  ::Sound data;
+  Sound(::Sound x) { data = x; }
+  Php::Value getsampleCount() {
+    long result = data.sampleCount;
+    return result;
+  }
+  Php::Value getstream() {
+    Php::Value result =
+        Php::Object("RayLib\\AudioStream", new AudioStream(data.stream));
+    return result;
+  }
+  void setsampleCount(const Php::Value &v) { data.sampleCount = (long)v; }
+  void setstream(const Php::Value &v) {
+    data.stream = ((AudioStream *)(v.implementation()))->data;
+  }
+};
+
+class Music : public Php::Base {
+public:
+  ::Music data;
+  Music(::Music x) { data = x; }
+  Php::Value getctxType() {
+    int result = data.ctxType;
+    return result;
+  }
+  Php::Value getsampleCount() {
+    long result = data.sampleCount;
+    return result;
+  }
+  Php::Value getsampleLeft() {
+    long result = data.sampleLeft;
+    return result;
+  }
+  Php::Value getloopCount() {
+    long result = data.loopCount;
+    return result;
+  }
+  Php::Value getstream() {
+    Php::Value result =
+        Php::Object("RayLib\\AudioStream", new AudioStream(data.stream));
+    return result;
+  }
+  void setctxType(const Php::Value &v) { data.ctxType = (int)v; }
+  void setsampleCount(const Php::Value &v) { data.sampleCount = (long)v; }
+  void setsampleLeft(const Php::Value &v) { data.sampleLeft = (long)v; }
+  void setloopCount(const Php::Value &v) { data.loopCount = (long)v; }
+  void setstream(const Php::Value &v) {
+    data.stream = ((AudioStream *)(v.implementation()))->data;
+  }
 };
 
 class VrDeviceInfo : public Php::Base {
@@ -755,12 +881,6 @@ public:
   }
 };
 
-class TraceLogCallback : public Php::Base {
-public:
-  ::TraceLogCallback data;
-  TraceLogCallback(::TraceLogCallback x) { data = x; }
-};
-
 class RL : public Php::Base {
 public:
   RL() {}
@@ -776,29 +896,29 @@ public:
   }
 
   static Php::Value WindowShouldClose(Php::Parameters &params) {
-    int result = ::WindowShouldClose();
+    bool result = ::WindowShouldClose();
     return result;
   }
 
   static void CloseWindow(Php::Parameters &params) { ::CloseWindow(); }
 
   static Php::Value IsWindowReady(Php::Parameters &params) {
-    int result = ::IsWindowReady();
+    bool result = ::IsWindowReady();
     return result;
   }
 
   static Php::Value IsWindowMinimized(Php::Parameters &params) {
-    int result = ::IsWindowMinimized();
+    bool result = ::IsWindowMinimized();
     return result;
   }
 
   static Php::Value IsWindowResized(Php::Parameters &params) {
-    int result = ::IsWindowResized();
+    bool result = ::IsWindowResized();
     return result;
   }
 
   static Php::Value IsWindowHidden(Php::Parameters &params) {
-    int result = ::IsWindowHidden();
+    bool result = ::IsWindowHidden();
     return result;
   }
 
@@ -904,7 +1024,7 @@ public:
   static void HideCursor(Php::Parameters &params) { ::HideCursor(); }
 
   static Php::Value IsCursorHidden(Php::Parameters &params) {
-    int result = ::IsCursorHidden();
+    bool result = ::IsCursorHidden();
     return result;
   }
 
@@ -1035,12 +1155,6 @@ public:
     ::SetTraceLogExit(p0);
   }
 
-  static void SetTraceLogCallback(Php::Parameters &params) {
-    ::TraceLogCallback p0 =
-        ((TraceLogCallback *)(params[0].implementation()))->data;
-    ::SetTraceLogCallback(p0);
-  }
-
   static void TraceLog(Php::Parameters &params) {
     int p0 = params[0];
     string p1 = params[1];
@@ -1061,20 +1175,20 @@ public:
 
   static Php::Value FileExists(Php::Parameters &params) {
     string p0 = params[0];
-    int result = ::FileExists(p0.c_str());
+    bool result = ::FileExists(p0.c_str());
     return result;
   }
 
   static Php::Value IsFileExtension(Php::Parameters &params) {
     string p0 = params[0];
     string p1 = params[1];
-    int result = ::IsFileExtension(p0.c_str(), p1.c_str());
+    bool result = ::IsFileExtension(p0.c_str(), p1.c_str());
     return result;
   }
 
   static Php::Value DirectoryExists(Php::Parameters &params) {
     string p0 = params[0];
-    int result = ::DirectoryExists(p0.c_str());
+    bool result = ::DirectoryExists(p0.c_str());
     return result;
   }
 
@@ -1120,12 +1234,12 @@ public:
 
   static Php::Value ChangeDirectory(Php::Parameters &params) {
     string p0 = params[0];
-    int result = ::ChangeDirectory(p0.c_str());
+    bool result = ::ChangeDirectory(p0.c_str());
     return result;
   }
 
   static Php::Value IsFileDropped(Php::Parameters &params) {
-    int result = ::IsFileDropped();
+    bool result = ::IsFileDropped();
     return result;
   }
 
@@ -1159,25 +1273,25 @@ public:
 
   static Php::Value IsKeyPressed(Php::Parameters &params) {
     int p0 = params[0];
-    int result = ::IsKeyPressed(p0);
+    bool result = ::IsKeyPressed(p0);
     return result;
   }
 
   static Php::Value IsKeyDown(Php::Parameters &params) {
     int p0 = params[0];
-    int result = ::IsKeyDown(p0);
+    bool result = ::IsKeyDown(p0);
     return result;
   }
 
   static Php::Value IsKeyReleased(Php::Parameters &params) {
     int p0 = params[0];
-    int result = ::IsKeyReleased(p0);
+    bool result = ::IsKeyReleased(p0);
     return result;
   }
 
   static Php::Value IsKeyUp(Php::Parameters &params) {
     int p0 = params[0];
-    int result = ::IsKeyUp(p0);
+    bool result = ::IsKeyUp(p0);
     return result;
   }
 
@@ -1193,14 +1307,14 @@ public:
 
   static Php::Value IsGamepadAvailable(Php::Parameters &params) {
     int p0 = params[0];
-    int result = ::IsGamepadAvailable(p0);
+    bool result = ::IsGamepadAvailable(p0);
     return result;
   }
 
   static Php::Value IsGamepadName(Php::Parameters &params) {
     int p0 = params[0];
     string p1 = params[1];
-    int result = ::IsGamepadName(p0, p1.c_str());
+    bool result = ::IsGamepadName(p0, p1.c_str());
     return result;
   }
 
@@ -1213,28 +1327,28 @@ public:
   static Php::Value IsGamepadButtonPressed(Php::Parameters &params) {
     int p0 = params[0];
     int p1 = params[1];
-    int result = ::IsGamepadButtonPressed(p0, p1);
+    bool result = ::IsGamepadButtonPressed(p0, p1);
     return result;
   }
 
   static Php::Value IsGamepadButtonDown(Php::Parameters &params) {
     int p0 = params[0];
     int p1 = params[1];
-    int result = ::IsGamepadButtonDown(p0, p1);
+    bool result = ::IsGamepadButtonDown(p0, p1);
     return result;
   }
 
   static Php::Value IsGamepadButtonReleased(Php::Parameters &params) {
     int p0 = params[0];
     int p1 = params[1];
-    int result = ::IsGamepadButtonReleased(p0, p1);
+    bool result = ::IsGamepadButtonReleased(p0, p1);
     return result;
   }
 
   static Php::Value IsGamepadButtonUp(Php::Parameters &params) {
     int p0 = params[0];
     int p1 = params[1];
-    int result = ::IsGamepadButtonUp(p0, p1);
+    bool result = ::IsGamepadButtonUp(p0, p1);
     return result;
   }
 
@@ -1258,25 +1372,25 @@ public:
 
   static Php::Value IsMouseButtonPressed(Php::Parameters &params) {
     int p0 = params[0];
-    int result = ::IsMouseButtonPressed(p0);
+    bool result = ::IsMouseButtonPressed(p0);
     return result;
   }
 
   static Php::Value IsMouseButtonDown(Php::Parameters &params) {
     int p0 = params[0];
-    int result = ::IsMouseButtonDown(p0);
+    bool result = ::IsMouseButtonDown(p0);
     return result;
   }
 
   static Php::Value IsMouseButtonReleased(Php::Parameters &params) {
     int p0 = params[0];
-    int result = ::IsMouseButtonReleased(p0);
+    bool result = ::IsMouseButtonReleased(p0);
     return result;
   }
 
   static Php::Value IsMouseButtonUp(Php::Parameters &params) {
     int p0 = params[0];
-    int result = ::IsMouseButtonUp(p0);
+    bool result = ::IsMouseButtonUp(p0);
     return result;
   }
 
@@ -1341,7 +1455,7 @@ public:
 
   static Php::Value IsGestureDetected(Php::Parameters &params) {
     int p0 = params[0];
-    int result = ::IsGestureDetected(p0);
+    bool result = ::IsGestureDetected(p0);
     return result;
   }
 
@@ -1682,7 +1796,7 @@ public:
   static Php::Value CheckCollisionRecs(Php::Parameters &params) {
     ::Rectangle p0 = ((Rectangle *)(params[0].implementation()))->data;
     ::Rectangle p1 = ((Rectangle *)(params[1].implementation()))->data;
-    int result = ::CheckCollisionRecs(p0, p1);
+    bool result = ::CheckCollisionRecs(p0, p1);
     return result;
   }
 
@@ -1691,7 +1805,7 @@ public:
     double p1 = params[1];
     ::Vector2 p2 = ((Vector2 *)(params[2].implementation()))->data;
     double p3 = params[3];
-    int result = ::CheckCollisionCircles(p0, p1, p2, p3);
+    bool result = ::CheckCollisionCircles(p0, p1, p2, p3);
     return result;
   }
 
@@ -1699,7 +1813,7 @@ public:
     ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
     double p1 = params[1];
     ::Rectangle p2 = ((Rectangle *)(params[2].implementation()))->data;
-    int result = ::CheckCollisionCircleRec(p0, p1, p2);
+    bool result = ::CheckCollisionCircleRec(p0, p1, p2);
     return result;
   }
 
@@ -1713,7 +1827,7 @@ public:
   static Php::Value CheckCollisionPointRec(Php::Parameters &params) {
     ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
     ::Rectangle p1 = ((Rectangle *)(params[1].implementation()))->data;
-    int result = ::CheckCollisionPointRec(p0, p1);
+    bool result = ::CheckCollisionPointRec(p0, p1);
     return result;
   }
 
@@ -1721,7 +1835,7 @@ public:
     ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
     ::Vector2 p1 = ((Vector2 *)(params[1].implementation()))->data;
     double p2 = params[2];
-    int result = ::CheckCollisionPointCircle(p0, p1, p2);
+    bool result = ::CheckCollisionPointCircle(p0, p1, p2);
     return result;
   }
 
@@ -1730,7 +1844,7 @@ public:
     ::Vector2 p1 = ((Vector2 *)(params[1].implementation()))->data;
     ::Vector2 p2 = ((Vector2 *)(params[2].implementation()))->data;
     ::Vector2 p3 = ((Vector2 *)(params[3].implementation()))->data;
-    int result = ::CheckCollisionPointTriangle(p0, p1, p2, p3);
+    bool result = ::CheckCollisionPointTriangle(p0, p1, p2, p3);
     return result;
   }
 
@@ -2258,7 +2372,7 @@ public:
     ::Rectangle p2 = ((Rectangle *)(params[2].implementation()))->data;
     double p3 = params[3];
     double p4 = params[4];
-    int p5 = params[5];
+    bool p5 = params[5];
     ::Color p6 = ((Color *)(params[6].implementation()))->data;
     ::DrawTextRec(p0, p1.c_str(), p2, p3, p4, p5, p6);
   }
@@ -2269,7 +2383,7 @@ public:
     ::Rectangle p2 = ((Rectangle *)(params[2].implementation()))->data;
     double p3 = params[3];
     double p4 = params[4];
-    int p5 = params[5];
+    bool p5 = params[5];
     ::Color p6 = ((Color *)(params[6].implementation()))->data;
     int p7 = params[7];
     int p8 = params[8];
@@ -2494,7 +2608,7 @@ public:
     ::Model p0 = ((Model *)(params[0].implementation()))->data;
     ::ModelAnimation p1 =
         ((ModelAnimation *)(params[1].implementation()))->data;
-    int result = ::IsModelAnimationValid(p0, p1);
+    bool result = ::IsModelAnimationValid(p0, p1);
     return result;
   }
 
@@ -2660,14 +2774,14 @@ public:
     double p1 = params[1];
     ::Vector3 p2 = ((Vector3 *)(params[2].implementation()))->data;
     double p3 = params[3];
-    int result = ::CheckCollisionSpheres(p0, p1, p2, p3);
+    bool result = ::CheckCollisionSpheres(p0, p1, p2, p3);
     return result;
   }
 
   static Php::Value CheckCollisionBoxes(Php::Parameters &params) {
     ::BoundingBox p0 = ((BoundingBox *)(params[0].implementation()))->data;
     ::BoundingBox p1 = ((BoundingBox *)(params[1].implementation()))->data;
-    int result = ::CheckCollisionBoxes(p0, p1);
+    bool result = ::CheckCollisionBoxes(p0, p1);
     return result;
   }
 
@@ -2675,7 +2789,7 @@ public:
     ::BoundingBox p0 = ((BoundingBox *)(params[0].implementation()))->data;
     ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
     double p2 = params[2];
-    int result = ::CheckCollisionBoxSphere(p0, p1, p2);
+    bool result = ::CheckCollisionBoxSphere(p0, p1, p2);
     return result;
   }
 
@@ -2683,7 +2797,7 @@ public:
     ::Ray p0 = ((Ray *)(params[0].implementation()))->data;
     ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
     double p2 = params[2];
-    int result = ::CheckCollisionRaySphere(p0, p1, p2);
+    bool result = ::CheckCollisionRaySphere(p0, p1, p2);
     return result;
   }
 
@@ -2692,14 +2806,14 @@ public:
     ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
     double p2 = params[2];
     ::Vector3 *p3 = &((Vector3 *)(params[3].implementation()))->data;
-    int result = ::CheckCollisionRaySphereEx(p0, p1, p2, p3);
+    bool result = ::CheckCollisionRaySphereEx(p0, p1, p2, p3);
     return result;
   }
 
   static Php::Value CheckCollisionRayBox(Php::Parameters &params) {
     ::Ray p0 = ((Ray *)(params[0].implementation()))->data;
     ::BoundingBox p1 = ((BoundingBox *)(params[1].implementation()))->data;
-    int result = ::CheckCollisionRayBox(p0, p1);
+    bool result = ::CheckCollisionRayBox(p0, p1);
     return result;
   }
 
@@ -2863,7 +2977,7 @@ public:
   }
 
   static Php::Value IsVrSimulatorReady(Php::Parameters &params) {
-    int result = ::IsVrSimulatorReady();
+    bool result = ::IsVrSimulatorReady();
     return result;
   }
 
@@ -2880,13 +2994,254 @@ public:
   }
 
   static Php::Value IsAudioDeviceReady(Php::Parameters &params) {
-    int result = ::IsAudioDeviceReady();
+    bool result = ::IsAudioDeviceReady();
     return result;
   }
 
   static void SetMasterVolume(Php::Parameters &params) {
     double p0 = params[0];
     ::SetMasterVolume(p0);
+  }
+
+  static Php::Value LoadWave(Php::Parameters &params) {
+    string p0 = params[0];
+    ::Wave result = ::LoadWave(p0.c_str());
+    return Php::Object("RayLib\\Wave", new Wave(result));
+  }
+
+  static Php::Value LoadSound(Php::Parameters &params) {
+    string p0 = params[0];
+    ::Sound result = ::LoadSound(p0.c_str());
+    return Php::Object("RayLib\\Sound", new Sound(result));
+  }
+
+  static Php::Value LoadSoundFromWave(Php::Parameters &params) {
+    ::Wave p0 = ((Wave *)(params[0].implementation()))->data;
+    ::Sound result = ::LoadSoundFromWave(p0);
+    return Php::Object("RayLib\\Sound", new Sound(result));
+  }
+
+  static void UnloadWave(Php::Parameters &params) {
+    ::Wave p0 = ((Wave *)(params[0].implementation()))->data;
+    ::UnloadWave(p0);
+  }
+
+  static void UnloadSound(Php::Parameters &params) {
+    ::Sound p0 = ((Sound *)(params[0].implementation()))->data;
+    ::UnloadSound(p0);
+  }
+
+  static void ExportWave(Php::Parameters &params) {
+    ::Wave p0 = ((Wave *)(params[0].implementation()))->data;
+    string p1 = params[1];
+    ::ExportWave(p0, p1.c_str());
+  }
+
+  static void ExportWaveAsCode(Php::Parameters &params) {
+    ::Wave p0 = ((Wave *)(params[0].implementation()))->data;
+    string p1 = params[1];
+    ::ExportWaveAsCode(p0, p1.c_str());
+  }
+
+  static void PlaySound(Php::Parameters &params) {
+    ::Sound p0 = ((Sound *)(params[0].implementation()))->data;
+    ::PlaySound(p0);
+  }
+
+  static void StopSound(Php::Parameters &params) {
+    ::Sound p0 = ((Sound *)(params[0].implementation()))->data;
+    ::StopSound(p0);
+  }
+
+  static void PauseSound(Php::Parameters &params) {
+    ::Sound p0 = ((Sound *)(params[0].implementation()))->data;
+    ::PauseSound(p0);
+  }
+
+  static void ResumeSound(Php::Parameters &params) {
+    ::Sound p0 = ((Sound *)(params[0].implementation()))->data;
+    ::ResumeSound(p0);
+  }
+
+  static void PlaySoundMulti(Php::Parameters &params) {
+    ::Sound p0 = ((Sound *)(params[0].implementation()))->data;
+    ::PlaySoundMulti(p0);
+  }
+
+  static void StopSoundMulti(Php::Parameters &params) { ::StopSoundMulti(); }
+
+  static Php::Value GetSoundsPlaying(Php::Parameters &params) {
+    int result = ::GetSoundsPlaying();
+    return result;
+  }
+
+  static Php::Value IsSoundPlaying(Php::Parameters &params) {
+    ::Sound p0 = ((Sound *)(params[0].implementation()))->data;
+    bool result = ::IsSoundPlaying(p0);
+    return result;
+  }
+
+  static void SetSoundVolume(Php::Parameters &params) {
+    ::Sound p0 = ((Sound *)(params[0].implementation()))->data;
+    double p1 = params[1];
+    ::SetSoundVolume(p0, p1);
+  }
+
+  static void SetSoundPitch(Php::Parameters &params) {
+    ::Sound p0 = ((Sound *)(params[0].implementation()))->data;
+    double p1 = params[1];
+    ::SetSoundPitch(p0, p1);
+  }
+
+  static void WaveFormat(Php::Parameters &params) {
+    ::Wave *p0 = &((Wave *)(params[0].implementation()))->data;
+    int p1 = params[1];
+    int p2 = params[2];
+    int p3 = params[3];
+    ::WaveFormat(p0, p1, p2, p3);
+  }
+
+  static Php::Value WaveCopy(Php::Parameters &params) {
+    ::Wave p0 = ((Wave *)(params[0].implementation()))->data;
+    ::Wave result = ::WaveCopy(p0);
+    return Php::Object("RayLib\\Wave", new Wave(result));
+  }
+
+  static void WaveCrop(Php::Parameters &params) {
+    ::Wave *p0 = &((Wave *)(params[0].implementation()))->data;
+    int p1 = params[1];
+    int p2 = params[2];
+    ::WaveCrop(p0, p1, p2);
+  }
+
+  // GetWaveData is not supported
+  static Php::Value LoadMusicStream(Php::Parameters &params) {
+    string p0 = params[0];
+    ::Music result = ::LoadMusicStream(p0.c_str());
+    return Php::Object("RayLib\\Music", new Music(result));
+  }
+
+  static void UnloadMusicStream(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    ::UnloadMusicStream(p0);
+  }
+
+  static void PlayMusicStream(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    ::PlayMusicStream(p0);
+  }
+
+  static void UpdateMusicStream(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    ::UpdateMusicStream(p0);
+  }
+
+  static void StopMusicStream(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    ::StopMusicStream(p0);
+  }
+
+  static void PauseMusicStream(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    ::PauseMusicStream(p0);
+  }
+
+  static void ResumeMusicStream(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    ::ResumeMusicStream(p0);
+  }
+
+  static Php::Value IsMusicPlaying(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    bool result = ::IsMusicPlaying(p0);
+    return result;
+  }
+
+  static void SetMusicVolume(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    double p1 = params[1];
+    ::SetMusicVolume(p0, p1);
+  }
+
+  static void SetMusicPitch(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    double p1 = params[1];
+    ::SetMusicPitch(p0, p1);
+  }
+
+  static void SetMusicLoopCount(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    int p1 = params[1];
+    ::SetMusicLoopCount(p0, p1);
+  }
+
+  static Php::Value GetMusicTimeLength(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    double result = ::GetMusicTimeLength(p0);
+    return result;
+  }
+
+  static Php::Value GetMusicTimePlayed(Php::Parameters &params) {
+    ::Music p0 = ((Music *)(params[0].implementation()))->data;
+    double result = ::GetMusicTimePlayed(p0);
+    return result;
+  }
+
+  static Php::Value InitAudioStream(Php::Parameters &params) {
+    long p0 = params[0];
+    long p1 = params[1];
+    long p2 = params[2];
+    ::AudioStream result = ::InitAudioStream(p0, p1, p2);
+    return Php::Object("RayLib\\AudioStream", new AudioStream(result));
+  }
+
+  static void CloseAudioStream(Php::Parameters &params) {
+    ::AudioStream p0 = ((AudioStream *)(params[0].implementation()))->data;
+    ::CloseAudioStream(p0);
+  }
+
+  static Php::Value IsAudioStreamProcessed(Php::Parameters &params) {
+    ::AudioStream p0 = ((AudioStream *)(params[0].implementation()))->data;
+    bool result = ::IsAudioStreamProcessed(p0);
+    return result;
+  }
+
+  static void PlayAudioStream(Php::Parameters &params) {
+    ::AudioStream p0 = ((AudioStream *)(params[0].implementation()))->data;
+    ::PlayAudioStream(p0);
+  }
+
+  static void PauseAudioStream(Php::Parameters &params) {
+    ::AudioStream p0 = ((AudioStream *)(params[0].implementation()))->data;
+    ::PauseAudioStream(p0);
+  }
+
+  static void ResumeAudioStream(Php::Parameters &params) {
+    ::AudioStream p0 = ((AudioStream *)(params[0].implementation()))->data;
+    ::ResumeAudioStream(p0);
+  }
+
+  static Php::Value IsAudioStreamPlaying(Php::Parameters &params) {
+    ::AudioStream p0 = ((AudioStream *)(params[0].implementation()))->data;
+    bool result = ::IsAudioStreamPlaying(p0);
+    return result;
+  }
+
+  static void StopAudioStream(Php::Parameters &params) {
+    ::AudioStream p0 = ((AudioStream *)(params[0].implementation()))->data;
+    ::StopAudioStream(p0);
+  }
+
+  static void SetAudioStreamVolume(Php::Parameters &params) {
+    ::AudioStream p0 = ((AudioStream *)(params[0].implementation()))->data;
+    double p1 = params[1];
+    ::SetAudioStreamVolume(p0, p1);
+  }
+
+  static void SetAudioStreamPitch(Php::Parameters &params) {
+    ::AudioStream p0 = ((AudioStream *)(params[0].implementation()))->data;
+    double p1 = params[1];
+    ::SetAudioStreamPitch(p0, p1);
   }
 
   static Php::Value createVector2(Php::Parameters &params) {
@@ -2961,8 +3316,12 @@ public:
   }
 
   static Php::Value createRenderTexture2D(Php::Parameters &params) {
+    long p0 = params[0];
+    ::Texture2D p1 = ((Texture2D *)(params[1].implementation()))->data;
+    ::Texture2D p2 = ((Texture2D *)(params[2].implementation()))->data;
+    bool p3 = params[3];
     return Php::Object("RayLib\\RenderTexture2D",
-                       new RenderTexture2D(::RenderTexture2D{}));
+                       new RenderTexture2D(::RenderTexture2D{p0, p1, p2, p3}));
   }
 
   static Php::Value createNPatchInfo(Php::Parameters &params) {
@@ -3028,7 +3387,12 @@ public:
   }
 
   static Php::Value createRayHitInfo(Php::Parameters &params) {
-    return Php::Object("RayLib\\RayHitInfo", new RayHitInfo(::RayHitInfo{}));
+    bool p0 = params[0];
+    double p1 = params[1];
+    ::Vector3 p2 = ((Vector3 *)(params[2].implementation()))->data;
+    ::Vector3 p3 = ((Vector3 *)(params[3].implementation()))->data;
+    return Php::Object("RayLib\\RayHitInfo",
+                       new RayHitInfo(::RayHitInfo{p0, p1, p2, p3}));
   }
 
   static Php::Value createBoundingBox(Php::Parameters &params) {
@@ -3036,6 +3400,12 @@ public:
     ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
     return Php::Object("RayLib\\BoundingBox",
                        new BoundingBox(::BoundingBox{p0, p1}));
+  }
+
+  static Php::Value createSound(Php::Parameters &params) {
+    long p0 = params[0];
+    ::AudioStream p1 = ((AudioStream *)(params[1].implementation()))->data;
+    return Php::Object("RayLib\\Sound", new Sound(::Sound{p0, p1}));
   }
 
   static Php::Value getColorLIGHTGRAY() {
@@ -3223,6 +3593,14 @@ PHPCPP_EXPORT void *get_module() {
 
   Php::Class<RenderTexture2D> rlRenderTexture2D("RenderTexture2D");
   rlNamespace.add(rlRenderTexture2D);
+  rlRenderTexture2D.property("id", &RenderTexture2D::getid,
+                             &RenderTexture2D::setid);
+  rlRenderTexture2D.property("texture", &RenderTexture2D::gettexture,
+                             &RenderTexture2D::settexture);
+  rlRenderTexture2D.property("depth", &RenderTexture2D::getdepth,
+                             &RenderTexture2D::setdepth);
+  rlRenderTexture2D.property("depthTexture", &RenderTexture2D::getdepthTexture,
+                             &RenderTexture2D::setdepthTexture);
 
   Php::Class<NPatchInfo> rlNPatchInfo("NPatchInfo");
   rlNamespace.add(rlNPatchInfo);
@@ -3326,6 +3704,13 @@ PHPCPP_EXPORT void *get_module() {
 
   Php::Class<RayHitInfo> rlRayHitInfo("RayHitInfo");
   rlNamespace.add(rlRayHitInfo);
+  rlRayHitInfo.property("hit", &RayHitInfo::gethit, &RayHitInfo::sethit);
+  rlRayHitInfo.property("distance", &RayHitInfo::getdistance,
+                        &RayHitInfo::setdistance);
+  rlRayHitInfo.property("position", &RayHitInfo::getposition,
+                        &RayHitInfo::setposition);
+  rlRayHitInfo.property("normal", &RayHitInfo::getnormal,
+                        &RayHitInfo::setnormal);
 
   Php::Class<BoundingBox> rlBoundingBox("BoundingBox");
   rlNamespace.add(rlBoundingBox);
@@ -3338,6 +3723,30 @@ PHPCPP_EXPORT void *get_module() {
   rlWave.property("sampleRate", &Wave::getsampleRate, &Wave::setsampleRate);
   rlWave.property("sampleSize", &Wave::getsampleSize, &Wave::setsampleSize);
   rlWave.property("channels", &Wave::getchannels, &Wave::setchannels);
+
+  Php::Class<AudioStream> rlAudioStream("AudioStream");
+  rlNamespace.add(rlAudioStream);
+  rlAudioStream.property("sampleRate", &AudioStream::getsampleRate,
+                         &AudioStream::setsampleRate);
+  rlAudioStream.property("sampleSize", &AudioStream::getsampleSize,
+                         &AudioStream::setsampleSize);
+  rlAudioStream.property("channels", &AudioStream::getchannels,
+                         &AudioStream::setchannels);
+
+  Php::Class<Sound> rlSound("Sound");
+  rlNamespace.add(rlSound);
+  rlSound.property("sampleCount", &Sound::getsampleCount,
+                   &Sound::setsampleCount);
+  rlSound.property("stream", &Sound::getstream, &Sound::setstream);
+
+  Php::Class<Music> rlMusic("Music");
+  rlNamespace.add(rlMusic);
+  rlMusic.property("ctxType", &Music::getctxType, &Music::setctxType);
+  rlMusic.property("sampleCount", &Music::getsampleCount,
+                   &Music::setsampleCount);
+  rlMusic.property("sampleLeft", &Music::getsampleLeft, &Music::setsampleLeft);
+  rlMusic.property("loopCount", &Music::getloopCount, &Music::setloopCount);
+  rlMusic.property("stream", &Music::getstream, &Music::setstream);
 
   Php::Class<VrDeviceInfo> rlVrDeviceInfo("VrDeviceInfo");
   rlNamespace.add(rlVrDeviceInfo);
@@ -3366,9 +3775,6 @@ PHPCPP_EXPORT void *get_module() {
   rlVrDeviceInfo.property("chromaAbCorrection",
                           &VrDeviceInfo::getchromaAbCorrection,
                           &VrDeviceInfo::setchromaAbCorrection);
-
-  Php::Class<TraceLogCallback> rlTraceLogCallback("TraceLogCallback");
-  rlNamespace.add(rlTraceLogCallback);
 
   rlClass.method<&RL::InitWindow>("InitWindow");
   rlClass.method<&RL::WindowShouldClose>("WindowShouldClose");
@@ -3427,7 +3833,6 @@ PHPCPP_EXPORT void *get_module() {
   rlClass.method<&RL::SetConfigFlags>("SetConfigFlags");
   rlClass.method<&RL::SetTraceLogLevel>("SetTraceLogLevel");
   rlClass.method<&RL::SetTraceLogExit>("SetTraceLogExit");
-  rlClass.method<&RL::SetTraceLogCallback>("SetTraceLogCallback");
   rlClass.method<&RL::TraceLog>("TraceLog");
   rlClass.method<&RL::TakeScreenshot>("TakeScreenshot");
   rlClass.method<&RL::GetRandomValue>("GetRandomValue");
@@ -3708,6 +4113,50 @@ PHPCPP_EXPORT void *get_module() {
   rlClass.method<&RL::CloseAudioDevice>("CloseAudioDevice");
   rlClass.method<&RL::IsAudioDeviceReady>("IsAudioDeviceReady");
   rlClass.method<&RL::SetMasterVolume>("SetMasterVolume");
+  rlClass.method<&RL::LoadWave>("LoadWave");
+  rlClass.method<&RL::LoadSound>("LoadSound");
+  rlClass.method<&RL::LoadSoundFromWave>("LoadSoundFromWave");
+  rlClass.method<&RL::UnloadWave>("UnloadWave");
+  rlClass.method<&RL::UnloadSound>("UnloadSound");
+  rlClass.method<&RL::ExportWave>("ExportWave");
+  rlClass.method<&RL::ExportWaveAsCode>("ExportWaveAsCode");
+  rlClass.method<&RL::PlaySound>("PlaySound");
+  rlClass.method<&RL::StopSound>("StopSound");
+  rlClass.method<&RL::PauseSound>("PauseSound");
+  rlClass.method<&RL::ResumeSound>("ResumeSound");
+  rlClass.method<&RL::PlaySoundMulti>("PlaySoundMulti");
+  rlClass.method<&RL::StopSoundMulti>("StopSoundMulti");
+  rlClass.method<&RL::GetSoundsPlaying>("GetSoundsPlaying");
+  rlClass.method<&RL::IsSoundPlaying>("IsSoundPlaying");
+  rlClass.method<&RL::SetSoundVolume>("SetSoundVolume");
+  rlClass.method<&RL::SetSoundPitch>("SetSoundPitch");
+  rlClass.method<&RL::WaveFormat>("WaveFormat");
+  rlClass.method<&RL::WaveCopy>("WaveCopy");
+  rlClass.method<&RL::WaveCrop>("WaveCrop");
+  // GetWaveData is not supported
+  rlClass.method<&RL::LoadMusicStream>("LoadMusicStream");
+  rlClass.method<&RL::UnloadMusicStream>("UnloadMusicStream");
+  rlClass.method<&RL::PlayMusicStream>("PlayMusicStream");
+  rlClass.method<&RL::UpdateMusicStream>("UpdateMusicStream");
+  rlClass.method<&RL::StopMusicStream>("StopMusicStream");
+  rlClass.method<&RL::PauseMusicStream>("PauseMusicStream");
+  rlClass.method<&RL::ResumeMusicStream>("ResumeMusicStream");
+  rlClass.method<&RL::IsMusicPlaying>("IsMusicPlaying");
+  rlClass.method<&RL::SetMusicVolume>("SetMusicVolume");
+  rlClass.method<&RL::SetMusicPitch>("SetMusicPitch");
+  rlClass.method<&RL::SetMusicLoopCount>("SetMusicLoopCount");
+  rlClass.method<&RL::GetMusicTimeLength>("GetMusicTimeLength");
+  rlClass.method<&RL::GetMusicTimePlayed>("GetMusicTimePlayed");
+  rlClass.method<&RL::InitAudioStream>("InitAudioStream");
+  rlClass.method<&RL::CloseAudioStream>("CloseAudioStream");
+  rlClass.method<&RL::IsAudioStreamProcessed>("IsAudioStreamProcessed");
+  rlClass.method<&RL::PlayAudioStream>("PlayAudioStream");
+  rlClass.method<&RL::PauseAudioStream>("PauseAudioStream");
+  rlClass.method<&RL::ResumeAudioStream>("ResumeAudioStream");
+  rlClass.method<&RL::IsAudioStreamPlaying>("IsAudioStreamPlaying");
+  rlClass.method<&RL::StopAudioStream>("StopAudioStream");
+  rlClass.method<&RL::SetAudioStreamVolume>("SetAudioStreamVolume");
+  rlClass.method<&RL::SetAudioStreamPitch>("SetAudioStreamPitch");
   rlClass.method<&RL::createVector2>("Vector2");
   rlClass.method<&RL::createVector3>("Vector3");
   rlClass.method<&RL::createVector4>("Vector4");
@@ -3725,6 +4174,9 @@ PHPCPP_EXPORT void *get_module() {
   rlClass.method<&RL::createRay>("Ray");
   rlClass.method<&RL::createRayHitInfo>("RayHitInfo");
   rlClass.method<&RL::createBoundingBox>("BoundingBox");
+  rlClass.method<&RL::createSound>("Sound");
+  rlClass.property("false", 0, Php::Const);
+  rlClass.property("true", 1, Php::Const);
   rlClass.property("FLAG_SHOW_LOGO", 1, Php::Const);
   rlClass.property("FLAG_FULLSCREEN_MODE", 2, Php::Const);
   rlClass.property("FLAG_WINDOW_RESIZABLE", 4, Php::Const);
