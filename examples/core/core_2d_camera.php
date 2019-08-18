@@ -33,13 +33,12 @@ for ($i = 0; $i < MAX_BUILDINGS; $i++)
 }
 
 $target = RL::Vector2($player->x + 20, $player->y + 20);
-$offset = RL::Vector2(0, 0);;
+$offset = RL::Vector2($screenWidth / 2, $screenHeight / 2);;
 $rotation = 0.0;
 $zoom = 1.0;
 $camera = RL::Camera2D($offset, $target, $rotation, $zoom);
 
 RL::SetTargetFPS(60);
-
 
 while (!RL::WindowShouldClose()) {
     // Update

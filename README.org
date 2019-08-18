@@ -76,62 +76,7 @@ RL::CloseWindow();
   #+END_SRC
 ** Completeness
 
-The binding is auto-generated from ~raylib.h~, most functions and features are supported. Not supported functions:
-
-+ core
-  + GetWindowHandle
-  + GetMonitorName
-  + GetClipboardText
-  + SetTraceLogCallback
-  + FileExists
-  + IsFileExtension
-  + GetExtension
-  + GetFileName
-  + GetFileNameWithoutExt
-  + GetDirectoryPath
-  + GetWorkingDirectory
-  + GetDirectoryFiles
-  + ClearDirectoryFiles
-  + GetDroppedFiles
-  + ClearDroppedFiles
-  + GetGamepadName
-+ textures
-  + LoadImagePro
-  + GetImageData
-  + GetImageDataNormalized
-  + UpdateTexture
-  + ImageExtractPalette
-+ text
-  + LoadFontEx
-  + LoadFontData
-  + TextIsEqual
-  + TextLength
-  + TextFormat
-  + TextSubtext
-  + TextReplace
-  + TextInsert
-  + TextJoin
-  + TextSplit
-  + TextAppend
-  + TextFindIndex
-  + TextToUpper
-  + TextToLower
-  + TextToPascal
-  + TextToInteger
-+ models
-  + LoadMeshes
-  + LoadMaterials
-  + LoadModelAnimations
-+ rlgl
-  + LoadText
-  + LoadShaderCode
-  + SetShaderValue
-  + SetShaderValueV
-+ audio
-  + LoadWaveEx
-  + UpdateSound
-  + GetWaveData
-  + UpdateAudioStream
+The binding is auto-generated from [[raylib.h]], most functions and features are supported. Not supported function are commented out.
 
 For most file and text functions, you can use counterparts in PHP.
 
@@ -142,7 +87,7 @@ Currently, the code generator is too dumb to handle ~void *~ and array.
 Requirements:
 
 + PHP 7.3
-+ PHP-CPP 2.2
++ PHP-CPP 2.1.4
 + raylib latest master
 
 ** License
