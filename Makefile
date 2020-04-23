@@ -12,7 +12,7 @@ OBJECTS         = $(SOURCES:%.cpp=%.o)
 all:	${OBJECTS} ${RESULT}
 
 ${RESULT}: ${OBJECTS}
-		${LD} ${LD_FLAGS} -o $@ ${OBJECTS} -l:libphpcpp.a.2.1.4 -lraylib
+		${LD} ${LD_FLAGS} -o $@ ${OBJECTS} -lphpcpp -lraylib
 
 clean:
 		${RM} *.obj *~* ${OBJECTS} ${RESULT}
