@@ -22,12 +22,19 @@ $texture = RL::LoadTextureFromImage($image);                    // Convert image
 $mesh = RL::GenMeshHeightmap($image, RL::Vector3(16, 8, 16));   // Generate heightmap mesh (RAM and VRAM)
 $model = RL::LoadModelFromMesh($mesh);                          // Load model from generated mesh
 
-// Set map diffuse texture
-$material = $model->material;
+// Set map diffuse texture :(
+// model.materials[0].maps[MAP_DIFFUSE].texture = texture;
+/// read
+$materials = $model->materials;
+$material = $materials[0];
 $maps = $material->maps;
-$maps[RL::MAP_ALBEDO]->texture = $texture;
+$map  = $maps[RL::MAP_ALBEDO];
+// write back
+$map->texture = $texture;
+$maps[RL::MAP_ALBEDO] = $map;
 $material->maps = $maps;
-$model->material = $material;
+$materials[0] = $material;
+$model->materials = $materials;
 
 $mapPosition = RL::Vector3(-8.0, 0.0, -8.0);                   // Define model position
 
