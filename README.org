@@ -13,15 +13,17 @@ InitWindow(800, 450, "raylib [core] example - basic window");
 
 SetTargetFPS(60);
 
-while (!RL::WindowShouldClose()) {
+while (!WindowShouldClose())
+{
     BeginDrawing();
-    ClearBackground(RL::RAYWHITE());
-    DrawText("Congrats! You created your first window!", 190, 200, 20, RL::LIGHTGRAY());
-    DrawFPS(10, 10);
+    ClearBackground(RAYWHITE());
+    DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY());
     EndDrawing();
 }
 CloseWindow();
 #+END_SRC
+
+See more [[./examples][examples]].
 
 ** Mapping C to PHP
 
