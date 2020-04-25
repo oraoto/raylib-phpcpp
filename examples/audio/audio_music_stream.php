@@ -5,67 +5,67 @@ use RayLib\RL;
 $screenWidth = 800;
 $screenHeight = 450;
 
-RL::InitWindow($screenWidth, $screenHeight, "raylib [audio] example - music playing (streaming)");
+InitWindow($screenWidth, $screenHeight, "raylib [audio] example - music playing (streaming)");
 
-RL::InitAudioDevice();
+InitAudioDevice();
 
-$music = RL::LoadMusicStream(__DIR__ . "/resources/guitar_noodling.ogg");
+$music = LoadMusicStream(__DIR__ . "/resources/guitar_noodling.ogg");
 
-RL::PlayMusicStream($music);
+PlayMusicStream($music);
 
 $timePlayed = 0;
 $pause = false;
 
-RL::SetTargetFPS(60);
+SetTargetFPS(60);
 
-while (!RL::WindowShouldClose()) {
+while (!WindowShouldClose()) {
     // Update
-    RL::UpdateMusicStream($music);
+    UpdateMusicStream($music);
 
     // Restart music playing (stop and play)
-    if (RL::IsKeyPressed(RL::KEY_SPACE)) {
-        RL::StopMusicStream($music);
-        RL::PlayMusicStream($music);
+    if (IsKeyPressed(KEY_SPACE)) {
+        StopMusicStream($music);
+        PlayMusicStream($music);
     }
 
     // Pause/Resume music playing
-    if (RL::IsKeyPressed(RL::KEY_P)) {
+    if (IsKeyPressed(KEY_P)) {
         $pause = !$pause;
         if ($pause) {
-            RL::PauseMusicStream($music);
+            PauseMusicStream($music);
         } else {
-            RL::ResumeMusicStream($music);
+            ResumeMusicStream($music);
         }
     }
 
     // Get timePlayed scaled to bar dimensions (400 pixels)
-    $timePlayed = RL::GetMusicTimePlayed($music) / RL::GetMusicTimeLength($music) * 400;
+    $timePlayed = GetMusicTimePlayed($music) / GetMusicTimeLength($music) * 400;
     if ($timePlayed > 400) {
-        RL::StopMusicStream($music);
+        StopMusicStream($music);
     }
 
     // Draw
-    RL::BeginDrawing();
+    BeginDrawing();
 
-    RL::ClearBackground(RL::RAYWHITE());
+    ClearBackground(RAYWHITE());
 
-    RL::DrawText("MUSIC SHOULD BE PLAYING!", 255, 150, 20, RL::LIGHTGRAY());
+    DrawText("MUSIC SHOULD BE PLAYING!", 255, 150, 20, LIGHTGRAY());
 
-    RL::DrawRectangle(200, 200, 400, 12, RL::LIGHTGRAY());
-    RL::DrawRectangle(200, 200, $timePlayed, 12, RL::MAROON());
-    RL::DrawRectangleLines(200, 200, 400, 12, RL::GRAY());
+    DrawRectangle(200, 200, 400, 12, LIGHTGRAY());
+    DrawRectangle(200, 200, $timePlayed, 12, MAROON());
+    DrawRectangleLines(200, 200, 400, 12, GRAY());
 
-    RL::DrawText("PRESS SPACE TO RESTART MUSIC", 215, 250, 20, RL::LIGHTGRAY());
-    RL::DrawText("PRESS P TO PAUSE/RESUME MUSIC", 208, 280, 20, RL::LIGHTGRAY());
+    DrawText("PRESS SPACE TO RESTART MUSIC", 215, 250, 20, LIGHTGRAY());
+    DrawText("PRESS P TO PAUSE/RESUME MUSIC", 208, 280, 20, LIGHTGRAY());
 
-    RL::EndDrawing();
+    EndDrawing();
 }
 
 
 // De-Initialization
 //--------------------------------------------------------------------------------------
-// RL::UnloadMusicStream($music);   // Unload music stream buffers from RAM
+// UnloadMusicStream($music);   // Unload music stream buffers from RAM
 
-RL::CloseAudioDevice();         // Close audio device (music streaming is automatically stopped)
+CloseAudioDevice();         // Close audio device (music streaming is automatically stopped)
 
-RL::CloseWindow();              // Close window and OpenGL context
+CloseWindow();              // Close window and OpenGL context

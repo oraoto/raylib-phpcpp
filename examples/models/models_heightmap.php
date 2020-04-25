@@ -7,20 +7,20 @@ use RayLib\RL;
 $screenWidth = 800;
 $screenHeight = 450;
 
-RL::InitWindow($screenWidth, $screenHeight, "raylib [models] example - heightmap loading and drawing");
+InitWindow($screenWidth, $screenHeight, "raylib [models] example - heightmap loading and drawing");
 
 // Define our custom camera to look into our 3d world
-$position = RL::Vector3(18.0, 16.0, 18.0);
-$target = RL::Vector3(0.0, 0.0, 0.0);
-$up = RL::Vector3(0.0, 1.0, 0.0);
+$position = Vector3(18.0, 16.0, 18.0);
+$target = Vector3(0.0, 0.0, 0.0);
+$up = Vector3(0.0, 1.0, 0.0);
 $fovy = 45;
-$camera = RL::Camera3D($position, $target, $up, $fovy, 0);
+$camera = Camera3D($position, $target, $up, $fovy, 0);
 
-$image = RL::LoadImage(__DIR__ . "/resources/heightmap.png");   // Load heightmap image (RAM)
-$texture = RL::LoadTextureFromImage($image);                    // Convert image to texture (VRAM)
+$image = LoadImage(__DIR__ . "/resources/heightmap.png");   // Load heightmap image (RAM)
+$texture = LoadTextureFromImage($image);                    // Convert image to texture (VRAM)
 
-$mesh = RL::GenMeshHeightmap($image, RL::Vector3(16, 8, 16));   // Generate heightmap mesh (RAM and VRAM)
-$model = RL::LoadModelFromMesh($mesh);                          // Load model from generated mesh
+$mesh = GenMeshHeightmap($image, Vector3(16, 8, 16));   // Generate heightmap mesh (RAM and VRAM)
+$model = LoadModelFromMesh($mesh);                          // Load model from generated mesh
 
 // Set map diffuse texture :(
 // model.materials[0].maps[MAP_DIFFUSE].texture = texture;
@@ -28,57 +28,57 @@ $model = RL::LoadModelFromMesh($mesh);                          // Load model fr
 $materials = $model->materials;
 $material = $materials[0];
 $maps = $material->maps;
-$map  = $maps[RL::MAP_ALBEDO];
+$map  = $maps[MAP_ALBEDO];
 // write back
 $map->texture = $texture;
-$maps[RL::MAP_ALBEDO] = $map;
+$maps[MAP_ALBEDO] = $map;
 $material->maps = $maps;
 $materials[0] = $material;
 $model->materials = $materials;
 
-$mapPosition = RL::Vector3(-8.0, 0.0, -8.0);                   // Define model position
+$mapPosition = Vector3(-8.0, 0.0, -8.0);                   // Define model position
 
-RL::UnloadImage($image);                     // Unload heightmap image from RAM, already uploaded to VRAM
+UnloadImage($image);                     // Unload heightmap image from RAM, already uploaded to VRAM
 
-RL::SetCameraMode($camera, RL::CAMERA_ORBITAL);  // Set an orbital camera mode
+SetCameraMode($camera, CAMERA_ORBITAL);  // Set an orbital camera mode
 
-RL::SetTargetFPS(60);                       // Set our game to run at 60 frames-per-second
+SetTargetFPS(60);                       // Set our game to run at 60 frames-per-second
 //--------------------------------------------------------------------------------------
 
 // Main game loop
-while (!RL::WindowShouldClose())            // Detect window close button or ESC key
+while (!WindowShouldClose())            // Detect window close button or ESC key
 {
     // Update
     //----------------------------------------------------------------------------------
-    RL::UpdateCamera($camera);              // Update camera
+    UpdateCamera($camera);              // Update camera
     //----------------------------------------------------------------------------------
 
     // Draw
     //----------------------------------------------------------------------------------
-    RL::BeginDrawing();
+    BeginDrawing();
 
-        RL::ClearBackground(RL::RAYWHITE());
+        ClearBackground(RAYWHITE());
 
-            RL::BeginMode3D($camera);
+            BeginMode3D($camera);
 
-                RL::DrawModel($model, $mapPosition, 1.0, RL::RED());
+                DrawModel($model, $mapPosition, 1.0, RED());
 
-                RL::DrawGrid(20, 1.0);
+                DrawGrid(20, 1.0);
 
-            RL::EndMode3D();
+            EndMode3D();
 
-        RL::DrawTexture($texture, $screenWidth - $texture->width - 20, 20, RL::WHITE());
-        RL::DrawRectangleLines($screenWidth - $texture->width - 20, 20, $texture->width, $texture->height, RL::GREEN());
+        DrawTexture($texture, $screenWidth - $texture->width - 20, 20, WHITE());
+        DrawRectangleLines($screenWidth - $texture->width - 20, 20, $texture->width, $texture->height, GREEN());
 
-        RL::DrawFPS(10, 10);
+        DrawFPS(10, 10);
 
-    RL::EndDrawing();
+    EndDrawing();
     //----------------------------------------------------------------------------------
 }
 
 // De-Initialization
 //--------------------------------------------------------------------------------------
-RL::UnloadTexture($texture);     // Unload texture
-RL::UnloadModel($model);         // Unload model
+UnloadTexture($texture);     // Unload texture
+UnloadModel($model);         // Unload model
 
-RL::CloseWindow();              // Close window and OpenGL context
+CloseWindow();              // Close window and OpenGL context

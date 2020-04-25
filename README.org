@@ -9,78 +9,76 @@ It's developed using [[https://github.com/CopernicaMarketingSoftware/PHP-CPP/][P
 #+BEGIN_SRC php
 <?php
 
-use RayLib\RL;
+InitWindow(800, 450, "raylib [core] example - basic window");
 
-RL::InitWindow(800, 450, "raylib [core] example - basic window");
-
-RL::SetTargetFPS(60);
+SetTargetFPS(60);
 
 while (!RL::WindowShouldClose()) {
-    RL::BeginDrawing();
-    RL::ClearBackground(RL::RAYWHITE());
-    RL::DrawText("Congrats! You created your first window!", 190, 200, 20, RL::LIGHTGRAY());
-    RL::DrawFPS(10, 10);
-    RL::EndDrawing();
+    BeginDrawing();
+    ClearBackground(RL::RAYWHITE());
+    DrawText("Congrats! You created your first window!", 190, 200, 20, RL::LIGHTGRAY());
+    DrawFPS(10, 10);
+    EndDrawing();
 }
-RL::CloseWindow();
+CloseWindow();
 #+END_SRC
 
 ** Mapping C to PHP
 
-- All C functions are exposed as static function in ~RayLib\RL~, for example:
+- All C functions are exposed as PHP global functions, for example:
 
-  | C                             | PHP                               |
-  |-------------------------------+-----------------------------------|
-  | WindowShouldClose()           | RL::WindowShouldClose()           |
-  | InitWindow(800, 450, "title") | RL::InitWindow(800, 450, "title") |
+  | C                             | PHP                           |
+  |-------------------------------+-------------------------------|
+  | WindowShouldClose()           | WindowShouldClose()           |
+  | InitWindow(800, 450, "title") | InitWindow(800, 450, "title") |
 
- Just add ~RL::~ before the C function and it should just works.
+  Since ~ImageCopy~ and ~ImageCrop~ conflicted with [[https://www.php.net/manual/en/book.image][gd]], you can't raylib-phpcpp and gd at the same time.
 
-- Color constant are exposed as static function in ~RayLib\RL~, for example:
+- Color constants are exposed as global functions, for example:
 
-  | C         | PHP             |
-  |-----------+-----------------|
-  | LIGHTGRAY | RL::LIGHTGRAY() |
-  | GREEN     | RL::GREEN()     |
+  | C         | PHP         |
+  |-----------+-------------|
+  | LIGHTGRAY | LIGHTGRAY() |
+  | GREEN     | GREEN()     |
 
-- Constructor for simple structs (struct without array and pointer members) are exposed as static function in ~RayLib\RL~, for example to create a ~Camera2D~:
+- Constructor for simple structs (struct without array and pointer members) are exposed as function, for example to create a ~Camera2D~:
 
   #+BEGIN_SRC php
   <?php
 
-  $offset = RL::Vector2(1, 1);
-  $target = RL::Vector2(0, 0);
-  $camera = RL::Camera2D($offset, $target, 1.0, 1.0);
+  $offset = Vector2(1, 1);
+  $target = Vector2(0, 0);
+  $camera = Camera2D($offset, $target, 1.0, 1.0);
   #+END_SRC
-- All C enums are exposed class constant in ~RayLib\RL~:
 
-  | C              | PHP                |
-  |----------------+--------------------|
-  | FLAG_SHOW_LOGO | RL::FLAG_SHOW_LOGO |
-  | KEY_COMMA      | RL::KEY_COMMA      |
+- All C enums are exposed global constants:
+
+  | C              | PHP            |
+  |----------------+----------------|
+  | FLAG_SHOW_LOGO | FLAG_SHOW_LOGO |
+  | KEY_COMMA      | KEY_COMMA      |
 
 - Accessor for struct fields are implemented as ~__get~ and ~__set~, some update operation are more cumbersome:
 
   #+BEGIN_SRC php
   <?php
 
-  $v = RL::Vector2(1, 2);
+  $v = Vector2(1, 2);
   // $v->x += 1; doesn't work
   $v->x = $v->x + 1;
 
-  $camera = RL::Camera2D(RL::Vector2(1, 1), RL::Vector2(0, 0), 1.0, 1.0);
+  $camera = Camera2D(Vector2(1, 1), Vector2(0, 0), 1.0, 1.0);
   // $camera->target->x = 1; // doesn't work
   $target = $camera->target;
   $target->x = 1;
   $camera->target = $target;
   #+END_SRC
+
 ** Completeness
 
 The binding is auto-generated from ~raylib.h~, most functions and features are supported. Not supported function are commented out.
 
 For most file and text functions, you can use counterparts in PHP.
-
-Currently, the code generator is too dumb to handle ~void *~ and array.
 
 ** Building From Source
 

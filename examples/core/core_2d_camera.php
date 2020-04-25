@@ -1,17 +1,15 @@
 <?php
 
-use RayLib\RL;
-
 // Initialization
 const MAX_BUILDINGS = 100;
 
 $screenWidth = 800;
 $screenHeight = 450;
 
-RL::InitWindow($screenWidth, $screenHeight, "raylib [core] example - 2d camera");
+InitWindow($screenWidth, $screenHeight, "raylib [core] example - 2d camera");
 
 
-$player = RL::Rectangle(400, 280, 40, 40);
+$player = Rectangle(400, 280, 40, 40);
 $buildings = [];
 $buildColrs = [];
 
@@ -19,47 +17,47 @@ $spacing = 0;
 
 for ($i = 0; $i < MAX_BUILDINGS; $i++)
 {
-    $width = RL::GetRandomValue(50, 200);
-    $height = RL::GetRandomValue(100, 800);
+    $width = GetRandomValue(50, 200);
+    $height = GetRandomValue(100, 800);
     $y = $screenHeight - 130 - $height;
     $x = -6000 + $spacing;
-    $building = RL::Rectangle($x, $y, $width, $height);
+    $building = Rectangle($x, $y, $width, $height);
 
     $buildings[] = $building;
 
     $spacing += $buildings[$i]->width;
 
-    $buildColors[$i] = RL::Color(RL::GetRandomValue(200, 240), RL::GetRandomValue(200, 240), RL::GetRandomValue(200, 250), 255);
+    $buildColors[$i] = Color(GetRandomValue(200, 240), GetRandomValue(200, 240), GetRandomValue(200, 250), 255);
 }
 
-$target = RL::Vector2($player->x + 20, $player->y + 20);
-$offset = RL::Vector2($screenWidth / 2, $screenHeight / 2);;
+$target = Vector2($player->x + 20, $player->y + 20);
+$offset = Vector2($screenWidth / 2, $screenHeight / 2);;
 $rotation = 0.0;
 $zoom = 1.0;
-$camera = RL::Camera2D($offset, $target, $rotation, $zoom);
+$camera = Camera2D($offset, $target, $rotation, $zoom);
 
-RL::SetTargetFPS(60);
+SetTargetFPS(60);
 
-while (!RL::WindowShouldClose()) {
+while (!WindowShouldClose()) {
     // Update
     //----------------------------------------------------------------------------------
-    if (RL::IsKeyDown(RL::KEY_RIGHT)) {
+    if (IsKeyDown(KEY_RIGHT)) {
         $player->x = $player->x + 2; // Player movement
         $offset->x = $offset->x - 2; // Camera displacement with player movement
         $camera->offset = $offset;
-    } elseif (RL::IsKeyDown(RL::KEY_LEFT)) {
+    } elseif (IsKeyDown(KEY_LEFT)) {
         $player->x = $player->x - 2; // Player movement
         $offset->x = $offset->x + 2; // Camera displacement with player movement
         $camera->offset = $offset;
     }
 
     // Camera target follows player
-    $camera->target = RL::Vector2($player->x + 20, $player->y + 20);
+    $camera->target = Vector2($player->x + 20, $player->y + 20);
 
     // Camera rotation controls
-    if (RL::IsKeyDown(RL::KEY_A)) {
+    if (IsKeyDown(KEY_A)) {
         $camera->rotation = $camera->rotation - 1;
-    } elseif (RL::IsKeyDown(RL::KEY_S)) {
+    } elseif (IsKeyDown(KEY_S)) {
         $camera->rotation = $camera->rotation + 1;
     }
 
@@ -71,7 +69,7 @@ while (!RL::WindowShouldClose()) {
     }
 
     // Camera zoom controls
-    $camera->zoom = $camera->zoom + (RL::GetMouseWheelMove() * 0.05);
+    $camera->zoom = $camera->zoom + (GetMouseWheelMove() * 0.05);
 
     if ($camera->zoom > 3.0) {
         $camera->zoom = 3.0;
@@ -80,50 +78,50 @@ while (!RL::WindowShouldClose()) {
     }
 
     // Camera reset (zoom and rotation)
-    if (RL::IsKeyPressed(RL::KEY_R)) {
+    if (IsKeyPressed(KEY_R)) {
         $camera->zoom = 1.0;
         $camera->rotation = 0.0;
     }
 
     // Draw
     //----------------------------------------------------------------------------------
-    RL::BeginDrawing();
+    BeginDrawing();
 
-    RL::ClearBackground(RL::RAYWHITE());
+    ClearBackground(RAYWHITE());
 
-    RL::BeginMode2D($camera);
+    BeginMode2D($camera);
 
-        RL::DrawRectangle(-6000, 320, 13000, 8000, RL::DARKGRAY());
+        DrawRectangle(-6000, 320, 13000, 8000, DARKGRAY());
 
         for ($i = 0; $i < MAX_BUILDINGS; $i++) {
-            RL::DrawRectangleRec($buildings[$i], $buildColors[$i]);
+            DrawRectangleRec($buildings[$i], $buildColors[$i]);
         }
 
-        RL::DrawRectangleRec($player, RL::RED());
+        DrawRectangleRec($player, RED());
 
-        RL::DrawLine($camera->target->x, -$screenHeight * 10, $camera->target->x, $screenHeight * 10, RL::GREEN());
-        RL::DrawLine(-$screenWidth * 10, $camera->target->y, $screenWidth * 10, $camera->target->y, RL::GREEN());
+        DrawLine($camera->target->x, -$screenHeight * 10, $camera->target->x, $screenHeight * 10, GREEN());
+        DrawLine(-$screenWidth * 10, $camera->target->y, $screenWidth * 10, $camera->target->y, GREEN());
 
-    RL::EndMode2D($camera);
+    EndMode2D($camera);
 
-    RL::DrawText("SCREEN AREA", 640, 10, 20, RL::RED());
+    DrawText("SCREEN AREA", 640, 10, 20, RED());
 
-    RL::DrawRectangle(0, 0, $screenWidth, 5, RL::RED());
-    RL::DrawRectangle(0, 5, 5, $screenHeight - 10, RL::RED());
-    RL::DrawRectangle($screenWidth - 5, 5, 5, $screenHeight - 10, RL::RED());
-    RL::DrawRectangle(0, $screenHeight - 5, $screenWidth, 5, RL::RED());
+    DrawRectangle(0, 0, $screenWidth, 5, RED());
+    DrawRectangle(0, 5, 5, $screenHeight - 10, RED());
+    DrawRectangle($screenWidth - 5, 5, 5, $screenHeight - 10, RED());
+    DrawRectangle(0, $screenHeight - 5, $screenWidth, 5, RED());
 
-    RL::DrawRectangle(10, 10, 250, 113, RL::Fade(RL::SKYBLUE(), 0.5));
-    RL::DrawRectangleLines( 10, 10, 250, 113, RL::BLUE());
+    DrawRectangle(10, 10, 250, 113, Fade(SKYBLUE(), 0.5));
+    DrawRectangleLines( 10, 10, 250, 113, BLUE());
 
-    RL::DrawText("Free 2d camera controls:", 20, 20, 10, RL::BLACK());
-    RL::DrawText("- Right/Left to move Offset", 40, 40, 10, RL::DARKGRAY());
-    RL::DrawText("- Mouse Wheel to Zoom in-out", 40, 60, 10, RL::DARKGRAY());
-    RL::DrawText("- A / S to Rotate", 40, 80, 10, RL::DARKGRAY());
-    RL::DrawText("- R to reset Zoom and Rotation", 40, 100, 10, RL::DARKGRAY());
+    DrawText("Free 2d camera controls:", 20, 20, 10, BLACK());
+    DrawText("- Right/Left to move Offset", 40, 40, 10, DARKGRAY());
+    DrawText("- Mouse Wheel to Zoom in-out", 40, 60, 10, DARKGRAY());
+    DrawText("- A / S to Rotate", 40, 80, 10, DARKGRAY());
+    DrawText("- R to reset Zoom and Rotation", 40, 100, 10, DARKGRAY());
 
-    RL::EndDrawing();
+    EndDrawing();
 
 }
 
-RL::CloseWindow();
+CloseWindow();
