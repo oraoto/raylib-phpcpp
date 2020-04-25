@@ -276,6 +276,32 @@ class RenderTexture2D : public Php::Base {
   public:
     ::RenderTexture2D data;
     RenderTexture2D(::RenderTexture2D x) { data = x; }
+    Php::Value getid() {
+        long result = data.id;
+        return result;
+    }
+    Php::Value gettexture() {
+        Php::Value result =
+            Php::Object("RayLib\\Texture2D", new Texture2D(data.texture));
+        return result;
+    }
+    Php::Value getdepth() {
+        Php::Value result =
+            Php::Object("RayLib\\Texture2D", new Texture2D(data.depth));
+        return result;
+    }
+    Php::Value getdepthTexture() {
+        bool result = data.depthTexture;
+        return result;
+    }
+    void setid(const Php::Value &v) { data.id = (long)v; }
+    void settexture(const Php::Value &v) {
+        data.texture = ((Texture2D *)(v.implementation()))->data;
+    }
+    void setdepth(const Php::Value &v) {
+        data.depth = ((Texture2D *)(v.implementation()))->data;
+    }
+    void setdepthTexture(const Php::Value &v) { data.id = (bool)v; }
 };
 
 class NPatchInfo : public Php::Base {
@@ -4100,6 +4126,15 @@ PHPCPP_EXPORT void *get_module() {
                          &Texture2D::setformat);
 
     Php::Class<RenderTexture2D> rlRenderTexture2D("RenderTexture2D");
+    rlRenderTexture2D.property("id", &RenderTexture2D::getid,
+                               &RenderTexture2D::setid);
+    rlRenderTexture2D.property("texture", &RenderTexture2D::gettexture,
+                               &RenderTexture2D::settexture);
+    rlRenderTexture2D.property("depth", &RenderTexture2D::getdepth,
+                               &RenderTexture2D::setdepth);
+    rlRenderTexture2D.property("depthTexture",
+                               &RenderTexture2D::getdepthTexture,
+                               &RenderTexture2D::setdepthTexture);
     rlNamespace.add(rlRenderTexture2D);
 
     Php::Class<NPatchInfo> rlNPatchInfo("NPatchInfo");
