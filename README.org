@@ -34,14 +34,19 @@ See more [[./examples][examples]].
   | WindowShouldClose()           | WindowShouldClose()           |
   | InitWindow(800, 450, "title") | InitWindow(800, 450, "title") |
 
-  Since ~ImageCopy~ and ~ImageCrop~ conflicted with [[https://www.php.net/manual/en/book.image][gd]], you can't raylib-phpcpp and gd at the same time.
-
 - Color constants are exposed as global functions, for example:
 
   | C         | PHP         |
   |-----------+-------------|
   | LIGHTGRAY | LIGHTGRAY() |
   | GREEN     | GREEN()     |
+
+- All C enums are exposed global constants with ~RL_~ prefix:
+
+  | C              | PHP               |
+  |----------------+-------------------|
+  | FLAG_SHOW_LOGO | RL_FLAG_SHOW_LOGO |
+  | KEY_COMMA      | RL_KEY_COMMA      |
 
 - Constructor for simple structs (struct without array and pointer members) are exposed as function, for example to create a ~Camera2D~:
 
@@ -52,13 +57,6 @@ See more [[./examples][examples]].
   $target = Vector2(0, 0);
   $camera = Camera2D($offset, $target, 1.0, 1.0);
   #+END_SRC
-
-- All C enums are exposed global constants:
-
-  | C              | PHP            |
-  |----------------+----------------|
-  | FLAG_SHOW_LOGO | FLAG_SHOW_LOGO |
-  | KEY_COMMA      | KEY_COMMA      |
 
 - Accessor for struct fields are implemented as ~__get~ and ~__set~, some update operation are more cumbersome:
 
@@ -75,6 +73,13 @@ See more [[./examples][examples]].
   $target->x = 1;
   $camera->target = $target;
   #+END_SRC
+
+- Known name conflicts
+
+  | raylib-phpcpp | PHP          |
+  |---------------+--------------|
+  | ImageCopy     | [[https://www.php.net/manual/en/book.image.php][gd extension]] |
+  | ImageCrop     | [[https://www.php.net/manual/en/book.image.php][gd extension]] |
 
 ** Completeness
 

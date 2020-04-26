@@ -28,10 +28,10 @@ $model = LoadModelFromMesh($mesh);                          // Load model from g
 $materials = $model->materials;
 $material = $materials[0];
 $maps = $material->maps;
-$map  = $maps[MAP_ALBEDO];
+$map  = $maps[RL_MAP_ALBEDO];
 // write back
 $map->texture = $texture;
-$maps[MAP_ALBEDO] = $map;
+$maps[RL_MAP_ALBEDO] = $map;
 $material->maps = $maps;
 $materials[0] = $material;
 $model->materials = $materials;
@@ -40,7 +40,7 @@ $mapPosition = Vector3(-8.0, 0.0, -8.0);                   // Define model posit
 
 UnloadImage($image);                     // Unload heightmap image from RAM, already uploaded to VRAM
 
-SetCameraMode($camera, CAMERA_ORBITAL);  // Set an orbital camera mode
+SetCameraMode($camera, RL_CAMERA_ORBITAL);  // Set an orbital camera mode
 
 SetTargetFPS(60);                       // Set our game to run at 60 frames-per-second
 //--------------------------------------------------------------------------------------

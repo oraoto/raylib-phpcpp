@@ -41,11 +41,11 @@ SetTargetFPS(60);
 while (!WindowShouldClose()) {
     // Update
     //----------------------------------------------------------------------------------
-    if (IsKeyDown(KEY_RIGHT)) {
+    if (IsKeyDown(RL_KEY_RIGHT)) {
         $player->x = $player->x + 2; // Player movement
         $offset->x = $offset->x - 2; // Camera displacement with player movement
         $camera->offset = $offset;
-    } elseif (IsKeyDown(KEY_LEFT)) {
+    } elseif (IsKeyDown(RL_KEY_LEFT)) {
         $player->x = $player->x - 2; // Player movement
         $offset->x = $offset->x + 2; // Camera displacement with player movement
         $camera->offset = $offset;
@@ -55,9 +55,9 @@ while (!WindowShouldClose()) {
     $camera->target = Vector2($player->x + 20, $player->y + 20);
 
     // Camera rotation controls
-    if (IsKeyDown(KEY_A)) {
+    if (IsKeyDown(RL_KEY_A)) {
         $camera->rotation = $camera->rotation - 1;
-    } elseif (IsKeyDown(KEY_S)) {
+    } elseif (IsKeyDown(RL_KEY_S)) {
         $camera->rotation = $camera->rotation + 1;
     }
 
@@ -78,7 +78,7 @@ while (!WindowShouldClose()) {
     }
 
     // Camera reset (zoom and rotation)
-    if (IsKeyPressed(KEY_R)) {
+    if (IsKeyPressed(RL_KEY_R)) {
         $camera->zoom = 1.0;
         $camera->rotation = 0.0;
     }

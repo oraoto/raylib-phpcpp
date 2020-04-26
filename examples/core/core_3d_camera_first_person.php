@@ -12,7 +12,7 @@ $position = Vector3(4.0, 2.0, 4.0);
 $target = Vector3(0.0, 1.8, 0.0);
 $up = Vector3(0.0, 1.0, 0.0);
 $fovy = 60.0;
-$type = CAMERA_PERSPECTIVE;
+$type = RL_CAMERA_PERSPECTIVE;
 $camera = Camera3D($position, $target, $up, $fovy, $type);
 
 // Generates some random columns
@@ -28,7 +28,7 @@ for ($i = 0; $i < MAX_COLUMNS; $i++)
     $colors[] = Color(GetRandomValue(20, 255), GetRandomValue(10, 55), 30, 255);
 }
 
-SetCameraMode($camera, CAMERA_FIRST_PERSON); // Set a first person camera mode
+SetCameraMode($camera, RL_CAMERA_FIRST_PERSON); // Set a first person camera mode
 
 SetTargetFPS(60);                           // Set our game to run at 60 frames-per-second
 //--------------------------------------------------------------------------------------

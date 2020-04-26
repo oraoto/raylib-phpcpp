@@ -23,13 +23,13 @@ while (!WindowShouldClose()) {
     UpdateMusicStream($music);
 
     // Restart music playing (stop and play)
-    if (IsKeyPressed(KEY_SPACE)) {
+    if (IsKeyPressed(RL_KEY_SPACE)) {
         StopMusicStream($music);
         PlayMusicStream($music);
     }
 
     // Pause/Resume music playing
-    if (IsKeyPressed(KEY_P)) {
+    if (IsKeyPressed(RL_KEY_P)) {
         $pause = !$pause;
         if ($pause) {
             PauseMusicStream($music);

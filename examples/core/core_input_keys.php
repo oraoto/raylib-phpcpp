@@ -13,10 +13,10 @@ SetTargetFPS(60);
 while (!WindowShouldClose())
 {
     // Update
-    if (IsKeyDown(KEY_RIGHT)) $ballPosition->x = $ballPosition->x + 2.0;
-    if (IsKeyDown(KEY_LEFT))  $ballPosition->x = $ballPosition->x - 2.0;
-    if (IsKeyDown(KEY_UP))    $ballPosition->y = $ballPosition->y - 2.0;
-    if (IsKeyDown(KEY_DOWN))  $ballPosition->y = $ballPosition->y + 2.0;
+    if (IsKeyDown(RL_KEY_RIGHT)) $ballPosition->x = $ballPosition->x + 2.0;
+    if (IsKeyDown(RL_KEY_LEFT))  $ballPosition->x = $ballPosition->x - 2.0;
+    if (IsKeyDown(RL_KEY_UP))    $ballPosition->y = $ballPosition->y - 2.0;
+    if (IsKeyDown(RL_KEY_DOWN))  $ballPosition->y = $ballPosition->y + 2.0;
 
     // Draw
     BeginDrawing();
