@@ -27,12 +27,7 @@ $model = LoadModelFromMesh($mesh);                          // Load model from g
 /// read
 $materials = $model->materials;
 $material = $materials[0];
-$maps = $material->maps;
-$map  = $maps[RL_MAP_ALBEDO];
-// write back
-$map->texture = $texture;
-$maps[RL_MAP_ALBEDO] = $map;
-$material->maps = $maps;
+SetMaterialTexture($material, RL_MAP_ALBEDO, $texture);
 $materials[0] = $material;
 $model->materials = $materials;
 
