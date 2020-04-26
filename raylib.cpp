@@ -3302,14 +3302,16 @@ class RL : public Php::Base {
     static Php::Value LoadShader(Php::Parameters &params) {
         string p0 = params[0];
         string p1 = params[1];
-        Shader result = ::LoadShader(p0.c_str(), p1.c_str());
+        Shader result = ::LoadShader(params[0].isNull() ? 0 : p0.c_str(),
+                                     params[1].isNull() ? 0 : p1.c_str());
         return Php::Object("RayLib\\Shader", new Shader(result));
     }
 
     static Php::Value LoadShaderCode(Php::Parameters &params) {
         string p0 = params[0];
         string p1 = params[1];
-        Shader result = ::LoadShaderCode(p0.c_str(), p1.c_str());
+        Shader result = ::LoadShaderCode(params[0].isNull() ? 0 : p0.c_str(),
+                                         params[1].isNull() ? 0 : p1.c_str());
         return Php::Object("RayLib\\Shader", new Shader(result));
     }
 
