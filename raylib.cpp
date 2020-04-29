@@ -7,6 +7,12 @@ using namespace std;
 
 namespace rl {
 
+template <typename T> class DataArray : public Php::Base {
+  public:
+    T *data;
+    DataArray(T *x) { data = x; }
+};
+
 class Vector2 : public Php::Base {
   public:
     ::Vector2 data;
@@ -1426,7 +1432,17 @@ class RL : public Php::Base {
         return result;
     }
 
-    // GetDroppedFiles is not supported
+    static Php::Value GetDroppedFiles(Php::Parameters &params) {
+        int p0 = params[0];
+        auto files = ::GetDroppedFiles(&p0);
+        std::vector<string> result;
+        for (size_t i = 0; i < p0; i++) {
+            result.push_back(string(files[i]));
+        }
+        params[0] = p0;
+        return result;
+    }
+
     static void ClearDroppedFiles(Php::Parameters &params) {
         ::ClearDroppedFiles();
     }
@@ -1761,10 +1777,14 @@ class RL : public Php::Base {
     }
 
     static void DrawLineStrip(Php::Parameters &params) {
-        ::Vector2 *p0 = &((Vector2 *)(params[0].implementation()))->data;
+        auto p0 = params[0].vectorValue<Php::Value>();
         int p1 = params[1];
         ::Color p2 = ((Color *)(params[2].implementation()))->data;
-        ::DrawLineStrip(p0, p1, p2);
+        std::vector<::Vector2> arr;
+        for (int i = 0; i < p1; i++) {
+            arr.push_back(((Vector2 *)p0[i].implementation())->data);
+        }
+        ::DrawLineStrip(arr.data(), p1, p2);
     }
 
     static void DrawCircle(Php::Parameters &params) {
@@ -1968,17 +1988,25 @@ class RL : public Php::Base {
     }
 
     static void DrawTriangleFan(Php::Parameters &params) {
-        ::Vector2 *p0 = &((Vector2 *)(params[0].implementation()))->data;
+        auto p0 = params[0].vectorValue<Php::Value>();
         int p1 = params[1];
         ::Color p2 = ((Color *)(params[2].implementation()))->data;
-        ::DrawTriangleFan(p0, p1, p2);
+        std::vector<::Vector2> arr;
+        for (int i = 0; i < p1; i++) {
+            arr.push_back(((Vector2 *)p0[i].implementation())->data);
+        }
+        ::DrawTriangleFan(arr.data(), p1, p2);
     }
 
     static void DrawTriangleStrip(Php::Parameters &params) {
-        ::Vector2 *p0 = &((Vector2 *)(params[0].implementation()))->data;
+        auto p0 = params[0].vectorValue<Php::Value>();
         int p1 = params[1];
         ::Color p2 = ((Color *)(params[2].implementation()))->data;
-        ::DrawTriangleStrip(p0, p1, p2);
+        std::vector<::Vector2> arr;
+        for (int i = 0; i < p1; i++) {
+            arr.push_back(((Vector2 *)p0[i].implementation())->data);
+        }
+        ::DrawTriangleStrip(arr.data(), p1, p2);
     }
 
     static void DrawPoly(Php::Parameters &params) {
@@ -2061,10 +2089,13 @@ class RL : public Php::Base {
     }
 
     static Php::Value LoadImageEx(Php::Parameters &params) {
-        ::Color *p0 = &((Color *)(params[0].implementation()))->data;
+        std::vector<::Color> p0;
         int p1 = params[1];
-        int p2 = params[2];
-        Image result = ::LoadImageEx(p0, p1, p2);
+        int p2 = params[1];
+        for (auto v : params[0].vectorValue<Php::Value>()) {
+            p0.push_back(((Color *)v.implementation())->data);
+        }
+        Image result = ::LoadImageEx(p0.data(), p1, p2);
         return Php::Object("RayLib\\Image", new Image(result));
     }
 
@@ -2073,7 +2104,7 @@ class RL : public Php::Base {
         int p1 = params[1];
         int p2 = params[2];
         int p3 = params[3];
-        Image result = ::LoadImagePro((void *)p0.c_str(), p1, p2, p3);
+        Image result = ::LoadImagePro((void *)p0.data(), p1, p2, p3);
         return Php::Object("RayLib\\Image", new Image(result));
     }
 
@@ -2104,8 +2135,19 @@ class RL : public Php::Base {
         ::ExportImageAsCode(p0, p1.c_str());
     }
 
-    // GetImageData is not supported
-    // GetImageDataNormalized is not supported
+    static Php::Value GetImageData(Php::Parameters &params) {
+        ::Image p0 = ((Image *)(params[0].implementation()))->data;
+        ::Color *result = ::GetImageData(p0);
+        return Php::Object("RayLib\\DataArray", new DataArray<::Color>(result));
+    }
+
+    static Php::Value GetImageDataNormalized(Php::Parameters &params) {
+        ::Image p0 = ((Image *)(params[0].implementation()))->data;
+        ::Vector4 *result = ::GetImageDataNormalized(p0);
+        return Php::Object("RayLib\\DataArray",
+                           new DataArray<::Vector4>(result));
+    }
+
     static Php::Value GenImageColor(Php::Parameters &params) {
         int p0 = params[0];
         int p1 = params[1];
@@ -2345,7 +2387,14 @@ class RL : public Php::Base {
         ::ImageColorReplace(p0, p1, p2);
     }
 
-    // ImageExtractPalette is not supported
+    static Php::Value ImageExtractPalette(Php::Parameters &params) {
+        ::Image p0 = ((Image *)(params[0].implementation()))->data;
+        int p1 = params[1];
+        int p2 = params[2];
+        ::Color *result = ::ImageExtractPalette(p0, p1, &p2);
+        return Php::Object("RayLib\\DataArray", new DataArray<::Color>(result));
+    }
+
     static Php::Value GetImageAlphaBorder(Php::Parameters &params) {
         ::Image p0 = ((Image *)(params[0].implementation()))->data;
         double p1 = params[1];
@@ -2512,8 +2561,13 @@ class RL : public Php::Base {
 
     static void UpdateTexture(Php::Parameters &params) {
         ::Texture2D p0 = ((Texture2D *)(params[0].implementation()))->data;
-        string p1 = params[1];
-        ::UpdateTexture(p0, p1.c_str());
+        if (params[1].isString()) {
+            return ::UpdateTexture(p0, params[1].stringValue().data());
+        }
+        if (params[1].instanceOf("RayLib\\DataArray")) {
+            return ::UpdateTexture(
+                p0, ((DataArray<void> *)params[1].implementation())->data);
+        }
     }
 
     static Php::Value GetTextureData(Php::Parameters &params) {
@@ -3011,7 +3065,13 @@ class RL : public Php::Base {
         ::UnloadModel(p0);
     }
 
-    // LoadMeshes is not supported
+    static Php::Value LoadMeshes(Php::Parameters &params) {
+        string p0 = params[0];
+        int p1 = params[1];
+        ::Mesh *result = ::LoadMeshes(p0.c_str(), &p1);
+        return Php::Object("RayLib\\DataArray", new DataArray<::Mesh>(result));
+    }
+
     static void ExportMesh(Php::Parameters &params) {
         ::Mesh p0 = ((Mesh *)(params[0].implementation()))->data;
         string p1 = params[1];
@@ -3023,7 +3083,14 @@ class RL : public Php::Base {
         ::UnloadMesh(p0);
     }
 
-    // LoadMaterials is not supported
+    static Php::Value LoadMaterials(Php::Parameters &params) {
+        string p0 = params[0];
+        int p1 = params[1];
+        ::Material *result = ::LoadMaterials(p0.c_str(), &p1);
+        return Php::Object("RayLib\\DataArray",
+                           new DataArray<::Material>(result));
+    }
+
     static Php::Value LoadMaterialDefault(Php::Parameters &params) {
         Material result = ::LoadMaterialDefault();
         return Php::Object("RayLib\\Material", new Material(result));
@@ -3048,7 +3115,14 @@ class RL : public Php::Base {
         ::SetModelMeshMaterial(p0, p1, p2);
     }
 
-    // LoadModelAnimations is not supported
+    static Php::Value LoadModelAnimations(Php::Parameters &params) {
+        string p0 = params[0];
+        int p1 = params[1];
+        ::ModelAnimation *result = ::LoadModelAnimations(p0.c_str(), &p1);
+        return Php::Object("RayLib\\DataArray",
+                           new DataArray<::ModelAnimation>(result));
+    }
+
     static void UpdateModelAnimation(Php::Parameters &params) {
         ::Model p0 = ((Model *)(params[0].implementation()))->data;
         ::ModelAnimation p1 =
@@ -3520,7 +3594,7 @@ class RL : public Php::Base {
         ::Sound p0 = ((Sound *)(params[0].implementation()))->data;
         string p1 = params[1];
         int p2 = params[2];
-        ::UpdateSound(p0, p1.c_str(), p2);
+        ::UpdateSound(p0, p1.data(), p2);
     }
 
     static void UnloadWave(Php::Parameters &params) {
@@ -3616,7 +3690,12 @@ class RL : public Php::Base {
         ::WaveCrop(p0, p1, p2);
     }
 
-    // GetWaveData is not supported
+    static Php::Value GetWaveData(Php::Parameters &params) {
+        ::Wave p0 = ((Wave *)(params[0].implementation()))->data;
+        float *result = ::GetWaveData(p0);
+        return Php::Object("RayLib\\DataArray", new DataArray<float>(result));
+    }
+
     static Php::Value LoadMusicStream(Php::Parameters &params) {
         string p0 = params[0];
         Music result = ::LoadMusicStream(p0.c_str());
@@ -4423,7 +4502,7 @@ PHPCPP_EXPORT void *get_module() {
     extension.add<&RL::ClearDirectoryFiles>("ClearDirectoryFiles");
     extension.add<&RL::ChangeDirectory>("ChangeDirectory");
     extension.add<&RL::IsFileDropped>("IsFileDropped");
-    // GetDroppedFiles is not supported
+    extension.add<&RL::GetDroppedFiles>("GetDroppedFiles");
     extension.add<&RL::ClearDroppedFiles>("ClearDroppedFiles");
     extension.add<&RL::GetFileModTime>("GetFileModTime");
     // CompressData is not supported
@@ -4526,8 +4605,8 @@ PHPCPP_EXPORT void *get_module() {
     extension.add<&RL::UnloadImage>("UnloadImage");
     extension.add<&RL::ExportImage>("ExportImage");
     extension.add<&RL::ExportImageAsCode>("ExportImageAsCode");
-    // GetImageData is not supported
-    // GetImageDataNormalized is not supported
+    extension.add<&RL::GetImageData>("GetImageData");
+    extension.add<&RL::GetImageDataNormalized>("GetImageDataNormalized");
     extension.add<&RL::GenImageColor>("GenImageColor");
     extension.add<&RL::GenImageGradientV>("GenImageGradientV");
     extension.add<&RL::GenImageGradientH>("GenImageGradientH");
@@ -4654,15 +4733,15 @@ PHPCPP_EXPORT void *get_module() {
     extension.add<&RL::LoadModel>("LoadModel");
     extension.add<&RL::LoadModelFromMesh>("LoadModelFromMesh");
     extension.add<&RL::UnloadModel>("UnloadModel");
-    // LoadMeshes is not supported
+    extension.add<&RL::UnloadModel>("LoadMeshes");
     extension.add<&RL::ExportMesh>("ExportMesh");
     extension.add<&RL::UnloadMesh>("UnloadMesh");
-    // LoadMaterials is not supported
+    extension.add<&RL::UnloadMesh>("LoadMaterials");
     extension.add<&RL::LoadMaterialDefault>("LoadMaterialDefault");
     extension.add<&RL::UnloadMaterial>("UnloadMaterial");
     extension.add<&RL::SetMaterialTexture>("SetMaterialTexture");
     extension.add<&RL::SetModelMeshMaterial>("SetModelMeshMaterial");
-    // LoadModelAnimations is not supported
+    extension.add<&RL::SetModelMeshMaterial>("LoadModelAnimations");
     extension.add<&RL::UpdateModelAnimation>("UpdateModelAnimation");
     extension.add<&RL::UnloadModelAnimation>("UnloadModelAnimation");
     extension.add<&RL::IsModelAnimationValid>("IsModelAnimationValid");
@@ -4753,7 +4832,7 @@ PHPCPP_EXPORT void *get_module() {
     extension.add<&RL::WaveFormat>("WaveFormat");
     extension.add<&RL::WaveCopy>("WaveCopy");
     extension.add<&RL::WaveCrop>("WaveCrop");
-    // GetWaveData is not supported
+    extension.add<&RL::WaveCrop>("GetWaveData");
     extension.add<&RL::LoadMusicStream>("LoadMusicStream");
     extension.add<&RL::UnloadMusicStream>("UnloadMusicStream");
     extension.add<&RL::PlayMusicStream>("PlayMusicStream");
