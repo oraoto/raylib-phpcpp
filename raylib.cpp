@@ -1,16 +1,101 @@
+#include <cstring>
+#include <iostream>
 #include <phpcpp.h>
 #include <raylib.h>
+#include <string.h>
 #include <string>
+#include <type_traits>
 #include <vector>
 
 using namespace std;
 
 namespace rl {
 
-template <typename T> class DataArray : public Php::Base {
+template <typename T>
+class ScalarArray : public Php::Base,
+                    public Php::ArrayAccess,
+                    public Php::Countable {
   public:
     T *data;
-    DataArray(T *x) { data = x; }
+    int item_count;
+    ScalarArray(T *_data) {
+        data = _data;
+        item_count = -1;
+    }
+    ScalarArray(T *_data, int _count) {
+        data = _data;
+        item_count = _count;
+    }
+
+    Php::Value getArray() {
+        std::vector<Php::Value> result;
+        for (int i = 0; i < item_count; i++) {
+            result.push_back(Php::Value(data[i]));
+        }
+        return result;
+    }
+
+    virtual bool offsetExists(const Php::Value &key) override {
+        return key.isNumeric() &&
+               (item_count == -1 || item_count > key.isNumeric());
+    }
+
+    virtual void offsetSet(const Php::Value &key,
+                           const Php::Value &value) override {
+        data[key.numericValue()] = (T)(value.floatValue());
+    }
+
+    virtual Php::Value offsetGet(const Php::Value &key) override {
+        return (T)data[key.numericValue()];
+    }
+
+    virtual void offsetUnset(const Php::Value &key) override { return; }
+    virtual long count() override { return item_count; }
+};
+
+template <typename T, typename U>
+class StructArray : public Php::Base,
+                    public Php::ArrayAccess,
+                    public Php::Countable {
+  public:
+    T *data;
+    int item_count;
+    string name;
+    StructArray(string _name, T *_data) {
+        name = _name;
+        data = _data;
+        item_count = -1;
+    }
+    StructArray(string _name, T *_data, int _count) {
+        name = _name;
+        data = _data;
+        item_count = _count;
+    }
+
+    Php::Value getArray() {
+        std::vector<Php::Value> result;
+        for (int i = 0; i < item_count; i++) {
+            result.push_back(Php::Object(name.c_str(), new U(data[i])));
+        }
+        return result;
+    }
+
+    virtual bool offsetExists(const Php::Value &key) override {
+        return key.isNumeric() &&
+               (item_count == -1 || item_count > key.isNumeric());
+    }
+
+    virtual void offsetSet(const Php::Value &key,
+                           const Php::Value &value) override {
+        data[key.numericValue()] = ((U *)value.implementation())->data;
+    }
+
+    virtual Php::Value offsetGet(const Php::Value &key) override {
+        return Php::Object(name.c_str(), new U(data[key]));
+    }
+
+    virtual void offsetUnset(const Php::Value &key) override { return; }
+    virtual long count() override { return item_count; }
 };
 
 class Vector2 : public Php::Base {
@@ -1433,13 +1518,12 @@ class RL : public Php::Base {
     }
 
     static Php::Value GetDroppedFiles(Php::Parameters &params) {
-        int p0 = params[0];
+        int p0 = 0;
         auto files = ::GetDroppedFiles(&p0);
         std::vector<string> result;
-        for (size_t i = 0; i < p0; i++) {
+        for (int i = 0; i < p0; i++) {
             result.push_back(string(files[i]));
         }
-        params[0] = p0;
         return result;
     }
 
@@ -2138,14 +2222,17 @@ class RL : public Php::Base {
     static Php::Value GetImageData(Php::Parameters &params) {
         ::Image p0 = ((Image *)(params[0].implementation()))->data;
         ::Color *result = ::GetImageData(p0);
-        return Php::Object("RayLib\\DataArray", new DataArray<::Color>(result));
+        return Php::Object(
+            "RayLib\\StructArray_Color",
+            new StructArray<::Color, Color>("RayLib\\Color", result));
     }
 
     static Php::Value GetImageDataNormalized(Php::Parameters &params) {
         ::Image p0 = ((Image *)(params[0].implementation()))->data;
         ::Vector4 *result = ::GetImageDataNormalized(p0);
-        return Php::Object("RayLib\\DataArray",
-                           new DataArray<::Vector4>(result));
+        return Php::Object(
+            "RayLib\\StructArray_Vector4",
+            new StructArray<::Vector4, Vector4>("RayLib\\Vector4", result));
     }
 
     static Php::Value GenImageColor(Php::Parameters &params) {
@@ -2390,9 +2477,11 @@ class RL : public Php::Base {
     static Php::Value ImageExtractPalette(Php::Parameters &params) {
         ::Image p0 = ((Image *)(params[0].implementation()))->data;
         int p1 = params[1];
-        int p2 = params[2];
+        int p2 = 0;
         ::Color *result = ::ImageExtractPalette(p0, p1, &p2);
-        return Php::Object("RayLib\\DataArray", new DataArray<::Color>(result));
+        return Php::Object(
+            "RayLib\\StructArray_Color",
+            new StructArray<::Color, Color>("RayLib\\Color", result, p2));
     }
 
     static Php::Value GetImageAlphaBorder(Php::Parameters &params) {
@@ -2564,9 +2653,20 @@ class RL : public Php::Base {
         if (params[1].isString()) {
             return ::UpdateTexture(p0, params[1].stringValue().data());
         }
-        if (params[1].instanceOf("RayLib\\DataArray")) {
+        if (params[1].instanceOf("RayLib\\ScalarArray_float")) {
             return ::UpdateTexture(
-                p0, ((DataArray<void> *)params[1].implementation())->data);
+                p0, ((ScalarArray<float> *)params[1].implementation())->data);
+        }
+        if (params[1].instanceOf("RayLib\\StructArray_Vector4")) {
+            return ::UpdateTexture(
+                p0,
+                ((StructArray<::Vector4, Vector4> *)params[1].implementation())
+                    ->data);
+        }
+        if (params[1].instanceOf("RayLib\\StructArray_Color")) {
+            return ::UpdateTexture(
+                p0, ((StructArray<::Color, Color> *)params[1].implementation())
+                        ->data);
         }
     }
 
@@ -2678,14 +2778,15 @@ class RL : public Php::Base {
         return Php::Object("RayLib\\Font", new Font(result));
     }
 
-    // static Php::Value LoadFontEx(Php::Parameters &params) {
-    //   string p0 = params[0];
-    //   int p1 = params[1];
-    //   // Pointer to scalar as argument is not supported
-    //   int p3 = params[3];
-    //   Font result = ::LoadFontEx(p0.c_str(), p1, p2, p3);
-    //   return Php::Object("RayLib\\Font", new Font(result));
-    // }
+    static Php::Value LoadFontEx(Php::Parameters &params) {
+        string p0 = params[0];
+        int p1 = params[1];
+        int p2 = 0;
+        int p3 = params[3];
+        Font result = ::LoadFontEx(p0.c_str(), p1, &p2, p3);
+        params[2] = p2;
+        return Php::Object("RayLib\\Font", new Font(result));
+    }
 
     static Php::Value LoadFontFromImage(Php::Parameters &params) {
         ::Image p0 = ((Image *)(params[0].implementation()))->data;
@@ -3069,7 +3170,8 @@ class RL : public Php::Base {
         string p0 = params[0];
         int p1 = params[1];
         ::Mesh *result = ::LoadMeshes(p0.c_str(), &p1);
-        return Php::Object("RayLib\\DataArray", new DataArray<::Mesh>(result));
+        return Php::Object("RayLib\\StructArray", new StructArray<::Mesh, Mesh>(
+                                                      "RayLib\\Mesh", result));
     }
 
     static void ExportMesh(Php::Parameters &params) {
@@ -3085,10 +3187,11 @@ class RL : public Php::Base {
 
     static Php::Value LoadMaterials(Php::Parameters &params) {
         string p0 = params[0];
-        int p1 = params[1];
+        int p1 = 0;
         ::Material *result = ::LoadMaterials(p0.c_str(), &p1);
-        return Php::Object("RayLib\\DataArray",
-                           new DataArray<::Material>(result));
+        return Php::Object("RayLib\\StructArray",
+                           new StructArray<::Material, Material>(
+                               "RayLib\\Material", result, p1));
     }
 
     static Php::Value LoadMaterialDefault(Php::Parameters &params) {
@@ -3117,10 +3220,11 @@ class RL : public Php::Base {
 
     static Php::Value LoadModelAnimations(Php::Parameters &params) {
         string p0 = params[0];
-        int p1 = params[1];
+        int p1 = 0;
         ::ModelAnimation *result = ::LoadModelAnimations(p0.c_str(), &p1);
-        return Php::Object("RayLib\\DataArray",
-                           new DataArray<::ModelAnimation>(result));
+        return Php::Object("RayLib\\StructArray",
+                           new StructArray<::ModelAnimation, ModelAnimation>(
+                               "RayLib\\ModelAnimation", result, p1));
     }
 
     static void UpdateModelAnimation(Php::Parameters &params) {
@@ -3693,7 +3797,8 @@ class RL : public Php::Base {
     static Php::Value GetWaveData(Php::Parameters &params) {
         ::Wave p0 = ((Wave *)(params[0].implementation()))->data;
         float *result = ::GetWaveData(p0);
-        return Php::Object("RayLib\\DataArray", new DataArray<float>(result));
+        return Php::Object("RayLib\\ScalarArray_float",
+                           new ScalarArray<float>(result));
     }
 
     static Php::Value LoadMusicStream(Php::Parameters &params) {
@@ -3840,15 +3945,17 @@ class RL : public Php::Base {
     static Php::Value createVector2(Php::Parameters &params) {
         double p0 = params[0];
         double p1 = params[1];
-        return Php::Object("RayLib\\Vector2", new Vector2(::Vector2{p0, p1}));
+        return Php::Object("RayLib\\Vector2",
+                           new Vector2(::Vector2{(float)p0, (float)p1}));
     }
 
     static Php::Value createVector3(Php::Parameters &params) {
         double p0 = params[0];
         double p1 = params[1];
         double p2 = params[2];
-        return Php::Object("RayLib\\Vector3",
-                           new Vector3(::Vector3{p0, p1, p2}));
+        return Php::Object(
+            "RayLib\\Vector3",
+            new Vector3(::Vector3{(float)p0, (float)p1, (float)p2}));
     }
 
     static Php::Value createVector4(Php::Parameters &params) {
@@ -3856,8 +3963,9 @@ class RL : public Php::Base {
         double p1 = params[1];
         double p2 = params[2];
         double p3 = params[3];
-        return Php::Object("RayLib\\Vector4",
-                           new Vector4(::Vector4{p0, p1, p2, p3}));
+        return Php::Object(
+            "RayLib\\Vector4",
+            new Vector4(::Vector4{(float)p0, (float)p1, (float)p2, (float)p3}));
     }
 
     static Php::Value createMatrix(Php::Parameters &params) {
@@ -3879,8 +3987,11 @@ class RL : public Php::Base {
         double p15 = params[15];
         return Php::Object(
             "RayLib\\Matrix",
-            new Matrix(::Matrix{p0, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10,
-                                p11, p12, p13, p14, p15}));
+            new Matrix(::Matrix{(float)p0, (float)p1, (float)p2, (float)p3,
+                                (float)p4, (float)p5, (float)p6, (float)p7,
+                                (float)p8, (float)p9, (float)p10, (float)p11,
+                                (float)p12, (float)p13, (float)p14,
+                                (float)p15}));
     }
 
     static Php::Value createColor(Php::Parameters &params) {
@@ -3888,7 +3999,10 @@ class RL : public Php::Base {
         int p1 = params[1];
         int p2 = params[2];
         int p3 = params[3];
-        return Php::Object("RayLib\\Color", new Color(::Color{p0, p1, p2, p3}));
+        return Php::Object(
+            "RayLib\\Color",
+            new Color(::Color{(unsigned char)p0, (unsigned char)p1,
+                              (unsigned char)p2, (unsigned char)p3}));
     }
 
     static Php::Value createRectangle(Php::Parameters &params) {
@@ -3897,7 +4011,8 @@ class RL : public Php::Base {
         double p2 = params[2];
         double p3 = params[3];
         return Php::Object("RayLib\\Rectangle",
-                           new Rectangle(::Rectangle{p0, p1, p2, p3}));
+                           new Rectangle(::Rectangle{(float)p0, (float)p1,
+                                                     (float)p2, (float)p3}));
     }
 
     static Php::Value createTexture2D(Php::Parameters &params) {
@@ -3906,8 +4021,9 @@ class RL : public Php::Base {
         int p2 = params[2];
         int p3 = params[3];
         int p4 = params[4];
-        return Php::Object("RayLib\\Texture2D",
-                           new Texture2D(::Texture2D{p0, p1, p2, p3, p4}));
+        return Php::Object(
+            "RayLib\\Texture2D",
+            new Texture2D(::Texture2D{(unsigned int)p0, p1, p2, p3, p4}));
     }
 
     static Php::Value createRenderTexture2D(Php::Parameters &params) {
@@ -3943,7 +4059,7 @@ class RL : public Php::Base {
         double p3 = params[3];
         int p4 = params[4];
         return Php::Object("RayLib\\Camera3D",
-                           new Camera3D(::Camera3D{p0, p1, p2, p3, p4}));
+                           new Camera3D(::Camera3D{p0, p1, p2, (float)p3, p4}));
     }
 
     static Php::Value createCamera2D(Php::Parameters &params) {
@@ -3951,8 +4067,9 @@ class RL : public Php::Base {
         ::Vector2 p1 = ((Vector2 *)(params[1].implementation()))->data;
         double p2 = params[2];
         double p3 = params[3];
-        return Php::Object("RayLib\\Camera2D",
-                           new Camera2D(::Camera2D{p0, p1, p2, p3}));
+        return Php::Object(
+            "RayLib\\Camera2D",
+            new Camera2D(::Camera2D{p0, p1, (float)p2, (float)p3}));
     }
 
     static Php::Value createMaterialMap(Php::Parameters &params) {
@@ -3960,7 +4077,7 @@ class RL : public Php::Base {
         ::Color p1 = ((Color *)(params[1].implementation()))->data;
         double p2 = params[2];
         return Php::Object("RayLib\\MaterialMap",
-                           new MaterialMap(::MaterialMap{p0, p1, p2}));
+                           new MaterialMap(::MaterialMap{p0, p1, (float)p2}));
     }
 
     static Php::Value createTransform(Php::Parameters &params) {
@@ -3992,7 +4109,8 @@ class RL : public Php::Base {
     static Php::Value createSound(Php::Parameters &params) {
         long p0 = params[0];
         ::AudioStream p1 = ((AudioStream *)(params[1].implementation()))->data;
-        return Php::Object("RayLib\\Sound", new Sound(::Sound{p0, p1}));
+        return Php::Object("RayLib\\Sound",
+                           new Sound(::Sound{(unsigned int)p0, p1}));
     }
 
     static Php::Value getColorLIGHTGRAY() {
@@ -4134,6 +4252,17 @@ PHPCPP_EXPORT void *get_module() {
     Php::Namespace rlNamespace("RayLib");
 
     Php::Class<RL> rlClass("RL");
+
+    Php::Class<ScalarArray<float>> scalarArrayFloat("ScalarArray_float");
+    rlNamespace.add(scalarArrayFloat);
+
+    Php::Class<StructArray<::Color, Color>> structArrayColor(
+        "StructArray_Color");
+    rlNamespace.add(structArrayColor);
+
+    Php::Class<StructArray<::Vector4, Vector4>> structArrayVector4(
+        "StructArray_Vector4");
+    rlNamespace.add(structArrayVector4);
 
     Php::Class<Vector2> rlVector2("Vector2");
     rlNamespace.add(rlVector2);
@@ -4641,7 +4770,7 @@ PHPCPP_EXPORT void *get_module() {
     extension.add<&RL::ImageColorContrast>("ImageColorContrast");
     extension.add<&RL::ImageColorBrightness>("ImageColorBrightness");
     extension.add<&RL::ImageColorReplace>("ImageColorReplace");
-    // ImageExtractPalette is not supported
+    extension.add<&RL::ImageExtractPalette>("ImageExtractPalette");
     extension.add<&RL::GetImageAlphaBorder>("GetImageAlphaBorder");
     extension.add<&RL::ImageClearBackground>("ImageClearBackground");
     extension.add<&RL::ImageDrawPixel>("ImageDrawPixel");
@@ -4832,7 +4961,7 @@ PHPCPP_EXPORT void *get_module() {
     extension.add<&RL::WaveFormat>("WaveFormat");
     extension.add<&RL::WaveCopy>("WaveCopy");
     extension.add<&RL::WaveCrop>("WaveCrop");
-    extension.add<&RL::WaveCrop>("GetWaveData");
+    extension.add<&RL::GetWaveData>("GetWaveData");
     extension.add<&RL::LoadMusicStream>("LoadMusicStream");
     extension.add<&RL::UnloadMusicStream>("UnloadMusicStream");
     extension.add<&RL::PlayMusicStream>("PlayMusicStream");

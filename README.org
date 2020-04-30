@@ -29,21 +29,21 @@ See more [[./examples][examples]].
 
 - All C functions are exposed as PHP global functions, for example:
 
-  | C                             | PHP                           |
+  | C                             | raylib-phpcpp                 |
   |-------------------------------+-------------------------------|
   | WindowShouldClose()           | WindowShouldClose()           |
   | InitWindow(800, 450, "title") | InitWindow(800, 450, "title") |
 
 - Color constants are exposed as global functions, for example:
 
-  | C         | PHP         |
-  |-----------+-------------|
-  | LIGHTGRAY | LIGHTGRAY() |
-  | GREEN     | GREEN()     |
+  | C         | raylib-phpcpp |
+  |-----------+---------------|
+  | LIGHTGRAY | LIGHTGRAY()   |
+  | GREEN     | GREEN()       |
 
-- All C enums are exposed global constants with ~RL_~ prefix:
+- All C enums are exposed as global constants with ~RL_~ prefix:
 
-  | C              | PHP               |
+  | C              | raylib-phpcpp     |
   |----------------+-------------------|
   | FLAG_SHOW_LOGO | RL_FLAG_SHOW_LOGO |
   | KEY_COMMA      | RL_KEY_COMMA      |
@@ -80,6 +80,18 @@ See more [[./examples][examples]].
   |---------------+--------------|
   | ImageCopy     | [[https://www.php.net/manual/en/book.image.php][gd extension]] |
   | ImageCrop     | [[https://www.php.net/manual/en/book.image.php][gd extension]] |
+
+- API differences
+
+  TBD.
+
+  | Function            |
+  |---------------------|
+  | GetDroppedFiles     |
+  | ImageExtractPalette |
+  | LoadModelAnimations |
+  | LoadMeshes          |
+  | LoadMaterials       |
 
 ** Completeness
 
