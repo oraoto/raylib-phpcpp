@@ -1,11 +1,5 @@
-#include <cstring>
-#include <iostream>
 #include <phpcpp.h>
 #include <raylib.h>
-#include <string.h>
-#include <string>
-#include <type_traits>
-#include <vector>
 
 using namespace std;
 
