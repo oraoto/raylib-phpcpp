@@ -95,6 +95,7 @@ class StructArray : public Php::Base,
 class Vector2 : public Php::Base {
   public:
     ::Vector2 data;
+    void __destruct() const { }
     Vector2(::Vector2 x) { data = x; }
     Php::Value getx() {
         double result = data.x;
@@ -111,6 +112,7 @@ class Vector2 : public Php::Base {
 class Vector3 : public Php::Base {
   public:
     ::Vector3 data;
+    void __destruct() const { }
     Vector3(::Vector3 x) { data = x; }
     Php::Value getx() {
         double result = data.x;
@@ -132,6 +134,7 @@ class Vector3 : public Php::Base {
 class Vector4 : public Php::Base {
   public:
     ::Vector4 data;
+    void __destruct() const { }
     Vector4(::Vector4 x) { data = x; }
     Php::Value getx() {
         double result = data.x;
@@ -158,6 +161,7 @@ class Vector4 : public Php::Base {
 class Matrix : public Php::Base {
   public:
     ::Matrix data;
+    void __destruct() const { }
     Matrix(::Matrix x) { data = x; }
     Php::Value getm0() {
         double result = data.m0;
@@ -244,6 +248,7 @@ class Matrix : public Php::Base {
 class Color : public Php::Base {
   public:
     ::Color data;
+    void __destruct() const { }
     Color(::Color x) { data = x; }
     Php::Value getr() {
         int result = data.r;
@@ -270,6 +275,7 @@ class Color : public Php::Base {
 class Rectangle : public Php::Base {
   public:
     ::Rectangle data;
+    void __destruct() const { }
     Rectangle(::Rectangle x) { data = x; }
     Php::Value getx() {
         double result = data.x;
@@ -296,6 +302,7 @@ class Rectangle : public Php::Base {
 class Image : public Php::Base {
   public:
     ::Image data;
+    void __destruct() const { }
     Image(::Image x) { data = x; }
     Php::Value getdata() {
         void *result = data.data;
@@ -329,6 +336,7 @@ class Image : public Php::Base {
 class Texture2D : public Php::Base {
   public:
     ::Texture2D data;
+    void __destruct() const { }
     Texture2D(::Texture2D x) { data = x; }
     Php::Value getid() {
         long result = data.id;
@@ -360,6 +368,7 @@ class Texture2D : public Php::Base {
 class RenderTexture2D : public Php::Base {
   public:
     ::RenderTexture2D data;
+    void __destruct() const { }
     RenderTexture2D(::RenderTexture2D x) { data = x; }
     Php::Value getid() {
         long result = data.id;
@@ -392,6 +401,7 @@ class RenderTexture2D : public Php::Base {
 class NPatchInfo : public Php::Base {
   public:
     ::NPatchInfo data;
+    void __destruct() const { }
     NPatchInfo(::NPatchInfo x) { data = x; }
     Php::Value getsourceRec() {
         Php::Value result =
@@ -431,6 +441,7 @@ class NPatchInfo : public Php::Base {
 class CharInfo : public Php::Base {
   public:
     ::CharInfo data;
+    void __destruct() const { }
     CharInfo(::CharInfo x) { data = x; }
     Php::Value getvalue() {
         int result = data.value;
@@ -464,6 +475,7 @@ class CharInfo : public Php::Base {
 class Font : public Php::Base {
   public:
     ::Font data;
+    void __destruct() const { }
     Font(::Font x) { data = x; }
     Php::Value getbaseSize() {
         int result = data.baseSize;
@@ -488,6 +500,7 @@ class Font : public Php::Base {
 class Camera3D : public Php::Base {
   public:
     ::Camera3D data;
+    void __destruct() const { }
     Camera3D(::Camera3D x) { data = x; }
     Php::Value getposition() {
         Php::Value result =
@@ -528,6 +541,7 @@ class Camera3D : public Php::Base {
 class Camera2D : public Php::Base {
   public:
     ::Camera2D data;
+    void __destruct() const { }
     Camera2D(::Camera2D x) { data = x; }
     Php::Value getoffset() {
         Php::Value result =
@@ -560,6 +574,7 @@ class Camera2D : public Php::Base {
 class Mesh : public Php::Base {
   public:
     ::Mesh data;
+    void __destruct() const { }
     Mesh(::Mesh x) { data = x; }
     Php::Value getvertexCount() {
         int result = data.vertexCount;
@@ -629,6 +644,7 @@ class Mesh : public Php::Base {
 class Shader : public Php::Base {
   public:
     ::Shader data;
+    void __destruct() const { }
     Shader(::Shader x) { data = x; }
     Php::Value getid() {
         long result = data.id;
@@ -653,6 +669,7 @@ class Shader : public Php::Base {
 class MaterialMap : public Php::Base {
   public:
     ::MaterialMap data;
+    void __destruct() const { }
     MaterialMap(::MaterialMap x) { data = x; }
     Php::Value gettexture() {
         Php::Value result =
@@ -679,6 +696,7 @@ class MaterialMap : public Php::Base {
 class Material : public Php::Base {
   public:
     ::Material data;
+    void __destruct() const { }
     Material(::Material x) { data = x; }
     Php::Value getshader() {
         Php::Value result =
@@ -711,6 +729,7 @@ class Material : public Php::Base {
 class Transform : public Php::Base {
   public:
     ::Transform data;
+    void __destruct() const { }
     Transform(::Transform x) { data = x; }
     Php::Value gettranslation() {
         Php::Value result =
@@ -741,6 +760,7 @@ class Transform : public Php::Base {
 class BoneInfo : public Php::Base {
   public:
     ::BoneInfo data;
+    void __destruct() const { }
     BoneInfo(::BoneInfo x) { data = x; }
     Php::Value getname() {
         string result(data.name, 32);
@@ -759,6 +779,7 @@ class BoneInfo : public Php::Base {
 class Model : public Php::Base {
   public:
     ::Model data;
+    void __destruct() const { }
     Model(::Model x) { data = x; }
     Php::Value gettransform() {
         Php::Value result =
@@ -820,6 +841,7 @@ class Model : public Php::Base {
 class ModelAnimation : public Php::Base {
   public:
     ::ModelAnimation data;
+    void __destruct() const { }
     ModelAnimation(::ModelAnimation x) { data = x; }
     Php::Value getboneCount() {
         int result = data.boneCount;
@@ -836,6 +858,7 @@ class ModelAnimation : public Php::Base {
 class Ray : public Php::Base {
   public:
     ::Ray data;
+    void __destruct() const { }
     Ray(::Ray x) { data = x; }
     Php::Value getposition() {
         Php::Value result =
@@ -858,12 +881,14 @@ class Ray : public Php::Base {
 class RayHitInfo : public Php::Base {
   public:
     ::RayHitInfo data;
+    void __destruct() const { }
     RayHitInfo(::RayHitInfo x) { data = x; }
 };
 
 class BoundingBox : public Php::Base {
   public:
     ::BoundingBox data;
+    void __destruct() const { }
     BoundingBox(::BoundingBox x) { data = x; }
     Php::Value getmin() {
         Php::Value result =
@@ -886,6 +911,7 @@ class BoundingBox : public Php::Base {
 class Wave : public Php::Base {
   public:
     ::Wave data;
+    void __destruct() const { }
     Wave(::Wave x) { data = x; }
     Php::Value getsampleCount() {
         long result = data.sampleCount;
@@ -918,6 +944,7 @@ class rAudioBuffer : public Php::Base {
 class AudioStream : public Php::Base {
   public:
     ::AudioStream data;
+    void __destruct() const { }
     AudioStream(::AudioStream x) { data = x; }
     Php::Value getsampleRate() {
         long result = data.sampleRate;
@@ -939,6 +966,7 @@ class AudioStream : public Php::Base {
 class Sound : public Php::Base {
   public:
     ::Sound data;
+    void __destruct() const { }
     Sound(::Sound x) { data = x; }
     Php::Value getsampleCount() {
         long result = data.sampleCount;
@@ -958,6 +986,7 @@ class Sound : public Php::Base {
 class Music : public Php::Base {
   public:
     ::Music data;
+    void __destruct() const { }
     Music(::Music x) { data = x; }
     Php::Value getctxType() {
         int result = data.ctxType;
@@ -987,6 +1016,7 @@ class Music : public Php::Base {
 class VrDeviceInfo : public Php::Base {
   public:
     ::VrDeviceInfo data;
+    void __destruct() const { }
     VrDeviceInfo(::VrDeviceInfo x) { data = x; }
     Php::Value gethResolution() {
         int result = data.hResolution;
@@ -1065,6 +1095,7 @@ class VrDeviceInfo : public Php::Base {
 class TraceLogCallback : public Php::Base {
   public:
     ::TraceLogCallback data;
+    void __destruct() const { }
     TraceLogCallback(::TraceLogCallback x) { data = x; }
 };
 

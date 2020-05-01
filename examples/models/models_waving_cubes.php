@@ -18,6 +18,18 @@ SetTargetFPS(60);
 
 $raywhite = RAYWHITE();
 
+$cubeColors = [];
+for ($x = 0; $x < $numBlocks; $x++)
+{
+    for ($y = 0; $y < $numBlocks; $y++)
+    {
+        for ($z = 0; $z < $numBlocks; $z++)
+        {
+            $cubeColors[$x][$y][$z] = ColorFromHSV(Vector3(((($x + $y + $z)*18)%360), 0.75, 0.9));
+        }
+    }
+}
+
 // Main game loop
 while (!WindowShouldClose())    // Detect window close button or ESC key
 {
@@ -67,7 +79,8 @@ while (!WindowShouldClose())    // Detect window close button or ESC key
                         );
 
                         // Pick a color with a hue depending on cube position for the rainbow color effect
-                        $cubeColor = ColorFromHSV(Vector3(((($x + $y + $z)*18)%360), 0.75, 0.9));
+                        $cubeColor = $cubeColors[$x][$y][$z];
+                        // $cubeColor = ColorFromHSV(Vector3(((($x + $y + $z)*18)%360), 0.75, 0.9));
 
                         // Calculate cube size
                         $cubeSize = (2.4 - $scale) * $blockScale;
