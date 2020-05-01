@@ -1,6 +1,6 @@
 <?php
 
-use RayLib\RL;
+include __DIR__ . "/../utils.php";
 
 // Initialization
 //--------------------------------------------------------------------------------------
@@ -25,11 +25,7 @@ $model = LoadModelFromMesh($mesh);                          // Load model from g
 // Set map diffuse texture :(
 // model.materials[0].maps[MAP_DIFFUSE].texture = texture;
 /// read
-$materials = $model->materials;
-$material = $materials[0];
-SetMaterialTexture($material, RL_MAP_ALBEDO, $texture);
-$materials[0] = $material;
-$model->materials = $materials;
+SetModelMaterialTexture($model, 0, RL_MAP_ALBEDO, $texture);
 
 $mapPosition = Vector3(-8.0, 0.0, -8.0);                   // Define model position
 

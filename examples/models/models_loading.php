@@ -1,5 +1,7 @@
 <?php
 
+include __DIR__ . "/../utils.php";
+
 // Initialization
 //--------------------------------------------------------------------------------------
 $screenWidth = 800;
@@ -13,11 +15,7 @@ $camera = Camera3D(Vector3(50, 50, 50), Vector3(0, 10, 0), Vector3(0, 1, 0), 45.
 $model = LoadModel(__DIR__ . "/resources/models/castle.obj");                 // Load model
 $texture = LoadTexture(__DIR__ . "/resources/models/castle_diffuse.png"); // Load model texture
 // model.materials[0].maps[MAP_DIFFUSE].texture = texture;                 // Set map diffuse texture
-$materials = $model->materials;
-$material = $materials[0];
-SetMaterialTexture($material, RL_MAP_ALBEDO, $texture);
-$materials[0] = $material;
-$model->materials = $materials;
+SetModelMaterialTexture($model, 0, RL_MAP_ALBEDO, $texture);
 
 $position = Vector3(0.0, 0.0, 0.0);
 
@@ -53,13 +51,7 @@ while (!WindowShouldClose())    // Detect window close button or ESC key
             {
                 UnloadModel($model);                     // Unload previous model
                 $model = LoadModel($droppedFiles[0]);     // Load new model
-                // model.materials[0].maps[MAP_DIFFUSE].texture = texture; // Set current map diffuse texture
-                $materials = $model->materials;
-                $material = $materials[0];
-                SetMaterialTexture($material, RL_MAP_ALBEDO, $texture);
-                $materials[0] = $material;
-                $model->materials = $materials;
-
+                SetModelMaterialTexture($model, 0, RL_MAP_ALBEDO, $texture);
                 $bounds = MeshBoundingBox($model->meshes[0]);
                 // TODO: Move camera position from target enough distance to visualize model properly
             }
@@ -68,12 +60,7 @@ while (!WindowShouldClose())    // Detect window close button or ESC key
                 // Unload current model texture and load new one
                 UnloadTexture($texture);
                 $texture = LoadTexture($droppedFiles[0]);
-                // model.materials[0].maps[MAP_DIFFUSE].texture = texture;
-                $materials = $model->materials;
-                $material = $materials[0];
-                SetMaterialTexture($material, RL_MAP_ALBEDO, $texture);
-                $materials[0] = $material;
-                $model->materials = $materials;
+                SetModelMaterialTexture($model, 0, RL_MAP_ALBEDO, $texture);
             }
         }
 

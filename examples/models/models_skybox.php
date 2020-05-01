@@ -1,4 +1,7 @@
 <?php
+
+include __DIR__ . "/../utils.php";
+
 // Initialization
 //--------------------------------------------------------------------------------------
 $screenWidth = 800;
@@ -16,12 +19,8 @@ $skybox = LoadModelFromMesh($cube);
 // Load skybox shader and set required locations
 // NOTE: Some locations are automatically set at shader loading
 
-$materials = $skybox->materials;
-$material = $materials[0];
-$material->shader = LoadShader(__DIR__ . "/resources/shaders/glsl330/skybox.vs", __DIR__ . "/resources/shaders/glsl330/skybox.fs");
-$materials[0] = $material;
-$skybox->materials = $materials;
-
+$shader = LoadShader(__DIR__ . "/resources/shaders/glsl330/skybox.vs", __DIR__ . "/resources/shaders/glsl330/skybox.fs");
+SetModelMaterialShader($skybox, 0, $shader);
 SetShaderValue($skybox->materials[0]->shader, GetShaderLocation($skybox->materials[0]->shader, "environmentMap"), pack('i', RL_MAP_CUBEMAP), RL_UNIFORM_INT);
 
 // Load cubemap shader and setup required shader locations
@@ -33,12 +32,7 @@ $texHDR = LoadTexture(__DIR__ . "/resources/dresden_square.hdr");
 
 // Generate cubemap (texture with 6 quads-cube-mapping) from panorama HDR texture
 // NOTE: New texture is generated rendering to texture, shader computes the sphre->cube coordinates mapping
-
-$materials = $skybox->materials;
-$material = $materials[0];
-SetMaterialTexture($material, RL_MAP_CUBEMAP, GenTextureCubemap($shdrCubemap, $texHDR, 512));
-$materials[0] = $material;
-$skybox->materials = $materials;
+SetModelMaterialTexture($skybox, 0, RL_MAP_CUBEMAP, GenTextureCubemap($shdrCubemap, $texHDR, 512));
 
 UnloadTexture($texHDR);      // Texture not required anymore, cubemap already generated
 UnloadShader($shdrCubemap);  // Unload cubemap generation shader, not required anymore

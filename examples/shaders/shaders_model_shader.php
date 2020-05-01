@@ -1,5 +1,7 @@
 <?php
 
+include __DIR__ . "/../utils.php";
+
 $screenWidth = 800;
 $screenHeight = 450;
 
@@ -24,13 +26,8 @@ $shader = LoadShader(null, __DIR__ . "/resources/shaders/glsl330/grayscale.fs", 
 
 // $model.materials[0].shader = $shader;                     // Set shader effect to 3d model
 // $model.materials[0].maps[MAP_DIFFUSE].texture = texture; // Bind texture to model
-
-$materials = $model->materials;
-$material = $materials[0];
-$material->shader = $shader;
-SetMaterialTexture($material, RL_MAP_ALBEDO, $texture);
-$materials[0] = $material;
-$model->materials = $materials;
+SetModelMaterialTexture($model, 0, RL_MAP_ALBEDO, $texture);
+SetModelMaterialShader($model, 0, $shader);
 
 $position = Vector3(0.0, 0.0, 0.0);    // Set model position
 
