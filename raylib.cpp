@@ -1,5 +1,7 @@
 #include <phpcpp.h>
 #include <raylib.h>
+#define PHYSAC_IMPLEMENTATION
+#include <physac.h>
 #include <raymath.h>
 
 using namespace std;
@@ -1098,6 +1100,115 @@ class TraceLogCallback : public Php::Base {
     ::TraceLogCallback data;
     void __destruct() const {}
     TraceLogCallback(::TraceLogCallback x) { data = x; }
+};
+
+class rlPhysicsBody : public Php::Base {
+  public:
+    ::PhysicsBodyData *data;
+    rlPhysicsBody(::PhysicsBodyData *x) { data = x; }
+    Php::Value getid() {
+        long result = data->id;
+        return result;
+    }
+    Php::Value getenabled() { return data->enabled; }
+    Php::Value getposition() {
+        Php::Value result =
+            Php::Object("RayLib\\Vector2", new Vector2(data->position));
+        return result;
+    }
+    Php::Value getvelocity() {
+        Php::Value result =
+            Php::Object("RayLib\\Vector2", new Vector2(data->velocity));
+        return result;
+    }
+    Php::Value getforce() {
+        Php::Value result =
+            Php::Object("RayLib\\Vector2", new Vector2(data->force));
+        return result;
+    }
+    Php::Value getangularVelocity() {
+        double result = data->angularVelocity;
+        return result;
+    }
+    Php::Value gettorque() {
+        double result = data->torque;
+        return result;
+    }
+    Php::Value getorient() {
+        double result = data->orient;
+        return result;
+    }
+    Php::Value getinertia() {
+        double result = data->inertia;
+        return result;
+    }
+    Php::Value getinverseInertia() {
+        double result = data->inverseInertia;
+        return result;
+    }
+    Php::Value getmass() {
+        double result = data->mass;
+        return result;
+    }
+    Php::Value getinverseMass() {
+        double result = data->inverseMass;
+        return result;
+    }
+    Php::Value getstaticFriction() {
+        double result = data->staticFriction;
+        return result;
+    }
+    Php::Value getdynamicFriction() {
+        double result = data->dynamicFriction;
+        return result;
+    }
+    Php::Value getrestitution() {
+        double result = data->restitution;
+        return result;
+    }
+    Php::Value getuseGravity() { return data->useGravity; }
+    Php::Value getisGrounded() { return data->isGrounded; }
+    Php::Value getfreezeOrient() { return data->freezeOrient; }
+    // Php::Value getshape() {
+    //   Php::Value result =
+    //       Php::Object("RayLib\\PhysicsShape", new PhysicsShape(data->shape));
+    //   return result;
+    // }
+    void setid(const Php::Value &v) { data->id = (long)v; }
+    void setenabled(const Php::Value &v) {}
+    void setposition(const Php::Value &v) {
+        data->position = ((Vector2 *)(v.implementation()))->data;
+    }
+    void setvelocity(const Php::Value &v) {
+        data->velocity = ((Vector2 *)(v.implementation()))->data;
+    }
+    void setforce(const Php::Value &v) {
+        data->force = ((Vector2 *)(v.implementation()))->data;
+    }
+    void setangularVelocity(const Php::Value &v) {
+        data->angularVelocity = (double)v;
+    }
+    void settorque(const Php::Value &v) { data->torque = (double)v; }
+    void setorient(const Php::Value &v) { data->orient = (double)v; }
+    void setinertia(const Php::Value &v) { data->inertia = (double)v; }
+    void setinverseInertia(const Php::Value &v) {
+        data->inverseInertia = (double)v;
+    }
+    void setmass(const Php::Value &v) { data->mass = (double)v; }
+    void setinverseMass(const Php::Value &v) { data->inverseMass = (double)v; }
+    void setstaticFriction(const Php::Value &v) {
+        data->staticFriction = (double)v;
+    }
+    void setdynamicFriction(const Php::Value &v) {
+        data->dynamicFriction = (double)v;
+    }
+    void setrestitution(const Php::Value &v) { data->restitution = (double)v; }
+    void setuseGravity(const Php::Value &v) {}
+    void setisGrounded(const Php::Value &v) {}
+    void setfreezeOrient(const Php::Value &v) {}
+    // void setshape(const Php::Value &v) {
+    //   data->shape = ((PhysicsShape *)(v.implementation()))->data;
+    // }
 };
 
 class RL : public Php::Base {
@@ -4441,8 +4552,7 @@ class RL : public Php::Base {
     }
 
     static Php::Value Vector3Length(Php::Parameters &params) {
-        ::Vector3 p0 =
-            ((Vector3 *)(params[0].implementation()))->data;
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
         double result = ::Vector3Length(p0);
         return result;
     }
@@ -4806,6 +4916,122 @@ class RL : public Php::Base {
         Vector4 result = ::QuaternionTransform(p0, p1);
         return Php::Object("RayLib\\Vector4", new Vector4(result));
     }
+
+    static void InitPhysics(Php::Parameters &params) { ::InitPhysics(); }
+
+    static void RunPhysicsStep(Php::Parameters &params) { ::RunPhysicsStep(); }
+
+    static void SetPhysicsTimeStep(Php::Parameters &params) {
+        double p0 = params[0];
+        ::SetPhysicsTimeStep(p0);
+    }
+
+    static Php::Value IsPhysicsEnabled(Php::Parameters &params) {
+        int result = ::IsPhysicsEnabled();
+        return result;
+    }
+
+    static void SetPhysicsGravity(Php::Parameters &params) {
+        double p0 = params[0];
+        double p1 = params[1];
+        ::SetPhysicsGravity(p0, p1);
+    }
+
+    static Php::Value CreatePhysicsBodyCircle(Php::Parameters &params) {
+        ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
+        double p1 = params[1];
+        double p2 = params[2];
+        PhysicsBody result = ::CreatePhysicsBodyCircle(p0, p1, p2);
+        return Php::Object("RayLib\\PhysicsBody", new PhysicsBody(result));
+    }
+
+    static Php::Value CreatePhysicsBodyRectangle(Php::Parameters &params) {
+        ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
+        double p1 = params[1];
+        double p2 = params[2];
+        double p3 = params[3];
+        PhysicsBody result = ::CreatePhysicsBodyRectangle(p0, p1, p2, p3);
+        return Php::Object("RayLib\\PhysicsBody", new PhysicsBody(result));
+    }
+
+    static Php::Value CreatePhysicsBodyPolygon(Php::Parameters &params) {
+        ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
+        double p1 = params[1];
+        int p2 = params[2];
+        double p3 = params[3];
+        PhysicsBody result = ::CreatePhysicsBodyPolygon(p0, p1, p2, p3);
+        return Php::Object("RayLib\\PhysicsBody", new PhysicsBody(result));
+    }
+
+    static void PhysicsAddForce(Php::Parameters &params) {
+        ::PhysicsBody p0 =
+            ((rlPhysicsBody *)(params[0].implementation()))->data;
+        ::Vector2 p1 = ((Vector2 *)(params[0].implementation()))->data;
+        ::PhysicsAddForce(p0, p1);
+    }
+
+    static void PhysicsAddTorque(Php::Parameters &params) {
+        ::PhysicsBody p0 =
+            ((rlPhysicsBody *)(params[0].implementation()))->data;
+        double p1 = params[1];
+        ::PhysicsAddTorque(p0, p1);
+    }
+
+    static void PhysicsShatter(Php::Parameters &params) {
+        ::PhysicsBody p0 =
+            ((rlPhysicsBody *)(params[0].implementation()))->data;
+        ::Vector2 p1 = ((Vector2 *)(params[0].implementation()))->data;
+        double p2 = params[2];
+        ::PhysicsShatter(p0, p1, p2);
+    }
+
+    static Php::Value GetPhysicsBodiesCount(Php::Parameters &params) {
+        int result = ::GetPhysicsBodiesCount();
+        return result;
+    }
+
+    static Php::Value GetPhysicsBody(Php::Parameters &params) {
+        int p0 = params[0];
+        PhysicsBody result = ::GetPhysicsBody(p0);
+        return Php::Object("RayLib\\PhysicsBody", new PhysicsBody(result));
+    }
+
+    static Php::Value GetPhysicsShapeType(Php::Parameters &params) {
+        int p0 = params[0];
+        int result = ::GetPhysicsShapeType(p0);
+        return result;
+    }
+
+    static Php::Value GetPhysicsShapeVerticesCount(Php::Parameters &params) {
+        int p0 = params[0];
+        int result = ::GetPhysicsShapeVerticesCount(p0);
+        return result;
+    }
+
+    static Php::Value GetPhysicsShapeVertex(Php::Parameters &params) {
+        ::PhysicsBody p0 =
+            ((rlPhysicsBody *)(params[0].implementation()))->data;
+        int p1 = params[1];
+        ::Vector2 result = ::GetPhysicsShapeVertex(p0, p1);
+        return Php::Object("RayLib\\Vector2", new Vector2(result));
+    }
+
+    static void SetPhysicsBodyRotation(Php::Parameters &params) {
+        ::PhysicsBody p0 =
+            ((rlPhysicsBody *)(params[0].implementation()))->data;
+        double p1 = params[1];
+        ::SetPhysicsBodyRotation(p0, p1);
+    }
+
+    static void DestroyPhysicsBody(Php::Parameters &params) {
+        ::PhysicsBody p0 =
+            ((rlPhysicsBody *)(params[0].implementation()))->data;
+        ::DestroyPhysicsBody(p0);
+    }
+
+    static void ResetPhysics(Php::Parameters &params) { ::ResetPhysics(); }
+
+    static void ClosePhysics(Php::Parameters &params) { ::ClosePhysics(); }
 };
 
 // symbols are exported according to the "C" language
@@ -5947,6 +6173,75 @@ PHPCPP_EXPORT void *get_module() {
     extension.add(Php::Constant("RL_NPT_9PATCH", 0));
     extension.add(Php::Constant("RL_NPT_3PATCH_VERTICAL", 1));
     extension.add(Php::Constant("RL_NPT_3PATCH_HORIZONTAL", 2));
+
+    Php::Class<rlPhysicsBody> rlPhysicsBody("PhysicsBody");
+    rlNamespace.add(rlPhysicsBody);
+    rlPhysicsBody.property("id", &rlPhysicsBody::getid, &rlPhysicsBody::setid);
+    rlPhysicsBody.property("enabled", &rlPhysicsBody::getenabled,
+                           &rlPhysicsBody::setenabled);
+    rlPhysicsBody.property("position", &rlPhysicsBody::getposition,
+                           &rlPhysicsBody::setposition);
+    rlPhysicsBody.property("velocity", &rlPhysicsBody::getvelocity,
+                           &rlPhysicsBody::setvelocity);
+    rlPhysicsBody.property("force", &rlPhysicsBody::getforce,
+                           &rlPhysicsBody::setforce);
+    rlPhysicsBody.property("angularVelocity",
+                           &rlPhysicsBody::getangularVelocity,
+                           &rlPhysicsBody::setangularVelocity);
+    rlPhysicsBody.property("torque", &rlPhysicsBody::gettorque,
+                           &rlPhysicsBody::settorque);
+    rlPhysicsBody.property("orient", &rlPhysicsBody::getorient,
+                           &rlPhysicsBody::setorient);
+    rlPhysicsBody.property("inertia", &rlPhysicsBody::getinertia,
+                           &rlPhysicsBody::setinertia);
+    rlPhysicsBody.property("inverseInertia", &rlPhysicsBody::getinverseInertia,
+                           &rlPhysicsBody::setinverseInertia);
+    rlPhysicsBody.property("mass", &rlPhysicsBody::getmass,
+                           &rlPhysicsBody::setmass);
+    rlPhysicsBody.property("inverseMass", &rlPhysicsBody::getinverseMass,
+                           &rlPhysicsBody::setinverseMass);
+    rlPhysicsBody.property("staticFriction", &rlPhysicsBody::getstaticFriction,
+                           &rlPhysicsBody::setstaticFriction);
+    rlPhysicsBody.property("dynamicFriction",
+                           &rlPhysicsBody::getdynamicFriction,
+                           &rlPhysicsBody::setdynamicFriction);
+    rlPhysicsBody.property("restitution", &rlPhysicsBody::getrestitution,
+                           &rlPhysicsBody::setrestitution);
+    rlPhysicsBody.property("useGravity", &rlPhysicsBody::getuseGravity,
+                           &rlPhysicsBody::setuseGravity);
+    rlPhysicsBody.property("isGrounded", &rlPhysicsBody::getisGrounded,
+                           &rlPhysicsBody::setisGrounded);
+    rlPhysicsBody.property("freezeOrient", &rlPhysicsBody::getfreezeOrient,
+                           &rlPhysicsBody::setfreezeOrient);
+    //  rlPhysicsBody.property("shape", &rlPhysicsBody::getshape,
+    //                           &rlPhysicsBody::setshape);
+
+    rlClass.method<&RL::InitPhysics>("InitPhysics");
+    rlClass.method<&RL::RunPhysicsStep>("RunPhysicsStep");
+    rlClass.method<&RL::SetPhysicsTimeStep>("SetPhysicsTimeStep");
+    rlClass.method<&RL::IsPhysicsEnabled>("IsPhysicsEnabled");
+    rlClass.method<&RL::SetPhysicsGravity>("SetPhysicsGravity");
+    rlClass.method<&RL::CreatePhysicsBodyCircle>("CreatePhysicsBodyCircle");
+    rlClass.method<&RL::CreatePhysicsBodyRectangle>(
+        "CreatePhysicsBodyRectangle");
+    rlClass.method<&RL::CreatePhysicsBodyPolygon>("CreatePhysicsBodyPolygon");
+    rlClass.method<&RL::PhysicsAddForce>("PhysicsAddForce");
+    rlClass.method<&RL::PhysicsAddTorque>("PhysicsAddTorque");
+    rlClass.method<&RL::PhysicsShatter>("PhysicsShatter");
+    rlClass.method<&RL::GetPhysicsBodiesCount>("GetPhysicsBodiesCount");
+    rlClass.method<&RL::GetPhysicsBody>("GetPhysicsBody");
+    rlClass.method<&RL::GetPhysicsShapeType>("GetPhysicsShapeType");
+    rlClass.method<&RL::GetPhysicsShapeVerticesCount>(
+        "GetPhysicsShapeVerticesCount");
+    rlClass.method<&RL::GetPhysicsShapeVertex>("GetPhysicsShapeVertex");
+    rlClass.method<&RL::SetPhysicsBodyRotation>("SetPhysicsBodyRotation");
+    rlClass.method<&RL::DestroyPhysicsBody>("DestroyPhysicsBody");
+    rlClass.method<&RL::ResetPhysics>("ResetPhysics");
+    rlClass.method<&RL::ClosePhysics>("ClosePhysics");
+
+    rlClass.property("PHYSICS_CIRCLE", 0, Php::Const);
+    rlClass.property("PHYSICS_POLYGON", 1, Php::Const);
+
     rlNamespace.add(rlClass);
 
     // add everything to extension
