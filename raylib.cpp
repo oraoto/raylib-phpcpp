@@ -1,5 +1,6 @@
 #include <phpcpp.h>
 #include <raylib.h>
+#include <raymath.h>
 
 using namespace std;
 
@@ -4265,6 +4266,546 @@ class RL : public Php::Base {
         return Php::Object("RayLib\\Color",
                            new Color(::Color{245, 245, 245, 255}));
     }
+
+    static Php::Value Clamp(Php::Parameters &params) {
+        double p0 = params[0];
+        double p1 = params[1];
+        double p2 = params[2];
+        double result = ::Clamp(p0, p1, p2);
+        return result;
+    }
+
+    static Php::Value Lerp(Php::Parameters &params) {
+        double p0 = params[0];
+        double p1 = params[1];
+        double p2 = params[2];
+        double result = ::Lerp(p0, p1, p2);
+        return result;
+    }
+
+    static Php::Value Vector2Zero(Php::Parameters &params) {
+        Vector2 result = ::Vector2Zero();
+        return Php::Object("RayLib\\Vector2", new Vector2(result));
+    }
+
+    static Php::Value Vector2One(Php::Parameters &params) {
+        Vector2 result = ::Vector2One();
+        return Php::Object("RayLib\\Vector2", new Vector2(result));
+    }
+
+    static Php::Value Vector2Add(Php::Parameters &params) {
+        ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
+        ::Vector2 p1 = ((Vector2 *)(params[1].implementation()))->data;
+        Vector2 result = ::Vector2Add(p0, p1);
+        return Php::Object("RayLib\\Vector2", new Vector2(result));
+    }
+
+    static Php::Value Vector2Subtract(Php::Parameters &params) {
+        ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
+        ::Vector2 p1 = ((Vector2 *)(params[1].implementation()))->data;
+        Vector2 result = ::Vector2Subtract(p0, p1);
+        return Php::Object("RayLib\\Vector2", new Vector2(result));
+    }
+
+    static Php::Value Vector2Length(Php::Parameters &params) {
+        ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
+        double result = ::Vector2Length(p0);
+        return result;
+    }
+
+    static Php::Value Vector2DotProduct(Php::Parameters &params) {
+        ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
+        ::Vector2 p1 = ((Vector2 *)(params[1].implementation()))->data;
+        double result = ::Vector2DotProduct(p0, p1);
+        return result;
+    }
+
+    static Php::Value Vector2Distance(Php::Parameters &params) {
+        ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
+        ::Vector2 p1 = ((Vector2 *)(params[1].implementation()))->data;
+        double result = ::Vector2Distance(p0, p1);
+        return result;
+    }
+
+    static Php::Value Vector2Angle(Php::Parameters &params) {
+        ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
+        ::Vector2 p1 = ((Vector2 *)(params[1].implementation()))->data;
+        double result = ::Vector2Angle(p0, p1);
+        return result;
+    }
+
+    static Php::Value Vector2Scale(Php::Parameters &params) {
+        ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
+        double p1 = params[1];
+        Vector2 result = ::Vector2Scale(p0, p1);
+        return Php::Object("RayLib\\Vector2", new Vector2(result));
+    }
+
+    static Php::Value Vector2MultiplyV(Php::Parameters &params) {
+        ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
+        ::Vector2 p1 = ((Vector2 *)(params[1].implementation()))->data;
+        Vector2 result = ::Vector2MultiplyV(p0, p1);
+        return Php::Object("RayLib\\Vector2", new Vector2(result));
+    }
+
+    static Php::Value Vector2Negate(Php::Parameters &params) {
+        ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
+        Vector2 result = ::Vector2Negate(p0);
+        return Php::Object("RayLib\\Vector2", new Vector2(result));
+    }
+
+    static Php::Value Vector2Divide(Php::Parameters &params) {
+        ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
+        double p1 = params[1];
+        Vector2 result = ::Vector2Divide(p0, p1);
+        return Php::Object("RayLib\\Vector2", new Vector2(result));
+    }
+
+    static Php::Value Vector2DivideV(Php::Parameters &params) {
+        ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
+        ::Vector2 p1 = ((Vector2 *)(params[1].implementation()))->data;
+        Vector2 result = ::Vector2DivideV(p0, p1);
+        return Php::Object("RayLib\\Vector2", new Vector2(result));
+    }
+
+    static Php::Value Vector2Normalize(Php::Parameters &params) {
+        ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
+        Vector2 result = ::Vector2Normalize(p0);
+        return Php::Object("RayLib\\Vector2", new Vector2(result));
+    }
+
+    static Php::Value Vector2Lerp(Php::Parameters &params) {
+        ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
+        ::Vector2 p1 = ((Vector2 *)(params[1].implementation()))->data;
+        double p2 = params[2];
+        Vector2 result = ::Vector2Lerp(p0, p1, p2);
+        return Php::Object("RayLib\\Vector2", new Vector2(result));
+    }
+
+    static Php::Value Vector2Rotate(Php::Parameters &params) {
+        ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
+        double p1 = params[1];
+        Vector2 result = ::Vector2Rotate(p0, p1);
+        return Php::Object("RayLib\\Vector2", new Vector2(result));
+    }
+
+    static Php::Value Vector3Zero(Php::Parameters &params) {
+        Vector3 result = ::Vector3Zero();
+        return Php::Object("RayLib\\Vector3", new Vector3(result));
+    }
+
+    static Php::Value Vector3One(Php::Parameters &params) {
+        Vector3 result = ::Vector3One();
+        return Php::Object("RayLib\\Vector3", new Vector3(result));
+    }
+
+    static Php::Value Vector3Add(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
+        Vector3 result = ::Vector3Add(p0, p1);
+        return Php::Object("RayLib\\Vector3", new Vector3(result));
+    }
+
+    static Php::Value Vector3Subtract(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
+        Vector3 result = ::Vector3Subtract(p0, p1);
+        return Php::Object("RayLib\\Vector3", new Vector3(result));
+    }
+
+    static Php::Value Vector3Scale(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        double p1 = params[1];
+        Vector3 result = ::Vector3Scale(p0, p1);
+        return Php::Object("RayLib\\Vector3", new Vector3(result));
+    }
+
+    static Php::Value Vector3Multiply(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
+        Vector3 result = ::Vector3Multiply(p0, p1);
+        return Php::Object("RayLib\\Vector3", new Vector3(result));
+    }
+
+    static Php::Value Vector3CrossProduct(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
+        Vector3 result = ::Vector3CrossProduct(p0, p1);
+        return Php::Object("RayLib\\Vector3", new Vector3(result));
+    }
+
+    static Php::Value Vector3Perpendicular(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        Vector3 result = ::Vector3Perpendicular(p0);
+        return Php::Object("RayLib\\Vector3", new Vector3(result));
+    }
+
+    static Php::Value Vector3Length(Php::Parameters &params) {
+        ::Vector3 p0 =
+            ((Vector3 *)(params[0].implementation()))->data;
+        double result = ::Vector3Length(p0);
+        return result;
+    }
+
+    static Php::Value Vector3DotProduct(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
+        double result = ::Vector3DotProduct(p0, p1);
+        return result;
+    }
+
+    static Php::Value Vector3Distance(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
+        double result = ::Vector3Distance(p0, p1);
+        return result;
+    }
+
+    static Php::Value Vector3Negate(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        Vector3 result = ::Vector3Negate(p0);
+        return Php::Object("RayLib\\Vector3", new Vector3(result));
+    }
+
+    static Php::Value Vector3Divide(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        double p1 = params[1];
+        Vector3 result = ::Vector3Divide(p0, p1);
+        return Php::Object("RayLib\\Vector3", new Vector3(result));
+    }
+
+    static Php::Value Vector3DivideV(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
+        Vector3 result = ::Vector3DivideV(p0, p1);
+        return Php::Object("RayLib\\Vector3", new Vector3(result));
+    }
+
+    static Php::Value Vector3Normalize(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        Vector3 result = ::Vector3Normalize(p0);
+        return Php::Object("RayLib\\Vector3", new Vector3(result));
+    }
+
+    static void Vector3OrthoNormalize(Php::Parameters &params) {
+        ::Vector3 *p0 = &((Vector3 *)(params[0].implementation()))->data;
+        ::Vector3 *p1 = &((Vector3 *)(params[1].implementation()))->data;
+        ::Vector3OrthoNormalize(p0, p1);
+    }
+
+    static Php::Value Vector3Transform(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        ::Matrix p1 = ((Matrix *)(params[1].implementation()))->data;
+        Vector3 result = ::Vector3Transform(p0, p1);
+        return Php::Object("RayLib\\Vector3", new Vector3(result));
+    }
+
+    static Php::Value Vector3RotateByQuaternion(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        ::Vector4 p1 = ((Vector4 *)(params[1].implementation()))->data;
+        Vector3 result = ::Vector3RotateByQuaternion(p0, p1);
+        return Php::Object("RayLib\\Vector3", new Vector3(result));
+    }
+
+    static Php::Value Vector3Lerp(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
+        double p2 = params[2];
+        Vector3 result = ::Vector3Lerp(p0, p1, p2);
+        return Php::Object("RayLib\\Vector3", new Vector3(result));
+    }
+
+    static Php::Value Vector3Reflect(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
+        Vector3 result = ::Vector3Reflect(p0, p1);
+        return Php::Object("RayLib\\Vector3", new Vector3(result));
+    }
+
+    static Php::Value Vector3Min(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
+        Vector3 result = ::Vector3Min(p0, p1);
+        return Php::Object("RayLib\\Vector3", new Vector3(result));
+    }
+
+    static Php::Value Vector3Max(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
+        Vector3 result = ::Vector3Max(p0, p1);
+        return Php::Object("RayLib\\Vector3", new Vector3(result));
+    }
+
+    static Php::Value Vector3Barycenter(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
+        ::Vector3 p2 = ((Vector3 *)(params[2].implementation()))->data;
+        ::Vector3 p3 = ((Vector3 *)(params[3].implementation()))->data;
+        Vector3 result = ::Vector3Barycenter(p0, p1, p2, p3);
+        return Php::Object("RayLib\\Vector3", new Vector3(result));
+    }
+
+    static Php::Value Vector3ToFloatV(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        float3 result = ::Vector3ToFloatV(p0);
+        return Php::Object("RayLib\\float3", new float3(result));
+    }
+
+    static Php::Value MatrixDeterminant(Php::Parameters &params) {
+        ::Matrix p0 = ((Matrix *)(params[0].implementation()))->data;
+        double result = ::MatrixDeterminant(p0);
+        return result;
+    }
+
+    static Php::Value MatrixTrace(Php::Parameters &params) {
+        ::Matrix p0 = ((Matrix *)(params[0].implementation()))->data;
+        double result = ::MatrixTrace(p0);
+        return result;
+    }
+
+    static Php::Value MatrixTranspose(Php::Parameters &params) {
+        ::Matrix p0 = ((Matrix *)(params[0].implementation()))->data;
+        Matrix result = ::MatrixTranspose(p0);
+        return Php::Object("RayLib\\Matrix", new Matrix(result));
+    }
+
+    static Php::Value MatrixInvert(Php::Parameters &params) {
+        ::Matrix p0 = ((Matrix *)(params[0].implementation()))->data;
+        Matrix result = ::MatrixInvert(p0);
+        return Php::Object("RayLib\\Matrix", new Matrix(result));
+    }
+
+    static Php::Value MatrixNormalize(Php::Parameters &params) {
+        ::Matrix p0 = ((Matrix *)(params[0].implementation()))->data;
+        Matrix result = ::MatrixNormalize(p0);
+        return Php::Object("RayLib\\Matrix", new Matrix(result));
+    }
+
+    static Php::Value MatrixIdentity(Php::Parameters &params) {
+        Matrix result = ::MatrixIdentity();
+        return Php::Object("RayLib\\Matrix", new Matrix(result));
+    }
+
+    static Php::Value MatrixAdd(Php::Parameters &params) {
+        ::Matrix p0 = ((Matrix *)(params[0].implementation()))->data;
+        ::Matrix p1 = ((Matrix *)(params[1].implementation()))->data;
+        Matrix result = ::MatrixAdd(p0, p1);
+        return Php::Object("RayLib\\Matrix", new Matrix(result));
+    }
+
+    static Php::Value MatrixSubtract(Php::Parameters &params) {
+        ::Matrix p0 = ((Matrix *)(params[0].implementation()))->data;
+        ::Matrix p1 = ((Matrix *)(params[1].implementation()))->data;
+        Matrix result = ::MatrixSubtract(p0, p1);
+        return Php::Object("RayLib\\Matrix", new Matrix(result));
+    }
+
+    static Php::Value MatrixTranslate(Php::Parameters &params) {
+        double p0 = params[0];
+        double p1 = params[1];
+        double p2 = params[2];
+        Matrix result = ::MatrixTranslate(p0, p1, p2);
+        return Php::Object("RayLib\\Matrix", new Matrix(result));
+    }
+
+    static Php::Value MatrixRotate(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        double p1 = params[1];
+        Matrix result = ::MatrixRotate(p0, p1);
+        return Php::Object("RayLib\\Matrix", new Matrix(result));
+    }
+
+    static Php::Value MatrixRotateXYZ(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        Matrix result = ::MatrixRotateXYZ(p0);
+        return Php::Object("RayLib\\Matrix", new Matrix(result));
+    }
+
+    static Php::Value MatrixRotateX(Php::Parameters &params) {
+        double p0 = params[0];
+        Matrix result = ::MatrixRotateX(p0);
+        return Php::Object("RayLib\\Matrix", new Matrix(result));
+    }
+
+    static Php::Value MatrixRotateY(Php::Parameters &params) {
+        double p0 = params[0];
+        Matrix result = ::MatrixRotateY(p0);
+        return Php::Object("RayLib\\Matrix", new Matrix(result));
+    }
+
+    static Php::Value MatrixRotateZ(Php::Parameters &params) {
+        double p0 = params[0];
+        Matrix result = ::MatrixRotateZ(p0);
+        return Php::Object("RayLib\\Matrix", new Matrix(result));
+    }
+
+    static Php::Value MatrixScale(Php::Parameters &params) {
+        double p0 = params[0];
+        double p1 = params[1];
+        double p2 = params[2];
+        Matrix result = ::MatrixScale(p0, p1, p2);
+        return Php::Object("RayLib\\Matrix", new Matrix(result));
+    }
+
+    static Php::Value MatrixMultiply(Php::Parameters &params) {
+        ::Matrix p0 = ((Matrix *)(params[0].implementation()))->data;
+        ::Matrix p1 = ((Matrix *)(params[1].implementation()))->data;
+        Matrix result = ::MatrixMultiply(p0, p1);
+        return Php::Object("RayLib\\Matrix", new Matrix(result));
+    }
+
+    static Php::Value MatrixFrustum(Php::Parameters &params) {
+        double p0 = params[0];
+        double p1 = params[1];
+        double p2 = params[2];
+        double p3 = params[3];
+        double p4 = params[4];
+        double p5 = params[5];
+        Matrix result = ::MatrixFrustum(p0, p1, p2, p3, p4, p5);
+        return Php::Object("RayLib\\Matrix", new Matrix(result));
+    }
+
+    static Php::Value MatrixPerspective(Php::Parameters &params) {
+        double p0 = params[0];
+        double p1 = params[1];
+        double p2 = params[2];
+        double p3 = params[3];
+        Matrix result = ::MatrixPerspective(p0, p1, p2, p3);
+        return Php::Object("RayLib\\Matrix", new Matrix(result));
+    }
+
+    static Php::Value MatrixOrtho(Php::Parameters &params) {
+        double p0 = params[0];
+        double p1 = params[1];
+        double p2 = params[2];
+        double p3 = params[3];
+        double p4 = params[4];
+        double p5 = params[5];
+        Matrix result = ::MatrixOrtho(p0, p1, p2, p3, p4, p5);
+        return Php::Object("RayLib\\Matrix", new Matrix(result));
+    }
+
+    static Php::Value MatrixLookAt(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
+        ::Vector3 p2 = ((Vector3 *)(params[2].implementation()))->data;
+        Matrix result = ::MatrixLookAt(p0, p1, p2);
+        return Php::Object("RayLib\\Matrix", new Matrix(result));
+    }
+
+    static Php::Value MatrixToFloatV(Php::Parameters &params) {
+        ::Matrix p0 = ((Matrix *)(params[0].implementation()))->data;
+        float16 result = ::MatrixToFloatV(p0);
+        return Php::Object("RayLib\\float16", new float16(result));
+    }
+
+    static Php::Value QuaternionIdentity(Php::Parameters &params) {
+        Vector4 result = ::QuaternionIdentity();
+        return Php::Object("RayLib\\Vector4", new Vector4(result));
+    }
+
+    static Php::Value QuaternionLength(Php::Parameters &params) {
+        ::Vector4 p0 = ((Vector4 *)(params[0].implementation()))->data;
+        double result = ::QuaternionLength(p0);
+        return result;
+    }
+
+    static Php::Value QuaternionNormalize(Php::Parameters &params) {
+        ::Vector4 p0 = ((Vector4 *)(params[0].implementation()))->data;
+        Vector4 result = ::QuaternionNormalize(p0);
+        return Php::Object("RayLib\\Vector4", new Vector4(result));
+    }
+
+    static Php::Value QuaternionInvert(Php::Parameters &params) {
+        ::Vector4 p0 = ((Vector4 *)(params[0].implementation()))->data;
+        Vector4 result = ::QuaternionInvert(p0);
+        return Php::Object("RayLib\\Vector4", new Vector4(result));
+    }
+
+    static Php::Value QuaternionMultiply(Php::Parameters &params) {
+        ::Vector4 p0 = ((Vector4 *)(params[0].implementation()))->data;
+        ::Vector4 p1 = ((Vector4 *)(params[1].implementation()))->data;
+        Vector4 result = ::QuaternionMultiply(p0, p1);
+        return Php::Object("RayLib\\Vector4", new Vector4(result));
+    }
+
+    static Php::Value QuaternionLerp(Php::Parameters &params) {
+        ::Vector4 p0 = ((Vector4 *)(params[0].implementation()))->data;
+        ::Vector4 p1 = ((Vector4 *)(params[1].implementation()))->data;
+        double p2 = params[2];
+        Vector4 result = ::QuaternionLerp(p0, p1, p2);
+        return Php::Object("RayLib\\Vector4", new Vector4(result));
+    }
+
+    static Php::Value QuaternionNlerp(Php::Parameters &params) {
+        ::Vector4 p0 = ((Vector4 *)(params[0].implementation()))->data;
+        ::Vector4 p1 = ((Vector4 *)(params[1].implementation()))->data;
+        double p2 = params[2];
+        Vector4 result = ::QuaternionNlerp(p0, p1, p2);
+        return Php::Object("RayLib\\Vector4", new Vector4(result));
+    }
+
+    static Php::Value QuaternionSlerp(Php::Parameters &params) {
+        ::Vector4 p0 = ((Vector4 *)(params[0].implementation()))->data;
+        ::Vector4 p1 = ((Vector4 *)(params[1].implementation()))->data;
+        double p2 = params[2];
+        Vector4 result = ::QuaternionSlerp(p0, p1, p2);
+        return Php::Object("RayLib\\Vector4", new Vector4(result));
+    }
+
+    static Php::Value QuaternionFromVector3ToVector3(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
+        Vector4 result = ::QuaternionFromVector3ToVector3(p0, p1);
+        return Php::Object("RayLib\\Vector4", new Vector4(result));
+    }
+
+    static Php::Value QuaternionFromMatrix(Php::Parameters &params) {
+        ::Matrix p0 = ((Matrix *)(params[0].implementation()))->data;
+        Vector4 result = ::QuaternionFromMatrix(p0);
+        return Php::Object("RayLib\\Vector4", new Vector4(result));
+    }
+
+    static Php::Value QuaternionToMatrix(Php::Parameters &params) {
+        ::Vector4 p0 = ((Vector4 *)(params[0].implementation()))->data;
+        Matrix result = ::QuaternionToMatrix(p0);
+        return Php::Object("RayLib\\Matrix", new Matrix(result));
+    }
+
+    static Php::Value QuaternionFromAxisAngle(Php::Parameters &params) {
+        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
+        double p1 = params[1];
+        Vector4 result = ::QuaternionFromAxisAngle(p0, p1);
+        return Php::Object("RayLib\\Vector4", new Vector4(result));
+    }
+
+    static void QuaternionToAxisAngle(Php::Parameters &params) {
+        // ::Vector4 p0 = ((Vector4 *)(params[0].implementation()))->data;
+        // ::Vector3 *p1 = &((Vector3 *)(params[1].implementation()))->data;
+        // Pointer to scalar as argument is not supported
+        // ::QuaternionToAxisAngle(p0, p1, p2);
+    }
+
+    static Php::Value QuaternionFromEuler(Php::Parameters &params) {
+        double p0 = params[0];
+        double p1 = params[1];
+        double p2 = params[2];
+        Vector4 result = ::QuaternionFromEuler(p0, p1, p2);
+        return Php::Object("RayLib\\Vector4", new Vector4(result));
+    }
+
+    static Php::Value QuaternionToEuler(Php::Parameters &params) {
+        ::Vector4 p0 = ((Vector4 *)(params[0].implementation()))->data;
+        Vector3 result = ::QuaternionToEuler(p0);
+        return Php::Object("RayLib\\Vector3", new Vector3(result));
+    }
+
+    static Php::Value QuaternionTransform(Php::Parameters &params) {
+        ::Vector4 p0 = ((Vector4 *)(params[0].implementation()))->data;
+        ::Matrix p1 = ((Matrix *)(params[1].implementation()))->data;
+        Vector4 result = ::QuaternionTransform(p0, p1);
+        return Php::Object("RayLib\\Vector4", new Vector4(result));
+    }
 };
 
 // symbols are exported according to the "C" language
@@ -5058,6 +5599,86 @@ PHPCPP_EXPORT void *get_module() {
     extension.add<&RL::getColorBLANK>("BLANK");
     extension.add<&RL::getColorMAGENTA>("MAGENTA");
     extension.add<&RL::getColorRAYWHITE>("RAYWHITE");
+    rlClass.method<&RL::Clamp>("Clamp");
+    rlClass.method<&RL::Lerp>("Lerp");
+    rlClass.method<&RL::Vector2Zero>("Vector2Zero");
+    rlClass.method<&RL::Vector2One>("Vector2One");
+    rlClass.method<&RL::Vector2Add>("Vector2Add");
+    rlClass.method<&RL::Vector2Subtract>("Vector2Subtract");
+    rlClass.method<&RL::Vector2Length>("Vector2Length");
+    rlClass.method<&RL::Vector2DotProduct>("Vector2DotProduct");
+    rlClass.method<&RL::Vector2Distance>("Vector2Distance");
+    rlClass.method<&RL::Vector2Angle>("Vector2Angle");
+    rlClass.method<&RL::Vector2Scale>("Vector2Scale");
+    rlClass.method<&RL::Vector2MultiplyV>("Vector2MultiplyV");
+    rlClass.method<&RL::Vector2Negate>("Vector2Negate");
+    rlClass.method<&RL::Vector2Divide>("Vector2Divide");
+    rlClass.method<&RL::Vector2DivideV>("Vector2DivideV");
+    rlClass.method<&RL::Vector2Normalize>("Vector2Normalize");
+    rlClass.method<&RL::Vector2Lerp>("Vector2Lerp");
+    rlClass.method<&RL::Vector2Rotate>("Vector2Rotate");
+    rlClass.method<&RL::Vector3Zero>("Vector3Zero");
+    rlClass.method<&RL::Vector3One>("Vector3One");
+    rlClass.method<&RL::Vector3Add>("Vector3Add");
+    rlClass.method<&RL::Vector3Subtract>("Vector3Subtract");
+    rlClass.method<&RL::Vector3Scale>("Vector3Scale");
+    rlClass.method<&RL::Vector3Multiply>("Vector3Multiply");
+    rlClass.method<&RL::Vector3CrossProduct>("Vector3CrossProduct");
+    rlClass.method<&RL::Vector3Perpendicular>("Vector3Perpendicular");
+    rlClass.method<&RL::Vector3Length>("Vector3Length");
+    rlClass.method<&RL::Vector3DotProduct>("Vector3DotProduct");
+    rlClass.method<&RL::Vector3Distance>("Vector3Distance");
+    rlClass.method<&RL::Vector3Negate>("Vector3Negate");
+    rlClass.method<&RL::Vector3Divide>("Vector3Divide");
+    rlClass.method<&RL::Vector3DivideV>("Vector3DivideV");
+    rlClass.method<&RL::Vector3Normalize>("Vector3Normalize");
+    rlClass.method<&RL::Vector3OrthoNormalize>("Vector3OrthoNormalize");
+    rlClass.method<&RL::Vector3Transform>("Vector3Transform");
+    rlClass.method<&RL::Vector3RotateByQuaternion>("Vector3RotateByQuaternion");
+    rlClass.method<&RL::Vector3Lerp>("Vector3Lerp");
+    rlClass.method<&RL::Vector3Reflect>("Vector3Reflect");
+    rlClass.method<&RL::Vector3Min>("Vector3Min");
+    rlClass.method<&RL::Vector3Max>("Vector3Max");
+    rlClass.method<&RL::Vector3Barycenter>("Vector3Barycenter");
+    rlClass.method<&RL::Vector3ToFloatV>("Vector3ToFloatV");
+    rlClass.method<&RL::MatrixDeterminant>("MatrixDeterminant");
+    rlClass.method<&RL::MatrixTrace>("MatrixTrace");
+    rlClass.method<&RL::MatrixTranspose>("MatrixTranspose");
+    rlClass.method<&RL::MatrixInvert>("MatrixInvert");
+    rlClass.method<&RL::MatrixNormalize>("MatrixNormalize");
+    rlClass.method<&RL::MatrixIdentity>("MatrixIdentity");
+    rlClass.method<&RL::MatrixAdd>("MatrixAdd");
+    rlClass.method<&RL::MatrixSubtract>("MatrixSubtract");
+    rlClass.method<&RL::MatrixTranslate>("MatrixTranslate");
+    rlClass.method<&RL::MatrixRotate>("MatrixRotate");
+    rlClass.method<&RL::MatrixRotateXYZ>("MatrixRotateXYZ");
+    rlClass.method<&RL::MatrixRotateX>("MatrixRotateX");
+    rlClass.method<&RL::MatrixRotateY>("MatrixRotateY");
+    rlClass.method<&RL::MatrixRotateZ>("MatrixRotateZ");
+    rlClass.method<&RL::MatrixScale>("MatrixScale");
+    rlClass.method<&RL::MatrixMultiply>("MatrixMultiply");
+    rlClass.method<&RL::MatrixFrustum>("MatrixFrustum");
+    rlClass.method<&RL::MatrixPerspective>("MatrixPerspective");
+    rlClass.method<&RL::MatrixOrtho>("MatrixOrtho");
+    rlClass.method<&RL::MatrixLookAt>("MatrixLookAt");
+    rlClass.method<&RL::MatrixToFloatV>("MatrixToFloatV");
+    rlClass.method<&RL::QuaternionIdentity>("QuaternionIdentity");
+    rlClass.method<&RL::QuaternionLength>("QuaternionLength");
+    rlClass.method<&RL::QuaternionNormalize>("QuaternionNormalize");
+    rlClass.method<&RL::QuaternionInvert>("QuaternionInvert");
+    rlClass.method<&RL::QuaternionMultiply>("QuaternionMultiply");
+    rlClass.method<&RL::QuaternionLerp>("QuaternionLerp");
+    rlClass.method<&RL::QuaternionNlerp>("QuaternionNlerp");
+    rlClass.method<&RL::QuaternionSlerp>("QuaternionSlerp");
+    rlClass.method<&RL::QuaternionFromVector3ToVector3>(
+        "QuaternionFromVector3ToVector3");
+    rlClass.method<&RL::QuaternionFromMatrix>("QuaternionFromMatrix");
+    rlClass.method<&RL::QuaternionToMatrix>("QuaternionToMatrix");
+    rlClass.method<&RL::QuaternionFromAxisAngle>("QuaternionFromAxisAngle");
+    rlClass.method<&RL::QuaternionToAxisAngle>("QuaternionToAxisAngle");
+    rlClass.method<&RL::QuaternionFromEuler>("QuaternionFromEuler");
+    rlClass.method<&RL::QuaternionToEuler>("QuaternionToEuler");
+    rlClass.method<&RL::QuaternionTransform>("QuaternionTransform");
 
     extension.add(Php::Constant("RL_FLAG_RESERVED", 1));
     extension.add(Php::Constant("RL_FLAG_FULLSCREEN_MODE", 2));

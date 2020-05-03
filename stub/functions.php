@@ -3571,3 +3571,623 @@ function SetAudioStreamPitch($stream ,$pitch){}
  * @return void
 */
 function SetAudioStreamBufferSizeDefault($size){}
+
+/**
+ * Clamp float value
+ * @param float $value
+ * @param float $min
+ * @param float $max
+ * @return float
+*/
+function Clamp($value ,$min ,$max){}
+
+/**
+ * Calculate linear interpolation between two floats
+ * @param float $start
+ * @param float $end
+ * @param float $amount
+ * @return float
+*/
+function Lerp($start ,$end ,$amount){}
+
+/**
+ * Vector with components value 0.0f
+ * @return \RayLib\Vector2
+*/
+function Vector2Zero(){}
+
+/**
+ * Vector with components value 1.0f
+ * @return \RayLib\Vector2
+*/
+function Vector2One(){}
+
+/**
+ * Add two vectors (v1 + v2)
+ * @param \RayLib\Vector2 $v1
+ * @param \RayLib\Vector2 $v2
+ * @return \RayLib\Vector2
+*/
+function Vector2Add($v1 ,$v2){}
+
+/**
+ * Subtract two vectors (v1 - v2)
+ * @param \RayLib\Vector2 $v1
+ * @param \RayLib\Vector2 $v2
+ * @return \RayLib\Vector2
+*/
+function Vector2Subtract($v1 ,$v2){}
+
+/**
+ * Calculate vector length
+ * @param \RayLib\Vector2 $v
+ * @return float
+*/
+function Vector2Length($v){}
+
+/**
+ * Calculate two vectors dot product
+ * @param \RayLib\Vector2 $v1
+ * @param \RayLib\Vector2 $v2
+ * @return float
+*/
+function Vector2DotProduct($v1 ,$v2){}
+
+/**
+ * Calculate distance between two vectors
+ * @param \RayLib\Vector2 $v1
+ * @param \RayLib\Vector2 $v2
+ * @return float
+*/
+function Vector2Distance($v1 ,$v2){}
+
+/**
+ * Calculate angle from two vectors in X-axis
+ * @param \RayLib\Vector2 $v1
+ * @param \RayLib\Vector2 $v2
+ * @return float
+*/
+function Vector2Angle($v1 ,$v2){}
+
+/**
+ * Scale vector (multiply by value)
+ * @param \RayLib\Vector2 $v
+ * @param float $scale
+ * @return \RayLib\Vector2
+*/
+function Vector2Scale($v ,$scale){}
+
+/**
+ * Multiply vector by vector
+ * @param \RayLib\Vector2 $v1
+ * @param \RayLib\Vector2 $v2
+ * @return \RayLib\Vector2
+*/
+function Vector2MultiplyV($v1 ,$v2){}
+
+/**
+ * Negate vector
+ * @param \RayLib\Vector2 $v
+ * @return \RayLib\Vector2
+*/
+function Vector2Negate($v){}
+
+/**
+ * Divide vector by a float value
+ * @param \RayLib\Vector2 $v
+ * @param float $div
+ * @return \RayLib\Vector2
+*/
+function Vector2Divide($v ,$div){}
+
+/**
+ * Divide vector by vector
+ * @param \RayLib\Vector2 $v1
+ * @param \RayLib\Vector2 $v2
+ * @return \RayLib\Vector2
+*/
+function Vector2DivideV($v1 ,$v2){}
+
+/**
+ * Normalize provided vector
+ * @param \RayLib\Vector2 $v
+ * @return \RayLib\Vector2
+*/
+function Vector2Normalize($v){}
+
+/**
+ * Calculate linear interpolation between two vectors
+ * @param \RayLib\Vector2 $v1
+ * @param \RayLib\Vector2 $v2
+ * @param float $amount
+ * @return \RayLib\Vector2
+*/
+function Vector2Lerp($v1 ,$v2 ,$amount){}
+
+/**
+ * Rotate Vector by float in Degrees.
+ * @param \RayLib\Vector2 $v
+ * @param float $degs
+ * @return \RayLib\Vector2
+*/
+function Vector2Rotate($v ,$degs){}
+
+/**
+ * Vector with components value 0.0f
+ * @return \RayLib\Vector3
+*/
+function Vector3Zero(){}
+
+/**
+ * Vector with components value 1.0f
+ * @return \RayLib\Vector3
+*/
+function Vector3One(){}
+
+/**
+ * Add two vectors
+ * @param \RayLib\Vector3 $v1
+ * @param \RayLib\Vector3 $v2
+ * @return \RayLib\Vector3
+*/
+function Vector3Add($v1 ,$v2){}
+
+/**
+ * Subtract two vectors
+ * @param \RayLib\Vector3 $v1
+ * @param \RayLib\Vector3 $v2
+ * @return \RayLib\Vector3
+*/
+function Vector3Subtract($v1 ,$v2){}
+
+/**
+ * Multiply vector by scalar
+ * @param \RayLib\Vector3 $v
+ * @param float $scalar
+ * @return \RayLib\Vector3
+*/
+function Vector3Scale($v ,$scalar){}
+
+/**
+ * Multiply vector by vector
+ * @param \RayLib\Vector3 $v1
+ * @param \RayLib\Vector3 $v2
+ * @return \RayLib\Vector3
+*/
+function Vector3Multiply($v1 ,$v2){}
+
+/**
+ * Calculate two vectors cross product
+ * @param \RayLib\Vector3 $v1
+ * @param \RayLib\Vector3 $v2
+ * @return \RayLib\Vector3
+*/
+function Vector3CrossProduct($v1 ,$v2){}
+
+/**
+ * Calculate one vector perpendicular vector
+ * @param \RayLib\Vector3 $v
+ * @return \RayLib\Vector3
+*/
+function Vector3Perpendicular($v){}
+
+/**
+ * Calculate vector length
+ * @param  \RayLib\Vector3 $v
+ * @return float
+*/
+function Vector3Length($v){}
+
+/**
+ * Calculate two vectors dot product
+ * @param \RayLib\Vector3 $v1
+ * @param \RayLib\Vector3 $v2
+ * @return float
+*/
+function Vector3DotProduct($v1 ,$v2){}
+
+/**
+ * Calculate distance between two vectors
+ * @param \RayLib\Vector3 $v1
+ * @param \RayLib\Vector3 $v2
+ * @return float
+*/
+function Vector3Distance($v1 ,$v2){}
+
+/**
+ * Negate provided vector (invert direction)
+ * @param \RayLib\Vector3 $v
+ * @return \RayLib\Vector3
+*/
+function Vector3Negate($v){}
+
+/**
+ * Divide vector by a float value
+ * @param \RayLib\Vector3 $v
+ * @param float $div
+ * @return \RayLib\Vector3
+*/
+function Vector3Divide($v ,$div){}
+
+/**
+ * Divide vector by vector
+ * @param \RayLib\Vector3 $v1
+ * @param \RayLib\Vector3 $v2
+ * @return \RayLib\Vector3
+*/
+function Vector3DivideV($v1 ,$v2){}
+
+/**
+ * Normalize provided vector
+ * @param \RayLib\Vector3 $v
+ * @return \RayLib\Vector3
+*/
+function Vector3Normalize($v){}
+
+/**
+ * Makes vectors normalized and orthogonal to each other
+ * @param \RayLib\Vector3  $v1
+ * @param \RayLib\Vector3  $v2
+ * @return void
+*/
+function Vector3OrthoNormalize($v1 ,$v2){}
+
+/**
+ * Transforms a Vector3 by a given Matrix
+ * @param \RayLib\Vector3 $v
+ * @param \RayLib\Matrix $mat
+ * @return \RayLib\Vector3
+*/
+function Vector3Transform($v ,$mat){}
+
+/**
+ * Transform a vector by quaternion rotation
+ * @param \RayLib\Vector3 $v
+ * @param \RayLib\Vector4 $q
+ * @return \RayLib\Vector3
+*/
+function Vector3RotateByQuaternion($v ,$q){}
+
+/**
+ * Calculate linear interpolation between two vectors
+ * @param \RayLib\Vector3 $v1
+ * @param \RayLib\Vector3 $v2
+ * @param float $amount
+ * @return \RayLib\Vector3
+*/
+function Vector3Lerp($v1 ,$v2 ,$amount){}
+
+/**
+ * Calculate reflected vector to normal
+ * @param \RayLib\Vector3 $v
+ * @param \RayLib\Vector3 $normal
+ * @return \RayLib\Vector3
+*/
+function Vector3Reflect($v ,$normal){}
+
+/**
+ * Return min value for each pair of components
+ * @param \RayLib\Vector3 $v1
+ * @param \RayLib\Vector3 $v2
+ * @return \RayLib\Vector3
+*/
+function Vector3Min($v1 ,$v2){}
+
+/**
+ * Return max value for each pair of components
+ * @param \RayLib\Vector3 $v1
+ * @param \RayLib\Vector3 $v2
+ * @return \RayLib\Vector3
+*/
+function Vector3Max($v1 ,$v2){}
+
+/**
+ * Compute barycenter coordinates (u, v, w) for point p with respect to triangle (a, b, c)
+ * @param \RayLib\Vector3 $p
+ * @param \RayLib\Vector3 $a
+ * @param \RayLib\Vector3 $b
+ * @param \RayLib\Vector3 $c
+ * @return \RayLib\Vector3
+*/
+function Vector3Barycenter($p ,$a ,$b ,$c){}
+
+/**
+ * Return float vector for Vector3
+ * @param \RayLib\Vector3 $v
+ * @return \RayLib\float3
+*/
+function Vector3ToFloatV($v){}
+
+/**
+ * Compute matrix determinant
+ * @param \RayLib\Matrix $mat
+ * @return float
+*/
+function MatrixDeterminant($mat){}
+
+/**
+ * Returns the trace of the matrix (sum of the values along the diagonal)
+ * @param \RayLib\Matrix $mat
+ * @return float
+*/
+function MatrixTrace($mat){}
+
+/**
+ * Transposes provided matrix
+ * @param \RayLib\Matrix $mat
+ * @return \RayLib\Matrix
+*/
+function MatrixTranspose($mat){}
+
+/**
+ * Invert provided matrix
+ * @param \RayLib\Matrix $mat
+ * @return \RayLib\Matrix
+*/
+function MatrixInvert($mat){}
+
+/**
+ * Normalize provided matrix
+ * @param \RayLib\Matrix $mat
+ * @return \RayLib\Matrix
+*/
+function MatrixNormalize($mat){}
+
+/**
+ * Returns identity matrix
+ * @return \RayLib\Matrix
+*/
+function MatrixIdentity(){}
+
+/**
+ * Add two matrices
+ * @param \RayLib\Matrix $left
+ * @param \RayLib\Matrix $right
+ * @return \RayLib\Matrix
+*/
+function MatrixAdd($left ,$right){}
+
+/**
+ * Subtract two matrices (left - right)
+ * @param \RayLib\Matrix $left
+ * @param \RayLib\Matrix $right
+ * @return \RayLib\Matrix
+*/
+function MatrixSubtract($left ,$right){}
+
+/**
+ * Returns translation matrix
+ * @param float $x
+ * @param float $y
+ * @param float $z
+ * @return \RayLib\Matrix
+*/
+function MatrixTranslate($x ,$y ,$z){}
+
+/**
+ * Create rotation matrix from axis and angle
+ * @param \RayLib\Vector3 $axis
+ * @param float $angle
+ * @return \RayLib\Matrix
+*/
+function MatrixRotate($axis ,$angle){}
+
+/**
+ * Returns xyz-rotation matrix (angles in radians)
+ * @param \RayLib\Vector3 $ang
+ * @return \RayLib\Matrix
+*/
+function MatrixRotateXYZ($ang){}
+
+/**
+ * Returns xyz-rotation matrix (angles in radians)
+ * @param float $angle
+ * @return \RayLib\Matrix
+*/
+function MatrixRotateX($angle){}
+
+/**
+ * Returns y-rotation matrix (angle in radians)
+ * @param float $angle
+ * @return \RayLib\Matrix
+*/
+function MatrixRotateY($angle){}
+
+/**
+ * Returns z-rotation matrix (angle in radians)
+ * @param float $angle
+ * @return \RayLib\Matrix
+*/
+function MatrixRotateZ($angle){}
+
+/**
+ * Returns scaling matrix
+ * @param float $x
+ * @param float $y
+ * @param float $z
+ * @return \RayLib\Matrix
+*/
+function MatrixScale($x ,$y ,$z){}
+
+/**
+ * Returns two matrix multiplication
+ * @param \RayLib\Matrix $left
+ * @param \RayLib\Matrix $right
+ * @return \RayLib\Matrix
+*/
+function MatrixMultiply($left ,$right){}
+
+/**
+ * Returns perspective projection matrix
+ * @param double $left
+ * @param double $right
+ * @param double $bottom
+ * @param double $top
+ * @param double $near
+ * @param double $far
+ * @return \RayLib\Matrix
+*/
+function MatrixFrustum($left ,$right ,$bottom ,$top ,$near ,$far){}
+
+/**
+ * Returns perspective projection matrix
+ * @param double $fovy
+ * @param double $aspect
+ * @param double $near
+ * @param double $far
+ * @return \RayLib\Matrix
+*/
+function MatrixPerspective($fovy ,$aspect ,$near ,$far){}
+
+/**
+ * Returns orthographic projection matrix
+ * @param double $left
+ * @param double $right
+ * @param double $bottom
+ * @param double $top
+ * @param double $near
+ * @param double $far
+ * @return \RayLib\Matrix
+*/
+function MatrixOrtho($left ,$right ,$bottom ,$top ,$near ,$far){}
+
+/**
+ * Returns camera look-at matrix (view matrix)
+ * @param \RayLib\Vector3 $eye
+ * @param \RayLib\Vector3 $target
+ * @param \RayLib\Vector3 $up
+ * @return \RayLib\Matrix
+*/
+function MatrixLookAt($eye ,$target ,$up){}
+
+/**
+ * Return float vector for Matrix
+ * @param \RayLib\Matrix $mat
+ * @return \RayLib\float16
+*/
+function MatrixToFloatV($mat){}
+
+/**
+ * Returns identity quaternion
+ * @return \RayLib\Vector4
+*/
+function QuaternionIdentity(){}
+
+/**
+ * Computes the length of a quaternion
+ * @param \RayLib\Vector4 $q
+ * @return float
+*/
+function QuaternionLength($q){}
+
+/**
+ * Normalize provided quaternion
+ * @param \RayLib\Vector4 $q
+ * @return \RayLib\Vector4
+*/
+function QuaternionNormalize($q){}
+
+/**
+ * Invert provided quaternion
+ * @param \RayLib\Vector4 $q
+ * @return \RayLib\Vector4
+*/
+function QuaternionInvert($q){}
+
+/**
+ * Calculate two quaternion multiplication
+ * @param \RayLib\Vector4 $q1
+ * @param \RayLib\Vector4 $q2
+ * @return \RayLib\Vector4
+*/
+function QuaternionMultiply($q1 ,$q2){}
+
+/**
+ * Calculate linear interpolation between two quaternions
+ * @param \RayLib\Vector4 $q1
+ * @param \RayLib\Vector4 $q2
+ * @param float $amount
+ * @return \RayLib\Vector4
+*/
+function QuaternionLerp($q1 ,$q2 ,$amount){}
+
+/**
+ * Calculate slerp-optimized interpolation between two quaternions
+ * @param \RayLib\Vector4 $q1
+ * @param \RayLib\Vector4 $q2
+ * @param float $amount
+ * @return \RayLib\Vector4
+*/
+function QuaternionNlerp($q1 ,$q2 ,$amount){}
+
+/**
+ * Calculates spherical linear interpolation between two quaternions
+ * @param \RayLib\Vector4 $q1
+ * @param \RayLib\Vector4 $q2
+ * @param float $amount
+ * @return \RayLib\Vector4
+*/
+function QuaternionSlerp($q1 ,$q2 ,$amount){}
+
+/**
+ * Calculate quaternion based on the rotation from one vector to another
+ * @param \RayLib\Vector3 $from
+ * @param \RayLib\Vector3 $to
+ * @return \RayLib\Vector4
+*/
+function QuaternionFromVector3ToVector3($from ,$to){}
+
+/**
+ * Returns a quaternion for a given rotation matrix
+ * @param \RayLib\Matrix $mat
+ * @return \RayLib\Vector4
+*/
+function QuaternionFromMatrix($mat){}
+
+/**
+ * Returns a matrix for a given quaternion
+ * @param \RayLib\Vector4 $q
+ * @return \RayLib\Matrix
+*/
+function QuaternionToMatrix($q){}
+
+/**
+ * Returns rotation quaternion for an angle and axis
+ * @param \RayLib\Vector3 $axis
+ * @param float $angle
+ * @return \RayLib\Vector4
+*/
+function QuaternionFromAxisAngle($axis ,$angle){}
+
+/**
+ * Returns the rotation angle and axis for a given quaternion
+ * @param \RayLib\Vector4 $q
+ * @param \RayLib\Vector3  $outAxis
+ * @param float  $outAngle
+ * @return void
+*/
+function QuaternionToAxisAngle($q ,$outAxis ,$outAngle){}
+
+/**
+ * Returns he quaternion equivalent to Euler angles
+ * @param float $roll
+ * @param float $pitch
+ * @param float $yaw
+ * @return \RayLib\Vector4
+*/
+function QuaternionFromEuler($roll ,$pitch ,$yaw){}
+
+/**
+ * Return the Euler angles equivalent to quaternion (roll, pitch, yaw)
+ * @param \RayLib\Vector4 $q
+ * @return \RayLib\Vector3
+*/
+function QuaternionToEuler($q){}
+
+/**
+ * Transform a quaternion given a transformation matrix
+ * @param \RayLib\Vector4 $q
+ * @param \RayLib\Matrix $mat
+ * @return \RayLib\Vector4
+*/
+function QuaternionTransform($q ,$mat){}
