@@ -1,9 +1,13 @@
 #include <phpcpp.h>
 #include <raylib.h>
+#include <raymath.h>
+
 #define PHYSAC_IMPLEMENTATION
 #define PHYSAC_NO_THREADS
 #include <physac.h>
-#include <raymath.h>
+
+#define RLIGHTS_IMPLEMENTATION
+#include "./rlights.h"
 
 using namespace std;
 
@@ -1210,6 +1214,67 @@ class rlPhysicsBody : public Php::Base {
     // void setshape(const Php::Value &v) {
     //   data->shape = ((PhysicsShape *)(v.implementation()))->data;
     // }
+};
+
+class Light : public Php::Base {
+  public:
+    ::Light data;
+    Light(::Light x) { data = x; }
+    Php::Value gettype() {
+        int result = data.type;
+        return result;
+    }
+    Php::Value getposition() {
+        Php::Value result =
+            Php::Object("RayLib\\Vector3", new Vector3(data.position));
+        return result;
+    }
+    Php::Value gettarget() {
+        Php::Value result =
+            Php::Object("RayLib\\Vector3", new Vector3(data.target));
+        return result;
+    }
+    Php::Value getcolor() {
+        Php::Value result = Php::Object("RayLib\\Color", new Color(data.color));
+        return result;
+    }
+    Php::Value getenabled() { return data.enabled; }
+    Php::Value getenabledLoc() {
+        int result = data.enabledLoc;
+        return result;
+    }
+    Php::Value gettypeLoc() {
+        int result = data.typeLoc;
+        return result;
+    }
+    Php::Value getposLoc() {
+        int result = data.posLoc;
+        return result;
+    }
+    Php::Value gettargetLoc() {
+        int result = data.targetLoc;
+        return result;
+    }
+    Php::Value getcolorLoc() {
+        int result = data.colorLoc;
+        return result;
+    }
+    void settype(const Php::Value &v) { data.type = (int)v; }
+    void setposition(const Php::Value &v) {
+        data.position = ((Vector3 *)(v.implementation()))->data;
+    }
+    void settarget(const Php::Value &v) {
+        data.target = ((Vector3 *)(v.implementation()))->data;
+    }
+    void setcolor(const Php::Value &v) {
+        data.color = ((Color *)(v.implementation()))->data;
+    }
+    void setenabled(const Php::Value &v) {}
+    void setenabledLoc(const Php::Value &v) { data.enabledLoc = (int)v; }
+    void settypeLoc(const Php::Value &v) { data.typeLoc = (int)v; }
+    void setposLoc(const Php::Value &v) { data.posLoc = (int)v; }
+    void settargetLoc(const Php::Value &v) { data.targetLoc = (int)v; }
+    void setcolorLoc(const Php::Value &v) { data.colorLoc = (int)v; }
 };
 
 class RL : public Php::Base {
@@ -4928,7 +4993,7 @@ class RL : public Php::Base {
     }
 
     static Php::Value IsPhysicsEnabled(Php::Parameters &params) {
-        int result = ::IsPhysicsEnabled();
+        bool result = ::IsPhysicsEnabled();
         return result;
     }
 
@@ -4994,7 +5059,12 @@ class RL : public Php::Base {
     static Php::Value GetPhysicsBody(Php::Parameters &params) {
         int p0 = params[0];
         PhysicsBody result = ::GetPhysicsBody(p0);
-        return Php::Object("RayLib\\PhysicsBody", new rlPhysicsBody(result));
+        if (result) {
+            return Php::Object("RayLib\\PhysicsBody",
+                               new rlPhysicsBody(result));
+        } else {
+            return nullptr;
+        }
     }
 
     static Php::Value GetPhysicsShapeType(Php::Parameters &params) {
@@ -5033,6 +5103,22 @@ class RL : public Php::Base {
     static void ResetPhysics(Php::Parameters &params) { ::ResetPhysics(); }
 
     static void ClosePhysics(Php::Parameters &params) { ::ClosePhysics(); }
+
+    static Php::Value CreateLight(Php::Parameters &params) {
+        int p0 = params[0];
+        ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
+        ::Vector3 p2 = ((Vector3 *)(params[2].implementation()))->data;
+        ::Color p3 = ((Color *)(params[3].implementation()))->data;
+        ::Shader p4 = ((Shader *)(params[4].implementation()))->data;
+        Light result = ::CreateLight(p0, p1, p2, p3, p4);
+        return Php::Object("RayLib\\Light", new Light(result));
+    }
+
+    static void UpdateLightValues(Php::Parameters &params) {
+        ::Shader p0 = ((Shader *)(params[0].implementation()))->data;
+        ::Light p1 = ((Light *)(params[1].implementation()))->data;
+        ::UpdateLightValues(p0, p1);
+    }
 };
 
 // symbols are exported according to the "C" language
@@ -6240,10 +6326,31 @@ PHPCPP_EXPORT void *get_module() {
     extension.add<&RL::ResetPhysics>("ResetPhysics");
     extension.add<&RL::ClosePhysics>("ClosePhysics");
 
-    rlClass.property("PHYSICS_CIRCLE", 0, Php::Const);
-    rlClass.property("PHYSICS_POLYGON", 1, Php::Const);
+    extension.add(Php::Constant("RL_PHYSICS_CIRCLE", 0));
+    extension.add(Php::Constant("RL_PHYSICS_POLYGON", 1));
+    extension.add(Php::Constant("RL_PHYSAC_PI", 3.14159265358979323846));
+    extension.add(
+        Php::Constant("RL_PHYSAC_DEG2RAD", 3.14159265358979323846 / 180));
 
+    extension.add<&RL::CreateLight>("CreateLight");
+    extension.add<&RL::UpdateLightValues>("UpdateLightValues");
     rlNamespace.add(rlClass);
+
+    extension.add(Php::Constant("RL_LIGHT_DIRECTIONAL", 0));
+    extension.add(Php::Constant("RL_LIGHT_POINT", 1));
+    Php::Class<Light> rlLight("Light");
+    rlNamespace.add(rlLight);
+    rlLight.property("type", &Light::gettype, &Light::settype);
+    rlLight.property("position", &Light::getposition, &Light::setposition);
+    rlLight.property("target", &Light::gettarget, &Light::settarget);
+    rlLight.property("color", &Light::getcolor, &Light::setcolor);
+    rlLight.property("enabled", &Light::getenabled, &Light::setenabled);
+    rlLight.property("enabledLoc", &Light::getenabledLoc,
+                     &Light::setenabledLoc);
+    rlLight.property("typeLoc", &Light::gettypeLoc, &Light::settypeLoc);
+    rlLight.property("posLoc", &Light::getposLoc, &Light::setposLoc);
+    rlLight.property("targetLoc", &Light::gettargetLoc, &Light::settargetLoc);
+    rlLight.property("colorLoc", &Light::getcolorLoc, &Light::setcolorLoc);
 
     // add everything to extension
     extension.add(rlNamespace);

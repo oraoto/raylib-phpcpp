@@ -267,3 +267,6 @@ define("RL_CAMERA_ORTHOGRAPHIC", 1);
 define("RL_NPT_9PATCH", 0);
 define("RL_NPT_3PATCH_VERTICAL", 1);
 define("RL_NPT_3PATCH_HORIZONTAL", 2);
+
+define("RL_LIGHT_DIRECTIONAL", 0);
+define("RL_LIGHT_POINT", 1);

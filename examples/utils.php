@@ -17,3 +17,10 @@ function SetModelMaterialShader($model, $materialIdx, $shader)
     $materials[0] = $material;
     $model->materials = $materials;
 }
+
+function SetShaderLoc($shader, $idx, $loc)
+{
+    $locs = $shader->locs;
+    $locs[$idx] = $loc;
+    $shader->locs = $locs;
+}

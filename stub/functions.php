@@ -4191,3 +4191,171 @@ function QuaternionToEuler($q){}
  * @return \RayLib\Vector4
 */
 function QuaternionTransform($q ,$mat){}
+
+/**
+ * Initializes physics values, pointers and creates physics loop thread
+ * @return void
+*/
+function InitPhysics(){}
+
+/**
+ * Run physics step, to be used if PHYSICS_NO_THREADS is set in your main loop
+ * @return void
+*/
+function RunPhysicsStep(){}
+
+/**
+ * Sets physics fixed time step in milliseconds. 1.666666 by default
+ * @param double $delta
+ * @return void
+*/
+function SetPhysicsTimeStep($delta){}
+
+/**
+ * Returns true if physics thread is currently enabled
+ * @return bool
+*/
+function IsPhysicsEnabled(){}
+
+/**
+ * Sets physics global gravity force
+ * @param float $x
+ * @param float $y
+ * @return void
+*/
+function SetPhysicsGravity($x ,$y){}
+
+/**
+ * Creates a new circle physics body with generic parameters
+ * @param \RayLib\Vector2 $pos
+ * @param float $radius
+ * @param float $density
+ * @return \RayLib\PhysicsBody
+*/
+function CreatePhysicsBodyCircle($pos ,$radius ,$density){}
+
+/**
+ * Creates a new rectangle physics body with generic parameters
+ * @param \RayLib\Vector2 $pos
+ * @param float $width
+ * @param float $height
+ * @param float $density
+ * @return \RayLib\PhysicsBody
+*/
+function CreatePhysicsBodyRectangle($pos ,$width ,$height ,$density){}
+
+/**
+ * Creates a new polygon physics body with generic parameters
+ * @param \RayLib\Vector2 $pos
+ * @param float $radius
+ * @param int $sides
+ * @param float $density
+ * @return \RayLib\PhysicsBody
+*/
+function CreatePhysicsBodyPolygon($pos ,$radius ,$sides ,$density){}
+
+/**
+ * Adds a force to a physics body
+ * @param \RayLib\PhysicsBody  $body
+ * @param \RayLib\Vector2 $force
+ * @return void
+*/
+function PhysicsAddForce($body ,$force){}
+
+/**
+ * Adds an angular force to a physics body
+ * @param \RayLib\PhysicsBody  $body
+ * @param float $amount
+ * @return void
+*/
+function PhysicsAddTorque($body ,$amount){}
+
+/**
+ * Shatters a polygon shape physics body to little physics bodies with explosion force
+ * @param \RayLib\PhysicsBody  $body
+ * @param \RayLib\Vector2 $position
+ * @param float $force
+ * @return void
+*/
+function PhysicsShatter($body ,$position ,$force){}
+
+/**
+ * Returns the current amount of created physics bodies
+ * @return int
+*/
+function GetPhysicsBodiesCount(){}
+
+/**
+ * Returns a physics body of the bodies pool at a specific index
+ * @param int $index
+ * @return \RayLib\PhysicsBody
+*/
+function GetPhysicsBody($index){}
+
+/**
+ * Returns the physics body shape type (PHYSICS_CIRCLE or PHYSICS_POLYGON)
+ * @param int $index
+ * @return int
+*/
+function GetPhysicsShapeType($index){}
+
+/**
+ * Returns the amount of vertices of a physics body shape
+ * @param int $index
+ * @return int
+*/
+function GetPhysicsShapeVerticesCount($index){}
+
+/**
+ * Returns transformed position of a body shape (body position + vertex transformed position)
+ * @param \RayLib\PhysicsBody  $body
+ * @param int $vertex
+ * @return \RayLib\Vector2
+*/
+function GetPhysicsShapeVertex($body ,$vertex){}
+
+/**
+ * Sets physics body shape transform based on radians parameter
+ * @param \RayLib\PhysicsBody  $body
+ * @param float $radians
+ * @return void
+*/
+function SetPhysicsBodyRotation($body ,$radians){}
+
+/**
+ * Unitializes and destroy a physics body
+ * @param \RayLib\PhysicsBody  $body
+ * @return void
+*/
+function DestroyPhysicsBody($body){}
+
+/**
+ * Destroys created physics bodies and manifolds and resets global values
+ * @return void
+*/
+function ResetPhysics(){}
+
+/**
+ * Unitializes physics pointers and closes physics loop thread
+ * @return void
+*/
+function ClosePhysics(){}
+
+/**
+ *
+ * @param int $type
+ * @param \RayLib\Vector3 $position
+ * @param \RayLib\Vector3 $target
+ * @param \RayLib\Color $color
+ * @param \RayLib\Shader $shader
+ * @return \RayLib\Light at ./rlights.h:46:9)
+*/
+function CreateLight($type ,$position ,$target ,$color ,$shader){}
+
+/**
+ *
+ * @param \RayLib\Shader $shader
+ * @param \RayLib\Light $light
+ * @return void
+*/
+function UpdateLightValues($shader ,$light){}
