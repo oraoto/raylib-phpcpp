@@ -53,7 +53,7 @@ CreateLight(RL_LIGHT_POINT, Vector3(0, 2, 6), Vector3Zero(), WHITE(), $shader);
 
 SetCameraMode($camera, RL_CAMERA_ORBITAL);  // Set an orbital camera mode
 
-//SetTargetFPS(60);                       // Set our game to run at 60 frames-per-second
+SetTargetFPS(60);                       // Set our game to run at 60 frames-per-second
 //--------------------------------------------------------------------------------------
 
 // Main game loop
