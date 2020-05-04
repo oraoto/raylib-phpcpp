@@ -1,6 +1,7 @@
 #include <phpcpp.h>
 #include <raylib.h>
 #define PHYSAC_IMPLEMENTATION
+#define PHYSAC_NO_THREADS
 #include <physac.h>
 #include <raymath.h>
 
@@ -1175,7 +1176,7 @@ class rlPhysicsBody : public Php::Base {
     //   return result;
     // }
     void setid(const Php::Value &v) { data->id = (long)v; }
-    void setenabled(const Php::Value &v) {}
+    void setenabled(const Php::Value &v) { data->enabled = (bool)v; }
     void setposition(const Php::Value &v) {
         data->position = ((Vector2 *)(v.implementation()))->data;
     }
@@ -4942,7 +4943,7 @@ class RL : public Php::Base {
         double p1 = params[1];
         double p2 = params[2];
         PhysicsBody result = ::CreatePhysicsBodyCircle(p0, p1, p2);
-        return Php::Object("RayLib\\PhysicsBody", new PhysicsBody(result));
+        return Php::Object("RayLib\\PhysicsBody", new rlPhysicsBody(result));
     }
 
     static Php::Value CreatePhysicsBodyRectangle(Php::Parameters &params) {
@@ -4951,7 +4952,7 @@ class RL : public Php::Base {
         double p2 = params[2];
         double p3 = params[3];
         PhysicsBody result = ::CreatePhysicsBodyRectangle(p0, p1, p2, p3);
-        return Php::Object("RayLib\\PhysicsBody", new PhysicsBody(result));
+        return Php::Object("RayLib\\PhysicsBody", new rlPhysicsBody(result));
     }
 
     static Php::Value CreatePhysicsBodyPolygon(Php::Parameters &params) {
@@ -4960,7 +4961,7 @@ class RL : public Php::Base {
         int p2 = params[2];
         double p3 = params[3];
         PhysicsBody result = ::CreatePhysicsBodyPolygon(p0, p1, p2, p3);
-        return Php::Object("RayLib\\PhysicsBody", new PhysicsBody(result));
+        return Php::Object("RayLib\\PhysicsBody", new rlPhysicsBody(result));
     }
 
     static void PhysicsAddForce(Php::Parameters &params) {
@@ -4993,7 +4994,7 @@ class RL : public Php::Base {
     static Php::Value GetPhysicsBody(Php::Parameters &params) {
         int p0 = params[0];
         PhysicsBody result = ::GetPhysicsBody(p0);
-        return Php::Object("RayLib\\PhysicsBody", new PhysicsBody(result));
+        return Php::Object("RayLib\\PhysicsBody", new rlPhysicsBody(result));
     }
 
     static Php::Value GetPhysicsShapeType(Php::Parameters &params) {
@@ -5825,86 +5826,86 @@ PHPCPP_EXPORT void *get_module() {
     extension.add<&RL::getColorBLANK>("BLANK");
     extension.add<&RL::getColorMAGENTA>("MAGENTA");
     extension.add<&RL::getColorRAYWHITE>("RAYWHITE");
-    rlClass.method<&RL::Clamp>("Clamp");
-    rlClass.method<&RL::Lerp>("Lerp");
-    rlClass.method<&RL::Vector2Zero>("Vector2Zero");
-    rlClass.method<&RL::Vector2One>("Vector2One");
-    rlClass.method<&RL::Vector2Add>("Vector2Add");
-    rlClass.method<&RL::Vector2Subtract>("Vector2Subtract");
-    rlClass.method<&RL::Vector2Length>("Vector2Length");
-    rlClass.method<&RL::Vector2DotProduct>("Vector2DotProduct");
-    rlClass.method<&RL::Vector2Distance>("Vector2Distance");
-    rlClass.method<&RL::Vector2Angle>("Vector2Angle");
-    rlClass.method<&RL::Vector2Scale>("Vector2Scale");
-    rlClass.method<&RL::Vector2MultiplyV>("Vector2MultiplyV");
-    rlClass.method<&RL::Vector2Negate>("Vector2Negate");
-    rlClass.method<&RL::Vector2Divide>("Vector2Divide");
-    rlClass.method<&RL::Vector2DivideV>("Vector2DivideV");
-    rlClass.method<&RL::Vector2Normalize>("Vector2Normalize");
-    rlClass.method<&RL::Vector2Lerp>("Vector2Lerp");
-    rlClass.method<&RL::Vector2Rotate>("Vector2Rotate");
-    rlClass.method<&RL::Vector3Zero>("Vector3Zero");
-    rlClass.method<&RL::Vector3One>("Vector3One");
-    rlClass.method<&RL::Vector3Add>("Vector3Add");
-    rlClass.method<&RL::Vector3Subtract>("Vector3Subtract");
-    rlClass.method<&RL::Vector3Scale>("Vector3Scale");
-    rlClass.method<&RL::Vector3Multiply>("Vector3Multiply");
-    rlClass.method<&RL::Vector3CrossProduct>("Vector3CrossProduct");
-    rlClass.method<&RL::Vector3Perpendicular>("Vector3Perpendicular");
-    rlClass.method<&RL::Vector3Length>("Vector3Length");
-    rlClass.method<&RL::Vector3DotProduct>("Vector3DotProduct");
-    rlClass.method<&RL::Vector3Distance>("Vector3Distance");
-    rlClass.method<&RL::Vector3Negate>("Vector3Negate");
-    rlClass.method<&RL::Vector3Divide>("Vector3Divide");
-    rlClass.method<&RL::Vector3DivideV>("Vector3DivideV");
-    rlClass.method<&RL::Vector3Normalize>("Vector3Normalize");
-    rlClass.method<&RL::Vector3OrthoNormalize>("Vector3OrthoNormalize");
-    rlClass.method<&RL::Vector3Transform>("Vector3Transform");
-    rlClass.method<&RL::Vector3RotateByQuaternion>("Vector3RotateByQuaternion");
-    rlClass.method<&RL::Vector3Lerp>("Vector3Lerp");
-    rlClass.method<&RL::Vector3Reflect>("Vector3Reflect");
-    rlClass.method<&RL::Vector3Min>("Vector3Min");
-    rlClass.method<&RL::Vector3Max>("Vector3Max");
-    rlClass.method<&RL::Vector3Barycenter>("Vector3Barycenter");
-    rlClass.method<&RL::Vector3ToFloatV>("Vector3ToFloatV");
-    rlClass.method<&RL::MatrixDeterminant>("MatrixDeterminant");
-    rlClass.method<&RL::MatrixTrace>("MatrixTrace");
-    rlClass.method<&RL::MatrixTranspose>("MatrixTranspose");
-    rlClass.method<&RL::MatrixInvert>("MatrixInvert");
-    rlClass.method<&RL::MatrixNormalize>("MatrixNormalize");
-    rlClass.method<&RL::MatrixIdentity>("MatrixIdentity");
-    rlClass.method<&RL::MatrixAdd>("MatrixAdd");
-    rlClass.method<&RL::MatrixSubtract>("MatrixSubtract");
-    rlClass.method<&RL::MatrixTranslate>("MatrixTranslate");
-    rlClass.method<&RL::MatrixRotate>("MatrixRotate");
-    rlClass.method<&RL::MatrixRotateXYZ>("MatrixRotateXYZ");
-    rlClass.method<&RL::MatrixRotateX>("MatrixRotateX");
-    rlClass.method<&RL::MatrixRotateY>("MatrixRotateY");
-    rlClass.method<&RL::MatrixRotateZ>("MatrixRotateZ");
-    rlClass.method<&RL::MatrixScale>("MatrixScale");
-    rlClass.method<&RL::MatrixMultiply>("MatrixMultiply");
-    rlClass.method<&RL::MatrixFrustum>("MatrixFrustum");
-    rlClass.method<&RL::MatrixPerspective>("MatrixPerspective");
-    rlClass.method<&RL::MatrixOrtho>("MatrixOrtho");
-    rlClass.method<&RL::MatrixLookAt>("MatrixLookAt");
-    rlClass.method<&RL::MatrixToFloatV>("MatrixToFloatV");
-    rlClass.method<&RL::QuaternionIdentity>("QuaternionIdentity");
-    rlClass.method<&RL::QuaternionLength>("QuaternionLength");
-    rlClass.method<&RL::QuaternionNormalize>("QuaternionNormalize");
-    rlClass.method<&RL::QuaternionInvert>("QuaternionInvert");
-    rlClass.method<&RL::QuaternionMultiply>("QuaternionMultiply");
-    rlClass.method<&RL::QuaternionLerp>("QuaternionLerp");
-    rlClass.method<&RL::QuaternionNlerp>("QuaternionNlerp");
-    rlClass.method<&RL::QuaternionSlerp>("QuaternionSlerp");
-    rlClass.method<&RL::QuaternionFromVector3ToVector3>(
+    extension.add<&RL::Clamp>("Clamp");
+    extension.add<&RL::Lerp>("Lerp");
+    extension.add<&RL::Vector2Zero>("Vector2Zero");
+    extension.add<&RL::Vector2One>("Vector2One");
+    extension.add<&RL::Vector2Add>("Vector2Add");
+    extension.add<&RL::Vector2Subtract>("Vector2Subtract");
+    extension.add<&RL::Vector2Length>("Vector2Length");
+    extension.add<&RL::Vector2DotProduct>("Vector2DotProduct");
+    extension.add<&RL::Vector2Distance>("Vector2Distance");
+    extension.add<&RL::Vector2Angle>("Vector2Angle");
+    extension.add<&RL::Vector2Scale>("Vector2Scale");
+    extension.add<&RL::Vector2MultiplyV>("Vector2MultiplyV");
+    extension.add<&RL::Vector2Negate>("Vector2Negate");
+    extension.add<&RL::Vector2Divide>("Vector2Divide");
+    extension.add<&RL::Vector2DivideV>("Vector2DivideV");
+    extension.add<&RL::Vector2Normalize>("Vector2Normalize");
+    extension.add<&RL::Vector2Lerp>("Vector2Lerp");
+    extension.add<&RL::Vector2Rotate>("Vector2Rotate");
+    extension.add<&RL::Vector3Zero>("Vector3Zero");
+    extension.add<&RL::Vector3One>("Vector3One");
+    extension.add<&RL::Vector3Add>("Vector3Add");
+    extension.add<&RL::Vector3Subtract>("Vector3Subtract");
+    extension.add<&RL::Vector3Scale>("Vector3Scale");
+    extension.add<&RL::Vector3Multiply>("Vector3Multiply");
+    extension.add<&RL::Vector3CrossProduct>("Vector3CrossProduct");
+    extension.add<&RL::Vector3Perpendicular>("Vector3Perpendicular");
+    extension.add<&RL::Vector3Length>("Vector3Length");
+    extension.add<&RL::Vector3DotProduct>("Vector3DotProduct");
+    extension.add<&RL::Vector3Distance>("Vector3Distance");
+    extension.add<&RL::Vector3Negate>("Vector3Negate");
+    extension.add<&RL::Vector3Divide>("Vector3Divide");
+    extension.add<&RL::Vector3DivideV>("Vector3DivideV");
+    extension.add<&RL::Vector3Normalize>("Vector3Normalize");
+    extension.add<&RL::Vector3OrthoNormalize>("Vector3OrthoNormalize");
+    extension.add<&RL::Vector3Transform>("Vector3Transform");
+    extension.add<&RL::Vector3RotateByQuaternion>("Vector3RotateByQuaternion");
+    extension.add<&RL::Vector3Lerp>("Vector3Lerp");
+    extension.add<&RL::Vector3Reflect>("Vector3Reflect");
+    extension.add<&RL::Vector3Min>("Vector3Min");
+    extension.add<&RL::Vector3Max>("Vector3Max");
+    extension.add<&RL::Vector3Barycenter>("Vector3Barycenter");
+    extension.add<&RL::Vector3ToFloatV>("Vector3ToFloatV");
+    extension.add<&RL::MatrixDeterminant>("MatrixDeterminant");
+    extension.add<&RL::MatrixTrace>("MatrixTrace");
+    extension.add<&RL::MatrixTranspose>("MatrixTranspose");
+    extension.add<&RL::MatrixInvert>("MatrixInvert");
+    extension.add<&RL::MatrixNormalize>("MatrixNormalize");
+    extension.add<&RL::MatrixIdentity>("MatrixIdentity");
+    extension.add<&RL::MatrixAdd>("MatrixAdd");
+    extension.add<&RL::MatrixSubtract>("MatrixSubtract");
+    extension.add<&RL::MatrixTranslate>("MatrixTranslate");
+    extension.add<&RL::MatrixRotate>("MatrixRotate");
+    extension.add<&RL::MatrixRotateXYZ>("MatrixRotateXYZ");
+    extension.add<&RL::MatrixRotateX>("MatrixRotateX");
+    extension.add<&RL::MatrixRotateY>("MatrixRotateY");
+    extension.add<&RL::MatrixRotateZ>("MatrixRotateZ");
+    extension.add<&RL::MatrixScale>("MatrixScale");
+    extension.add<&RL::MatrixMultiply>("MatrixMultiply");
+    extension.add<&RL::MatrixFrustum>("MatrixFrustum");
+    extension.add<&RL::MatrixPerspective>("MatrixPerspective");
+    extension.add<&RL::MatrixOrtho>("MatrixOrtho");
+    extension.add<&RL::MatrixLookAt>("MatrixLookAt");
+    extension.add<&RL::MatrixToFloatV>("MatrixToFloatV");
+    extension.add<&RL::QuaternionIdentity>("QuaternionIdentity");
+    extension.add<&RL::QuaternionLength>("QuaternionLength");
+    extension.add<&RL::QuaternionNormalize>("QuaternionNormalize");
+    extension.add<&RL::QuaternionInvert>("QuaternionInvert");
+    extension.add<&RL::QuaternionMultiply>("QuaternionMultiply");
+    extension.add<&RL::QuaternionLerp>("QuaternionLerp");
+    extension.add<&RL::QuaternionNlerp>("QuaternionNlerp");
+    extension.add<&RL::QuaternionSlerp>("QuaternionSlerp");
+    extension.add<&RL::QuaternionFromVector3ToVector3>(
         "QuaternionFromVector3ToVector3");
-    rlClass.method<&RL::QuaternionFromMatrix>("QuaternionFromMatrix");
-    rlClass.method<&RL::QuaternionToMatrix>("QuaternionToMatrix");
-    rlClass.method<&RL::QuaternionFromAxisAngle>("QuaternionFromAxisAngle");
-    rlClass.method<&RL::QuaternionToAxisAngle>("QuaternionToAxisAngle");
-    rlClass.method<&RL::QuaternionFromEuler>("QuaternionFromEuler");
-    rlClass.method<&RL::QuaternionToEuler>("QuaternionToEuler");
-    rlClass.method<&RL::QuaternionTransform>("QuaternionTransform");
+    extension.add<&RL::QuaternionFromMatrix>("QuaternionFromMatrix");
+    extension.add<&RL::QuaternionToMatrix>("QuaternionToMatrix");
+    extension.add<&RL::QuaternionFromAxisAngle>("QuaternionFromAxisAngle");
+    extension.add<&RL::QuaternionToAxisAngle>("QuaternionToAxisAngle");
+    extension.add<&RL::QuaternionFromEuler>("QuaternionFromEuler");
+    extension.add<&RL::QuaternionToEuler>("QuaternionToEuler");
+    extension.add<&RL::QuaternionTransform>("QuaternionTransform");
 
     extension.add(Php::Constant("RL_FLAG_RESERVED", 1));
     extension.add(Php::Constant("RL_FLAG_FULLSCREEN_MODE", 2));
@@ -6216,28 +6217,28 @@ PHPCPP_EXPORT void *get_module() {
     //  rlPhysicsBody.property("shape", &rlPhysicsBody::getshape,
     //                           &rlPhysicsBody::setshape);
 
-    rlClass.method<&RL::InitPhysics>("InitPhysics");
-    rlClass.method<&RL::RunPhysicsStep>("RunPhysicsStep");
-    rlClass.method<&RL::SetPhysicsTimeStep>("SetPhysicsTimeStep");
-    rlClass.method<&RL::IsPhysicsEnabled>("IsPhysicsEnabled");
-    rlClass.method<&RL::SetPhysicsGravity>("SetPhysicsGravity");
-    rlClass.method<&RL::CreatePhysicsBodyCircle>("CreatePhysicsBodyCircle");
-    rlClass.method<&RL::CreatePhysicsBodyRectangle>(
+    extension.add<&RL::InitPhysics>("InitPhysics");
+    extension.add<&RL::RunPhysicsStep>("RunPhysicsStep");
+    extension.add<&RL::SetPhysicsTimeStep>("SetPhysicsTimeStep");
+    extension.add<&RL::IsPhysicsEnabled>("IsPhysicsEnabled");
+    extension.add<&RL::SetPhysicsGravity>("SetPhysicsGravity");
+    extension.add<&RL::CreatePhysicsBodyCircle>("CreatePhysicsBodyCircle");
+    extension.add<&RL::CreatePhysicsBodyRectangle>(
         "CreatePhysicsBodyRectangle");
-    rlClass.method<&RL::CreatePhysicsBodyPolygon>("CreatePhysicsBodyPolygon");
-    rlClass.method<&RL::PhysicsAddForce>("PhysicsAddForce");
-    rlClass.method<&RL::PhysicsAddTorque>("PhysicsAddTorque");
-    rlClass.method<&RL::PhysicsShatter>("PhysicsShatter");
-    rlClass.method<&RL::GetPhysicsBodiesCount>("GetPhysicsBodiesCount");
-    rlClass.method<&RL::GetPhysicsBody>("GetPhysicsBody");
-    rlClass.method<&RL::GetPhysicsShapeType>("GetPhysicsShapeType");
-    rlClass.method<&RL::GetPhysicsShapeVerticesCount>(
+    extension.add<&RL::CreatePhysicsBodyPolygon>("CreatePhysicsBodyPolygon");
+    extension.add<&RL::PhysicsAddForce>("PhysicsAddForce");
+    extension.add<&RL::PhysicsAddTorque>("PhysicsAddTorque");
+    extension.add<&RL::PhysicsShatter>("PhysicsShatter");
+    extension.add<&RL::GetPhysicsBodiesCount>("GetPhysicsBodiesCount");
+    extension.add<&RL::GetPhysicsBody>("GetPhysicsBody");
+    extension.add<&RL::GetPhysicsShapeType>("GetPhysicsShapeType");
+    extension.add<&RL::GetPhysicsShapeVerticesCount>(
         "GetPhysicsShapeVerticesCount");
-    rlClass.method<&RL::GetPhysicsShapeVertex>("GetPhysicsShapeVertex");
-    rlClass.method<&RL::SetPhysicsBodyRotation>("SetPhysicsBodyRotation");
-    rlClass.method<&RL::DestroyPhysicsBody>("DestroyPhysicsBody");
-    rlClass.method<&RL::ResetPhysics>("ResetPhysics");
-    rlClass.method<&RL::ClosePhysics>("ClosePhysics");
+    extension.add<&RL::GetPhysicsShapeVertex>("GetPhysicsShapeVertex");
+    extension.add<&RL::SetPhysicsBodyRotation>("SetPhysicsBodyRotation");
+    extension.add<&RL::DestroyPhysicsBody>("DestroyPhysicsBody");
+    extension.add<&RL::ResetPhysics>("ResetPhysics");
+    extension.add<&RL::ClosePhysics>("ClosePhysics");
 
     rlClass.property("PHYSICS_CIRCLE", 0, Php::Const);
     rlClass.property("PHYSICS_POLYGON", 1, Php::Const);
