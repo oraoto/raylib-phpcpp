@@ -1,3 +1,17 @@
+/*******************************************************************************************
+*
+*   raylib [shaders] example - Raymarching shapes generation
+*
+*   NOTE: This example requires raylib OpenGL 3.3 for shaders support and only #version 330
+*         is currently supported. OpenGL ES 2.0 platforms are not supported at the moment.
+*
+*   This example has been created using raylib 2.0 (www.raylib.com)
+*   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
+*
+*   Copyright (c) 2018 Ramon Santamaria (@raysan5)
+*
+********************************************************************************************/
+
 <?php
 
 // Initialization

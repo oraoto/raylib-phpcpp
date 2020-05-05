@@ -1,3 +1,21 @@
+/*******************************************************************************************
+*
+*   raylib [shaders] example - julia sets
+*
+*   NOTE: This example requires raylib OpenGL 3.3 or ES2 versions for shaders support,
+*         OpenGL 1.1 does not support shaders, recompile raylib to OpenGL 3.3 version.
+*
+*   NOTE: Shaders used in this example are #version 330 (OpenGL 3.3).
+*
+*   This example has been created using raylib 2.5 (www.raylib.com)
+*   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
+*
+*   Example contributed by eggmund (@eggmund) and reviewed by Ramon Santamaria (@raysan5)
+*
+*   Copyright (c) 2019 eggmund (@eggmund) and Ramon Santamaria (@raysan5)
+*
+********************************************************************************************/
+
 <?php
 
 const POINTS_OF_INTEREST = [

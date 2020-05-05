@@ -1,3 +1,14 @@
+/*******************************************************************************************
+*
+*   raylib [models] example - Heightmap loading and drawing
+*
+*   This example has been created using raylib 1.8 (www.raylib.com)
+*   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
+*
+*   Copyright (c) 2015 Ramon Santamaria (@raysan5)
+*
+********************************************************************************************/
+
 <?php
 
 include __DIR__ . "/../utils.php";

@@ -1,3 +1,21 @@
+/*******************************************************************************************
+*
+*   raylib [shaders] example - Apply a postprocessing shader to a scene
+*
+*   NOTE: This example requires raylib OpenGL 3.3 or ES2 versions for shaders support,
+*         OpenGL 1.1 does not support shaders, recompile raylib to OpenGL 3.3 version.
+*
+*   NOTE: Shaders used in this example are #version 330 (OpenGL 3.3), to test this example
+*         on OpenGL ES 2.0 platforms (Android, Raspberry Pi, HTML5), use #version 100 shaders
+*         raylib comes with shaders ready for both versions, check raylib/shaders install folder
+*
+*   This example has been created using raylib 1.3 (www.raylib.com)
+*   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
+*
+*   Copyright (c) 2015 Ramon Santamaria (@raysan5)
+*
+********************************************************************************************/
+
 <?php
 
 include __DIR__ . '/../utils.php';

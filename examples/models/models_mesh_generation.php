@@ -1,3 +1,14 @@
+/*******************************************************************************************
+*
+*   raylib example - procedural mesh generation
+*
+*   This example has been created using raylib 1.8 (www.raylib.com)
+*   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
+*
+*   Copyright (c) 2017 Ramon Santamaria (Ray San)
+*
+********************************************************************************************/
+
 <?php
 
 include __DIR__ . "./../utils.php";

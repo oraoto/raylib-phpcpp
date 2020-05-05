@@ -1,3 +1,16 @@
+/*******************************************************************************************
+*
+*   raylib [models] example - Waving cubes
+*
+*   This example has been created using raylib 2.5 (www.raylib.com)
+*   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
+*
+*   Example contributed by Codecat (@codecat) and reviewed by Ramon Santamaria (@raysan5)
+*
+*   Copyright (c) 2019 Codecat (@codecat) and Ramon Santamaria (@raysan5)
+*
+********************************************************************************************/
+
 <?php
 // Initialization
 //--------------------------------------------------------------------------------------
