@@ -3748,7 +3748,7 @@ class RL : public Php::Base {
         string p2 = params[2];
         int p3 = params[3];
         int p4 = params[4];
-        ::SetShaderValueV(p0, p1, p2.c_str(), p3, p4);
+        ::SetShaderValueV(p0, p1, p2.data(), p3, p4);
     }
 
     static void SetShaderValueMatrix(Php::Parameters &params) {
