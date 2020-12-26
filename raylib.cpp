@@ -392,10 +392,6 @@ class RenderTexture2D : public Php::Base {
             Php::Object("RayLib\\Texture2D", new Texture2D(data.depth));
         return result;
     }
-    Php::Value getdepthTexture() {
-        bool result = data.depthTexture;
-        return result;
-    }
     void setid(const Php::Value &v) { data.id = (long)v; }
     void settexture(const Php::Value &v) {
         data.texture = ((Texture2D *)(v.implementation()))->data;
@@ -403,7 +399,6 @@ class RenderTexture2D : public Php::Base {
     void setdepth(const Php::Value &v) {
         data.depth = ((Texture2D *)(v.implementation()))->data;
     }
-    void setdepthTexture(const Php::Value &v) { data.id = (bool)v; }
 };
 
 class NPatchInfo : public Php::Base {
@@ -411,11 +406,6 @@ class NPatchInfo : public Php::Base {
     ::NPatchInfo data;
     void __destruct() const {}
     NPatchInfo(::NPatchInfo x) { data = x; }
-    Php::Value getsourceRec() {
-        Php::Value result =
-            Php::Object("RayLib\\Rectangle", new Rectangle(data.sourceRec));
-        return result;
-    }
     Php::Value getleft() {
         int result = data.left;
         return result;
@@ -435,9 +425,6 @@ class NPatchInfo : public Php::Base {
     Php::Value gettype() {
         int result = data.type;
         return result;
-    }
-    void setsourceRec(const Php::Value &v) {
-        data.sourceRec = ((Rectangle *)(v.implementation()))->data;
     }
     void setleft(const Php::Value &v) { data.left = (int)v; }
     void settop(const Php::Value &v) { data.top = (int)v; }
@@ -1004,10 +991,6 @@ class Music : public Php::Base {
         long result = data.sampleCount;
         return result;
     }
-    Php::Value getloopCount() {
-        long result = data.loopCount;
-        return result;
-    }
     Php::Value getstream() {
         Php::Value result =
             Php::Object("RayLib\\AudioStream", new AudioStream(data.stream));
@@ -1015,7 +998,6 @@ class Music : public Php::Base {
     }
     void setctxType(const Php::Value &v) { data.ctxType = (int)v; }
     void setsampleCount(const Php::Value &v) { data.sampleCount = (long)v; }
-    void setloopCount(const Php::Value &v) { data.loopCount = (long)v; }
     void setstream(const Php::Value &v) {
         data.stream = ((AudioStream *)(v.implementation()))->data;
     }
@@ -1327,10 +1309,6 @@ class RL : public Php::Base {
         ::ToggleFullscreen();
     }
 
-    static void UnhideWindow(Php::Parameters &params) { ::UnhideWindow(); }
-
-    static void HideWindow(Php::Parameters &params) { ::HideWindow(); }
-
     static void SetWindowIcon(Php::Parameters &params) {
         ::Image p0 = ((Image *)(params[0].implementation()))->data;
         ::SetWindowIcon(p0);
@@ -1573,8 +1551,10 @@ class RL : public Php::Base {
     }
 
     static Php::Value ColorFromHSV(Php::Parameters &params) {
-        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
-        Color result = ::ColorFromHSV(p0);
+        float p0 = params[0].floatValue();
+        float p1 = params[1].floatValue();
+        float p2 = params[2].floatValue();
+        Color result = ::ColorFromHSV(p0, p1, p2);
         return Php::Object("RayLib\\Color", new Color(result));
     }
 
@@ -2375,26 +2355,6 @@ class RL : public Php::Base {
         return Php::Object("RayLib\\Image", new Image(result));
     }
 
-    static Php::Value LoadImageEx(Php::Parameters &params) {
-        std::vector<::Color> p0;
-        int p1 = params[1];
-        int p2 = params[1];
-        for (auto v : params[0].vectorValue<Php::Value>()) {
-            p0.push_back(((Color *)v.implementation())->data);
-        }
-        Image result = ::LoadImageEx(p0.data(), p1, p2);
-        return Php::Object("RayLib\\Image", new Image(result));
-    }
-
-    static Php::Value LoadImagePro(Php::Parameters &params) {
-        string p0 = params[0];
-        int p1 = params[1];
-        int p2 = params[2];
-        int p3 = params[3];
-        Image result = ::LoadImagePro((void *)p0.data(), p1, p2, p3);
-        return Php::Object("RayLib\\Image", new Image(result));
-    }
-
     static Php::Value LoadImageRaw(Php::Parameters &params) {
         string p0 = params[0];
         int p1 = params[1];
@@ -2428,14 +2388,6 @@ class RL : public Php::Base {
         return Php::Object(
             "RayLib\\StructArray_Color",
             new StructArray<::Color, Color>("RayLib\\Color", result));
-    }
-
-    static Php::Value GetImageDataNormalized(Php::Parameters &params) {
-        ::Image p0 = ((Image *)(params[0].implementation()))->data;
-        ::Vector4 *result = ::GetImageDataNormalized(p0);
-        return Php::Object(
-            "RayLib\\StructArray_Vector4",
-            new StructArray<::Vector4, Vector4>("RayLib\\Vector4", result));
     }
 
     static Php::Value GenImageColor(Php::Parameters &params) {
@@ -2677,16 +2629,6 @@ class RL : public Php::Base {
         ::ImageColorReplace(p0, p1, p2);
     }
 
-    static Php::Value ImageExtractPalette(Php::Parameters &params) {
-        ::Image p0 = ((Image *)(params[0].implementation()))->data;
-        int p1 = params[1];
-        int p2 = 0;
-        ::Color *result = ::ImageExtractPalette(p0, p1, &p2);
-        return Php::Object(
-            "RayLib\\StructArray_Color",
-            new StructArray<::Color, Color>("RayLib\\Color", result, p2));
-    }
-
     static Php::Value GetImageAlphaBorder(Php::Parameters &params) {
         ::Image p0 = ((Image *)(params[0].implementation()))->data;
         double p1 = params[1];
@@ -2794,22 +2736,23 @@ class RL : public Php::Base {
 
     static void ImageDrawText(Php::Parameters &params) {
         ::Image *p0 = &((Image *)(params[0].implementation()))->data;
-        ::Vector2 p1 = ((Vector2 *)(params[1].implementation()))->data;
-        string p2 = params[2];
+        string p1 = params[1];
+        int p2 = params[2];
         int p3 = params[3];
-        ::Color p4 = ((Color *)(params[4].implementation()))->data;
-        ::ImageDrawText(p0, p1, p2.c_str(), p3, p4);
+        int p4 = params[3];
+        ::Color p5 = ((Color *)(params[4].implementation()))->data;
+        ::ImageDrawText(p0, p1.c_str(), p2, p3, p4, p5);
     }
 
     static void ImageDrawTextEx(Php::Parameters &params) {
         ::Image *p0 = &((Image *)(params[0].implementation()))->data;
-        ::Vector2 p1 = ((Vector2 *)(params[1].implementation()))->data;
-        ::Font p2 = ((Font *)(params[2].implementation()))->data;
-        string p3 = params[3];
+        ::Font p1 = ((Font *)(params[1].implementation()))->data;
+        string p2 = params[2];
+        ::Vector2 p3 = ((Vector2 *)(params[2].implementation()))->data;
         double p4 = params[4];
         double p5 = params[5];
         ::Color p6 = ((Color *)(params[6].implementation()))->data;
-        ::ImageDrawTextEx(p0, p1, p2, p3.c_str(), p4, p5, p6);
+        ::ImageDrawTextEx(p0, p1, p2.c_str(), p3, p4, p5, p6);
     }
 
     static Php::Value LoadTexture(Php::Parameters &params) {
@@ -3789,7 +3732,8 @@ class RL : public Php::Base {
         ::Shader p0 = ((Shader *)(params[0].implementation()))->data;
         ::Texture2D p1 = ((Texture2D *)(params[1].implementation()))->data;
         int p2 = params[2];
-        Texture2D result = ::GenTextureCubemap(p0, p1, p2);
+        int p3 = params[2];
+        Texture2D result = ::GenTextureCubemap(p0, p1, p2, p3);
         return Php::Object("RayLib\\Texture2D", new Texture2D(result));
     }
 
@@ -3997,13 +3941,6 @@ class RL : public Php::Base {
         ::WaveCrop(p0, p1, p2);
     }
 
-    static Php::Value GetWaveData(Php::Parameters &params) {
-        ::Wave p0 = ((Wave *)(params[0].implementation()))->data;
-        float *result = ::GetWaveData(p0);
-        return Php::Object("RayLib\\ScalarArray_float",
-                           new ScalarArray<float>(result));
-    }
-
     static Php::Value LoadMusicStream(Php::Parameters &params) {
         string p0 = params[0];
         Music result = ::LoadMusicStream(p0.c_str());
@@ -4056,12 +3993,6 @@ class RL : public Php::Base {
         ::Music p0 = ((Music *)(params[0].implementation()))->data;
         double p1 = params[1];
         ::SetMusicPitch(p0, p1);
-    }
-
-    static void SetMusicLoopCount(Php::Parameters &params) {
-        ::Music p0 = ((Music *)(params[0].implementation()))->data;
-        int p1 = params[1];
-        ::SetMusicLoopCount(p0, p1);
     }
 
     static Php::Value GetMusicTimeLength(Php::Parameters &params) {
@@ -4310,10 +4241,10 @@ class RL : public Php::Base {
     }
 
     static Php::Value createSound(Php::Parameters &params) {
-        long p0 = params[0];
-        ::AudioStream p1 = ((AudioStream *)(params[1].implementation()))->data;
+        ::AudioStream p0 = ((AudioStream *)(params[0].implementation()))->data;
+        long p1 = params[1];
         return Php::Object("RayLib\\Sound",
-                           new Sound(::Sound{(unsigned int)p0, p1}));
+                           new Sound(::Sound{p0, (unsigned int)p1}));
     }
 
     static Php::Value getColorLIGHTGRAY() {
@@ -4518,13 +4449,6 @@ class RL : public Php::Base {
         return Php::Object("RayLib\\Vector2", new Vector2(result));
     }
 
-    static Php::Value Vector2MultiplyV(Php::Parameters &params) {
-        ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
-        ::Vector2 p1 = ((Vector2 *)(params[1].implementation()))->data;
-        Vector2 result = ::Vector2MultiplyV(p0, p1);
-        return Php::Object("RayLib\\Vector2", new Vector2(result));
-    }
-
     static Php::Value Vector2Negate(Php::Parameters &params) {
         ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
         Vector2 result = ::Vector2Negate(p0);
@@ -4533,15 +4457,8 @@ class RL : public Php::Base {
 
     static Php::Value Vector2Divide(Php::Parameters &params) {
         ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
-        double p1 = params[1];
+        ::Vector2 p1 = ((Vector2 *)(params[0].implementation()))->data;
         Vector2 result = ::Vector2Divide(p0, p1);
-        return Php::Object("RayLib\\Vector2", new Vector2(result));
-    }
-
-    static Php::Value Vector2DivideV(Php::Parameters &params) {
-        ::Vector2 p0 = ((Vector2 *)(params[0].implementation()))->data;
-        ::Vector2 p1 = ((Vector2 *)(params[1].implementation()))->data;
-        Vector2 result = ::Vector2DivideV(p0, p1);
         return Php::Object("RayLib\\Vector2", new Vector2(result));
     }
 
@@ -4645,15 +4562,8 @@ class RL : public Php::Base {
 
     static Php::Value Vector3Divide(Php::Parameters &params) {
         ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
-        double p1 = params[1];
+        ::Vector3 p1 = ((Vector3 *)(params[0].implementation()))->data;
         Vector3 result = ::Vector3Divide(p0, p1);
-        return Php::Object("RayLib\\Vector3", new Vector3(result));
-    }
-
-    static Php::Value Vector3DivideV(Php::Parameters &params) {
-        ::Vector3 p0 = ((Vector3 *)(params[0].implementation()))->data;
-        ::Vector3 p1 = ((Vector3 *)(params[1].implementation()))->data;
-        Vector3 result = ::Vector3DivideV(p0, p1);
         return Php::Object("RayLib\\Vector3", new Vector3(result));
     }
 
@@ -5221,15 +5131,10 @@ PHPCPP_EXPORT void *get_module() {
                                &RenderTexture2D::settexture);
     rlRenderTexture2D.property("depth", &RenderTexture2D::getdepth,
                                &RenderTexture2D::setdepth);
-    rlRenderTexture2D.property("depthTexture",
-                               &RenderTexture2D::getdepthTexture,
-                               &RenderTexture2D::setdepthTexture);
     rlNamespace.add(rlRenderTexture2D);
 
     Php::Class<NPatchInfo> rlNPatchInfo("NPatchInfo");
     rlNamespace.add(rlNPatchInfo);
-    rlNPatchInfo.property("sourceRec", &NPatchInfo::getsourceRec,
-                          &NPatchInfo::setsourceRec);
     rlNPatchInfo.property("left", &NPatchInfo::getleft, &NPatchInfo::setleft);
     rlNPatchInfo.property("top", &NPatchInfo::gettop, &NPatchInfo::settop);
     rlNPatchInfo.property("right", &NPatchInfo::getright,
@@ -5389,7 +5294,6 @@ PHPCPP_EXPORT void *get_module() {
     rlMusic.property("ctxType", &Music::getctxType, &Music::setctxType);
     rlMusic.property("sampleCount", &Music::getsampleCount,
                      &Music::setsampleCount);
-    rlMusic.property("loopCount", &Music::getloopCount, &Music::setloopCount);
     rlMusic.property("stream", &Music::getstream, &Music::setstream);
 
     Php::Class<VrDeviceInfo> rlVrDeviceInfo("VrDeviceInfo");
@@ -5432,8 +5336,6 @@ PHPCPP_EXPORT void *get_module() {
     extension.add<&RL::IsWindowHidden>("IsWindowHidden");
     extension.add<&RL::IsWindowFullscreen>("IsWindowFullscreen");
     extension.add<&RL::ToggleFullscreen>("ToggleFullscreen");
-    extension.add<&RL::UnhideWindow>("UnhideWindow");
-    extension.add<&RL::HideWindow>("HideWindow");
     extension.add<&RL::SetWindowIcon>("SetWindowIcon");
     extension.add<&RL::SetWindowTitle>("SetWindowTitle");
     extension.add<&RL::SetWindowPosition>("SetWindowPosition");
@@ -5607,14 +5509,11 @@ PHPCPP_EXPORT void *get_module() {
     extension.add<&RL::CheckCollisionPointTriangle>(
         "CheckCollisionPointTriangle");
     extension.add<&RL::LoadImage>("LoadImage");
-    extension.add<&RL::LoadImageEx>("LoadImageEx");
-    extension.add<&RL::LoadImagePro>("LoadImagePro");
     extension.add<&RL::LoadImageRaw>("LoadImageRaw");
     extension.add<&RL::UnloadImage>("UnloadImage");
     extension.add<&RL::ExportImage>("ExportImage");
     extension.add<&RL::ExportImageAsCode>("ExportImageAsCode");
     extension.add<&RL::GetImageData>("GetImageData");
-    extension.add<&RL::GetImageDataNormalized>("GetImageDataNormalized");
     extension.add<&RL::GenImageColor>("GenImageColor");
     extension.add<&RL::GenImageGradientV>("GenImageGradientV");
     extension.add<&RL::GenImageGradientH>("GenImageGradientH");
@@ -5649,7 +5548,6 @@ PHPCPP_EXPORT void *get_module() {
     extension.add<&RL::ImageColorContrast>("ImageColorContrast");
     extension.add<&RL::ImageColorBrightness>("ImageColorBrightness");
     extension.add<&RL::ImageColorReplace>("ImageColorReplace");
-    extension.add<&RL::ImageExtractPalette>("ImageExtractPalette");
     extension.add<&RL::GetImageAlphaBorder>("GetImageAlphaBorder");
     extension.add<&RL::ImageClearBackground>("ImageClearBackground");
     extension.add<&RL::ImageDrawPixel>("ImageDrawPixel");
@@ -5840,7 +5738,6 @@ PHPCPP_EXPORT void *get_module() {
     extension.add<&RL::WaveFormat>("WaveFormat");
     extension.add<&RL::WaveCopy>("WaveCopy");
     extension.add<&RL::WaveCrop>("WaveCrop");
-    extension.add<&RL::GetWaveData>("GetWaveData");
     extension.add<&RL::LoadMusicStream>("LoadMusicStream");
     extension.add<&RL::UnloadMusicStream>("UnloadMusicStream");
     extension.add<&RL::PlayMusicStream>("PlayMusicStream");
@@ -5851,7 +5748,6 @@ PHPCPP_EXPORT void *get_module() {
     extension.add<&RL::IsMusicPlaying>("IsMusicPlaying");
     extension.add<&RL::SetMusicVolume>("SetMusicVolume");
     extension.add<&RL::SetMusicPitch>("SetMusicPitch");
-    extension.add<&RL::SetMusicLoopCount>("SetMusicLoopCount");
     extension.add<&RL::GetMusicTimeLength>("GetMusicTimeLength");
     extension.add<&RL::GetMusicTimePlayed>("GetMusicTimePlayed");
     extension.add<&RL::InitAudioStream>("InitAudioStream");
@@ -5923,10 +5819,8 @@ PHPCPP_EXPORT void *get_module() {
     extension.add<&RL::Vector2Distance>("Vector2Distance");
     extension.add<&RL::Vector2Angle>("Vector2Angle");
     extension.add<&RL::Vector2Scale>("Vector2Scale");
-    extension.add<&RL::Vector2MultiplyV>("Vector2MultiplyV");
     extension.add<&RL::Vector2Negate>("Vector2Negate");
     extension.add<&RL::Vector2Divide>("Vector2Divide");
-    extension.add<&RL::Vector2DivideV>("Vector2DivideV");
     extension.add<&RL::Vector2Normalize>("Vector2Normalize");
     extension.add<&RL::Vector2Lerp>("Vector2Lerp");
     extension.add<&RL::Vector2Rotate>("Vector2Rotate");
@@ -5943,7 +5837,6 @@ PHPCPP_EXPORT void *get_module() {
     extension.add<&RL::Vector3Distance>("Vector3Distance");
     extension.add<&RL::Vector3Negate>("Vector3Negate");
     extension.add<&RL::Vector3Divide>("Vector3Divide");
-    extension.add<&RL::Vector3DivideV>("Vector3DivideV");
     extension.add<&RL::Vector3Normalize>("Vector3Normalize");
     extension.add<&RL::Vector3OrthoNormalize>("Vector3OrthoNormalize");
     extension.add<&RL::Vector3Transform>("Vector3Transform");

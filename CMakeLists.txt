@@ -10,7 +10,7 @@ ExternalProject_Add(
   raylib
   PREFIX          raylib
   GIT_REPOSITORY  https://github.com/raysan5/raylib.git
-  GIT_TAG         3.0.0
+  GIT_TAG         3.5.0
   GIT_SHALLOW     true
   STEP_TARGETS    build
   CMAKE_ARGS      -DCMAKE_INSTALL_PREFIX=.

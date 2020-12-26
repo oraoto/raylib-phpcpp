@@ -38,7 +38,7 @@ for ($x = 0; $x < $numBlocks; $x++)
     {
         for ($z = 0; $z < $numBlocks; $z++)
         {
-            $cubeColors[$x][$y][$z] = ColorFromHSV(Vector3(((($x + $y + $z)*18)%360), 0.75, 0.9));
+            $cubeColors[$x][$y][$z] = ColorFromHSV((($x + $y + $z)*18)%360, 0.75, 0.9);
         }
     }
 }
